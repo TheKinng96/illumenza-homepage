@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://thekinng96.github.io/illumenza-HP/sitemap.xml
