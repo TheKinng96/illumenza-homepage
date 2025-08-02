@@ -2,6 +2,11 @@
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 
+// Detect if it's a mobile device
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+);
+
 let particles = [];
 let mouse = { x: 0, y: 0 };
 
@@ -32,15 +37,17 @@ class Particle {
         if (this.y > canvas.height) this.y = 0;
         if (this.y < 0) this.y = canvas.height;
         
-        // Mouse interaction
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 120) {
-            const force = (120 - distance) / 120;
-            this.x -= dx * force * 0.04;
-            this.y -= dy * force * 0.04;
+        // Mouse interaction (disabled on mobile)
+        if (!isMobile) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 120) {
+                const force = (120 - distance) / 120;
+                this.x -= dx * force * 0.04;
+                this.y -= dy * force * 0.04;
+            }
         }
     }
     
