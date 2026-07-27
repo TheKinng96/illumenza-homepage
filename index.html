@@ -44,12 +44,20 @@
             "https://www.linkedin.com/in/gen-thekinng96/",
             "https://www.wantedly.com/id/fengyuan_yap"
         ],
-        "product": {
-            "@type": "Product",
-            "name": "Illumenza Coupon",
-            "description": "Helping Colorme stores improve customer data collection and boost sales",
-            "url": "https://coupon.illumenza.dev"
-        }
+        "product": [
+            {
+                "@type": "Product",
+                "name": "Illumenza Coupon",
+                "description": "Helping Colorme stores improve customer data collection and boost sales",
+                "url": "https://coupon.illumenza.dev"
+            },
+            {
+                "@type": "Product",
+                "name": "Illumenza Points",
+                "description": "No-code loyalty app for Colorme stores combining points, referrals, and member ranks",
+                "url": "https://points.illumenza.dev"
+            }
+        ]
     }
     </script>
     
@@ -236,20 +244,25 @@
     
     <!-- Featured Product Section -->
     <section id="products" class="py-12 sm:py-20 px-4 sm:px-6 bg-gray-50/95 backdrop-blur-sm relative">
-        <div class="container mx-auto max-w-4xl">
+        <div class="container mx-auto max-w-6xl">
             <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-12 fade-in-up">
-                <span class="lang-en">Featured Product</span>
-                <span class="lang-jp">注目の製品</span>
+                <span class="lang-en">Our Products</span>
+                <span class="lang-jp">製品紹介</span>
             </h3>
-            <div class="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden scale-in delay-100">
-                <div class="grid md:grid-cols-2">
-                    <div class="p-6 sm:p-8 md:p-12">
+            <div class="grid lg:grid-cols-2 gap-6 sm:gap-8">
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden scale-in delay-100 flex flex-col">
+                    <div class="bg-gradient-to-br from-brand-light to-blue-100 p-6 sm:p-8 flex items-center justify-center">
+                        <img src="images/coupon.png"
+                             alt="Illumenza Coupon interface - Spin wheel form for customer engagement"
+                             class="rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 fade-in-right delay-300 w-full">
+                    </div>
+                    <div class="p-6 sm:p-8 flex-1 flex flex-col">
                         <h4 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-brand-blue fade-in-up delay-200">Illumenza Coupon</h4>
                         <p class="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 fade-in-up delay-300">
                             <span class="lang-en">Currently expanding solutions from Shopify to Colorme stores, helping businesses improve customer data collection and boost sales.</span>
                             <span class="lang-jp">現在、ShopifyからColormeストアへソリューションを拡張し、企業の顧客データ収集と売上向上を支援しています。</span>
                         </p>
-                        <ul class="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
+                        <ul class="space-y-2 sm:space-y-3 mb-6 sm:mb-8 flex-1">
                             <li class="flex items-start fade-in-left delay-400">
                                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500 mr-2 sm:mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -278,15 +291,57 @@
                                 </span>
                             </li>
                         </ul>
-                        <a href="https://coupon.illumenza.dev" target="_blank" class="inline-block px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-brand-blue text-white font-medium rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 fade-in-up delay-700">
+                        <a href="https://coupon.illumenza.dev" target="_blank" class="inline-block px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-brand-blue text-white font-medium rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 fade-in-up delay-700 self-start">
                             <span class="lang-en">Learn More →</span>
                             <span class="lang-jp">詳細を見る →</span>
                         </a>
                     </div>
-                    <div class="bg-gradient-to-br from-brand-light to-blue-100 p-6 sm:p-8 md:p-12 flex items-center justify-center">
-                        <img src="images/coupon.png" 
-                             alt="Illumenza Coupon interface - Spin wheel form for customer engagement" 
+                </div>
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden scale-in delay-200 flex flex-col">
+                    <div class="bg-gradient-to-br from-brand-light to-blue-100 p-6 sm:p-8 flex items-center justify-center">
+                        <img src="images/points.webp"
+                             alt="Illumenza Points widget panel - Points balance, referral, and rewards UI on a Colorme store"
                              class="rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 fade-in-right delay-300 w-full">
+                    </div>
+                    <div class="p-6 sm:p-8 flex-1 flex flex-col">
+                        <h4 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-brand-blue fade-in-up delay-200">Illumenza Points</h4>
+                        <p class="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 fade-in-up delay-300">
+                            <span class="lang-en">A no-code loyalty app for Colorme stores, combining points, referrals, and member ranks to turn one-time buyers into repeat customers.</span>
+                            <span class="lang-jp">ポイント・友達紹介・会員ランクを組み合わせた、カラーミーショップ専用のノーコード特典アプリ。一度きりの購入者をリピーターに変えます。</span>
+                        </p>
+                        <ul class="space-y-2 sm:space-y-3 mb-6 sm:mb-8 flex-1">
+                            <li class="flex items-start fade-in-left delay-400">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500 mr-2 sm:mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm sm:text-base">
+                                    <span class="lang-en">Points, referrals & member ranks in one app</span>
+                                    <span class="lang-jp">ポイント・紹介・会員ランクを一つのアプリで</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start fade-in-left delay-500">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500 mr-2 sm:mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm sm:text-base">
+                                    <span class="lang-en">No-code setup for Colorme stores</span>
+                                    <span class="lang-jp">カラーミーショップにノーコードで導入</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start fade-in-left delay-600">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500 mr-2 sm:mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm sm:text-base">
+                                    <span class="lang-en">Dashboard insights at a glance</span>
+                                    <span class="lang-jp">ダッシュボードで成果をひと目に</span>
+                                </span>
+                            </li>
+                        </ul>
+                        <a href="https://points.illumenza.dev" target="_blank" class="inline-block px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-brand-blue text-white font-medium rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 fade-in-up delay-700 self-start">
+                            <span class="lang-en">Learn More →</span>
+                            <span class="lang-jp">詳細を見る →</span>
+                        </a>
                     </div>
                 </div>
             </div>
