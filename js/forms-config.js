@@ -156,4 +156,64 @@ const ILLUMENZA_FORMS = {
               desc: "問題の画面があれば添付してください（JPG、PNG、最大8MB）\nエラー画面や期待する動作との違いを示す画像は問題解決に役立ちます" },
         ],
     },
+
+    /* 6 — Points feature request / bug / question (JP) — own forum webhook -- */
+    "points-feedback": {
+        lang: "ja",
+        app: "Points",
+        defaultCategory: "その他",
+        icon: "💬",
+        title: "ご意見・ご要望 - Illumenza Points",
+        intro: "機能のご要望、不具合報告、ご質問など、どんなことでもお聞かせください。内容を確認のうえ、ご入力いただいたメールアドレスにご返信いたします。",
+        /* Own forum channel — separate from the shared DISCORD_WEBHOOK_URL above. */
+        webhookUrl: "https://discord.com/api/webhooks/1531934538328965224/qh3SdZAmEtHbkp9FDIQWgGglRs89r6kJ8m-o21MxT6El7mCk3tWYKWpOVOrtlNcKrBZE",
+        /* Embed color keyed by the "type" field's selected option. */
+        colorByField: {
+            field: "type",
+            map: {
+                "機能要望": 5763719,
+                "既存機能の改善": 3447003,
+                "不具合報告": 15548997,
+                "質問・その他": 9807270,
+            },
+        },
+        /* Forum tag applied keyed by the "area" field's selected option. */
+        tagsByField: {
+            field: "area",
+            map: {
+                "ポイント設定": "1532145128213319722",
+                "特典・交換": "1532145159029002392",
+                "友達紹介": "1532145183112822865",
+                "VIPランク": "1532145199810347100",
+                "アクティビティ・ミッション": "1532145213177593926",
+                "会員・分析": "1532145233519706313",
+                "ウィジェット・デザイン": "1532145247155392663",
+                "メール・通知": "1532145265434300437",
+                "その他": "1532145285592125625",
+            },
+        },
+        /* ?plan= query param (from the points-app sidebar link) — no input,
+         * just appended to the embed when present. */
+        hiddenParams: [{ param: "plan", label: "Plan" }],
+        fields: [
+            { name: "type", type: "radio", label: "種別", required: true, role: "category",
+              desc: "お問い合わせの種類をお選びください",
+              options: ["機能要望", "既存機能の改善", "不具合報告", "質問・その他"] },
+            { name: "area", type: "radio", label: "対象エリア", required: true,
+              desc: "関連する機能エリアをお選びください",
+              options: [
+                  "ポイント設定", "特典・交換", "友達紹介", "VIPランク",
+                  "アクティビティ・ミッション", "会員・分析", "ウィジェット・デザイン",
+                  "メール・通知", "その他",
+              ] },
+            { name: "title", type: "text", label: "タイトル", required: true, role: "summary",
+              maxLength: 100, desc: "内容を簡潔に表すタイトルをご入力ください（100文字まで）" },
+            { name: "details", type: "textarea", label: "詳細", required: true,
+              maxLength: 2000, desc: "できるだけ具体的にご記入ください（2000文字まで）" },
+            { name: "email", type: "email", label: "メールアドレス", required: true,
+              desc: "返信用のメールアドレスをご入力ください" },
+            { name: "shop", type: "text", label: "ショップ名", role: "who", prefillParam: "shop",
+              desc: "ショップ名をご入力ください" },
+        ],
+    },
 };
