@@ -93,6 +93,19 @@
         return title;
     }
 
+    /* Optional per-form query-string fields (e.g. ?plan=pro) that never render
+       as inputs but get appended to the embed when present. */
+    function hiddenParamFields(cfg) {
+        if (!cfg.hiddenParams || !cfg.hiddenParams.length) return [];
+        var params = new URLSearchParams(window.location.search);
+        var out = [];
+        cfg.hiddenParams.forEach(function (p) {
+            var v = params.get(p.param || p);
+            if (v) out.push({ name: p.label || p.param || p, value: v.slice(0, 1024), inline: true });
+        });
+        return out;
+    }
+
     function buildEmbed(cfg, values) {
         var fields = [];
         var description = "";
@@ -108,10 +121,16 @@
                 fields.push({ name: f.label, value: v.slice(0, 1024), inline: false });
             }
         });
+        fields = fields.concat(hiddenParamFields(cfg));
         if (description.length > 4096) description = description.slice(0, 4093) + "…";
+        var color = 0x0066cc;
+        if (cfg.colorByField && values[cfg.colorByField.field] != null) {
+            var mapped = cfg.colorByField.map[values[cfg.colorByField.field]];
+            if (mapped != null) color = mapped;
+        }
         var embed = {
             title: cfg.title,
-            color: 0x0066cc,
+            color: color,
             fields: fields,
             timestamp: new Date().toISOString(),
             footer: { text: cfg.app + " • " + cfg.lang.toUpperCase() },
@@ -126,15 +145,21 @@
             thread_name: buildTitle(cfg, values, I18N[cfg.lang]),
             embeds: [buildEmbed(cfg, values)],
         };
-        if (cfg.tags && cfg.tags.length) payload.applied_tags = cfg.tags;
+        var tags = cfg.tags;
+        if (cfg.tagsByField && values[cfg.tagsByField.field] != null) {
+            var tagId = cfg.tagsByField.map[values[cfg.tagsByField.field]];
+            tags = tagId ? [tagId] : undefined;
+        }
+        if (tags && tags.length) payload.applied_tags = tags;
 
+        var webhookUrl = cfg.webhookUrl || DISCORD_WEBHOOK_URL;
         if (files.length) {
             var fd = new FormData();
             fd.append("payload_json", JSON.stringify(payload));
             files.forEach(function (f, i) { fd.append("files[" + i + "]", f, f.name); });
-            return fetch(DISCORD_WEBHOOK_URL, { method: "POST", body: fd });
+            return fetch(webhookUrl, { method: "POST", body: fd });
         }
-        return fetch(DISCORD_WEBHOOK_URL, {
+        return fetch(webhookUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
@@ -158,6 +183,7 @@
         if (f.type === "textarea") {
             var ta = el("textarea", "field-textarea");
             ta.placeholder = t.placeholder;
+            if (f.maxLength) ta.maxLength = f.maxLength;
             wrap.appendChild(ta);
         } else if (f.type === "radio" || f.type === "checkbox-group") {
             var list = el("div", "opt-list");
@@ -185,6 +211,11 @@
             inp2.className = "field-input";
             inp2.type = f.type === "email" ? "email" : "text";
             inp2.placeholder = t.placeholder;
+            if (f.maxLength) inp2.maxLength = f.maxLength;
+            if (f.prefillParam) {
+                var pv = new URLSearchParams(window.location.search).get(f.prefillParam);
+                if (pv) inp2.value = pv;
+            }
             wrap.appendChild(inp2);
         }
 
