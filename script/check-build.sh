@@ -155,8 +155,9 @@ check_contains "$TAGS" "カラーミーショップ"
 check_contains "$TAGS" "colorme-points-5-decisions"
 check_contains "$TAGS" 'rel="canonical" href="https://illumenza.dev/blog/tags/"'
 # Anchors referenced from post/list pages must exist on this page.
-TAG_SLUG=$(grep -o 'id="[^"]*"' "$TAGS" | head -1 || true)
-if [ -n "$TAG_SLUG" ]; then pass "tag anchors present ($TAG_SLUG)"; else fail "no id= anchors on tag page"; fi
+check_contains "$TAGS" 'id="ポイント制度"'
+check_contains "$TAGS" 'id="ロイヤルティ"'
+check_contains "$TAGS" 'id="カラーミーショップ"'
 
 # ---- Blog checks below are added by later tasks ----
 
