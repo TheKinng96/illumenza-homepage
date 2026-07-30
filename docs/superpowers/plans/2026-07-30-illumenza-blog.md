@@ -27,6 +27,8 @@ Every task's requirements implicitly include this section.
 - **Google Analytics ID:** `G-PD4WWX28GL` (same as homepage; include on blog pages).
 - **Timezone:** `Asia/Tokyo` — prevents post dates shifting a day.
 - **Post filename format:** `_posts/YYYY-MM-DD-<ascii-kebab-slug>.md`. Slug is ASCII (not Japanese) so URLs stay clean.
+- **Tag casing must be canonical.** Tag anchors on `/blog/tags/` are `{{ tag | slugify }}`, and `slugify` lowercases — so `Points` and `points` collapse to the same `id="points"`, producing duplicate HTML IDs and a second section no link can ever reach. Japanese tags are unaffected. Rule: **write English/Latin tags in one consistent casing (lowercase) and reuse existing tags rather than inventing case variants.** Verified real, not hypothetical.
+- **Tag names must be escaped wherever rendered as visible text** (`{{ tag | escape }}` / `{{ tag[0] | escape }}`). Liquid does not auto-escape, so a tag containing `<`, `>`, or `&` injects raw markup into the page. Anchors keep bare `slugify`, which already sanitizes.
 
 ---
 
@@ -458,7 +460,7 @@ layout: default
     <ul class="flex flex-wrap gap-2 mt-5">
       {% for tag in page.tags %}
       <li>
-        <a href="/blog/tags/#{{ tag | slugify }}" class="inline-block px-3 py-1 text-xs bg-brand-light text-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-colors">{{ tag }}</a>
+        <a href="/blog/tags/#{{ tag | slugify }}" class="inline-block px-3 py-1 text-xs bg-brand-light text-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-colors">{{ tag | escape }}</a>
       </li>
       {% endfor %}
     </ul>
@@ -763,7 +765,7 @@ description: "カラーミーショップ運営者のための、ポイント・
       {% if post.tags and post.tags.size > 0 %}
       <ul class="flex flex-wrap gap-2">
         {% for tag in post.tags %}
-        <li><a href="/blog/tags/#{{ tag | slugify }}" class="inline-block px-3 py-1 text-xs bg-brand-light text-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-colors">{{ tag }}</a></li>
+        <li><a href="/blog/tags/#{{ tag | slugify }}" class="inline-block px-3 py-1 text-xs bg-brand-light text-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-colors">{{ tag | escape }}</a></li>
         {% endfor %}
       </ul>
       {% endif %}
@@ -1185,7 +1187,7 @@ description: "Illumenza ブログの記事をタグ別にまとめています�
     {% for tag in tag_names %}
     <li>
       <a href="#{{ tag[0] | slugify }}" class="inline-block px-3 py-1.5 text-sm bg-brand-light text-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-colors">
-        {{ tag[0] }} <span class="text-xs opacity-70">({{ tag[1].size }})</span>
+        {{ tag[0] | escape }} <span class="text-xs opacity-70">({{ tag[1].size }})</span>
       </a>
     </li>
     {% endfor %}
@@ -1194,7 +1196,7 @@ description: "Illumenza ブログの記事をタグ別にまとめています�
   {% for tag in tag_names %}
   <section id="{{ tag[0] | slugify }}" class="mb-12 scroll-mt-24">
     <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-5 pb-2 border-b border-gray-200">
-      {{ tag[0] }} <span class="text-sm font-normal text-gray-500">{{ tag[1].size }}件</span>
+      {{ tag[0] | escape }} <span class="text-sm font-normal text-gray-500">{{ tag[1].size }}件</span>
     </h2>
     <ul class="space-y-4">
       {% for post in tag[1] %}
