@@ -37,6 +37,7 @@ kramdown:
 exclude:
   - Gemfile
   - Gemfile.lock
+  - mise.toml
   - vendor
   - README.md
   - docs

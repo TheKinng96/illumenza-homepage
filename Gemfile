@@ -9,6 +9,11 @@ source "https://rubygems.org"
 # https://pages.github.com/versions/
 gem "jekyll", "~> 3.10.0"
 
+# GitHub Pages' builder ships this and defaults kramdown to `input: GFM`
+# (see _config.yml); without it locally, any post using GFM tables/etc.
+# fails to build with "cannot load such file -- kramdown-parser-gfm".
+gem "kramdown-parser-gfm", "~> 1.1"
+
 group :jekyll_plugins do
   gem "jekyll-paginate", "~> 1.1"
 end

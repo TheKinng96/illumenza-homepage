@@ -19,6 +19,7 @@ check_contains() {
   if grep -qF -- "$2" "$1"; then pass "$1 contains: $2"; else fail "$1 missing: $2"; fi
 }
 
+# Used by blog checks added in later tasks.
 # check_absent <file> <fixed-string>
 check_absent() {
   if [ ! -f "$1" ]; then fail "missing: $1"; return; fi
@@ -52,7 +53,7 @@ check_file _site/images/points.webp
 check_contains _site/CNAME "illumenza.dev"
 
 echo "== build artifacts not leaked into output =="
-for leaked in _site/Gemfile _site/Gemfile.lock _site/README.html _site/docs _site/script; do
+for leaked in _site/Gemfile _site/Gemfile.lock _site/mise.toml _site/README.html _site/docs _site/script; do
   if [ -e "$leaked" ]; then fail "leaked into _site: $leaked"; else pass "not in _site: $leaked"; fi
 done
 
