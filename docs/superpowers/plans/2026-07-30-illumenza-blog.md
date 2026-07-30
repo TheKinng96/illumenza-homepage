@@ -87,9 +87,9 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-fail=0
+failures=0
 pass() { printf '  PASS  %s\n' "$1"; }
-fail() { printf '  FAIL  %s\n' "$1"; fail=1; }
+fail() { printf '  FAIL  %s\n' "$1"; failures=1; }
 
 check_file() {
   if [ -f "$1" ]; then pass "exists: $1"; else fail "missing: $1"; fi
@@ -141,7 +141,7 @@ done
 # ---- Blog checks below are added by later tasks ----
 
 echo
-if [ "$fail" -eq 0 ]; then echo "ALL CHECKS PASSED"; else echo "CHECKS FAILED"; exit 1; fi
+if [ "$failures" -eq 0 ]; then echo "ALL CHECKS PASSED"; else echo "CHECKS FAILED"; exit 1; fi
 ```
 
 - [ ] **Step 2: Run it to make sure it fails**
@@ -1377,7 +1377,7 @@ The blog is written one post per day by an agent. This task makes that repeatabl
 
 - [ ] **Step 1: Write the failing test**
 
-Add to `script/check-build.sh`, at the end of the blog checks (before the final `if [ "$fail" -eq 0 ]` block):
+Add to `script/check-build.sh`, at the end of the blog checks (before the final `if [ "$failures" -eq 0 ]` block):
 
 ```bash
 echo "== authoring pipeline docs =="
