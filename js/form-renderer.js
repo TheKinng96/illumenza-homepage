@@ -123,11 +123,8 @@
         });
         fields = fields.concat(hiddenParamFields(cfg));
         if (description.length > 4096) description = description.slice(0, 4093) + "…";
-        var color = 0x0066cc;
-        if (cfg.colorByField && values[cfg.colorByField.field] != null) {
-            var mapped = cfg.colorByField.map[values[cfg.colorByField.field]];
-            if (mapped != null) color = mapped;
-        }
+        var color = typeof cfg.color === "function" ? cfg.color(values) : cfg.color;
+        if (color == null) color = 0x0066cc;
         var embed = {
             title: cfg.title,
             color: color,
@@ -145,14 +142,11 @@
             thread_name: buildTitle(cfg, values, I18N[cfg.lang]),
             embeds: [buildEmbed(cfg, values)],
         };
-        var tags = cfg.tags;
-        if (cfg.tagsByField && values[cfg.tagsByField.field] != null) {
-            var tagId = cfg.tagsByField.map[values[cfg.tagsByField.field]];
-            tags = tagId ? [tagId] : undefined;
-        }
+        var tags = typeof cfg.tags === "function" ? cfg.tags(values) : cfg.tags;
         if (tags && tags.length) payload.applied_tags = tags;
 
-        var webhookUrl = cfg.webhookUrl || DISCORD_WEBHOOK_URL;
+        var webhookUrl = typeof cfg.webhookUrl === "function" ? cfg.webhookUrl(values) : cfg.webhookUrl;
+        if (!webhookUrl) webhookUrl = DISCORD_WEBHOOK_URL;
         if (files.length) {
             var fd = new FormData();
             fd.append("payload_json", JSON.stringify(payload));
