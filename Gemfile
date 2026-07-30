@@ -1,5 +1,9 @@
 source "https://rubygems.org"
 
+# Requires Ruby 3.x — the system Ruby 2.6 on macOS cannot build the ffi
+# native extension this gemset needs. `mise.toml` pins a working version;
+# run `mise install` then `bundle install`.
+
 # Pinned to the Jekyll version GitHub Pages' builder uses, so local output
 # matches what gets published. Do not upgrade without checking
 # https://pages.github.com/versions/
