@@ -30,7 +30,10 @@ echo "== building =="
 bundle exec jekyll build --trace
 
 echo "== existing pages pass through unchanged =="
-for f in index.html privacy/index.html tokushoho/index.html contact-us/index.html \
+# index.html is deliberately excluded: it carries front matter so it can list
+# recent posts, and is checked separately below. Every other pre-existing page
+# has no front matter, so Jekyll must copy it byte-for-byte.
+for f in privacy/index.html tokushoho/index.html contact-us/index.html \
          coupon/contact-us/index.html coupon/uninstall/index.html \
          points/contact-us/index.html mostra/contact-us/index.html; do
   if diff -q "$f" "_site/$f" >/dev/null 2>&1; then
@@ -39,6 +42,20 @@ for f in index.html privacy/index.html tokushoho/index.html contact-us/index.htm
     fail "MODIFIED BY BUILD: $f"
   fi
 done
+
+echo "== homepage unchanged outside the blog section =="
+# The homepage is Liquid-rendered, so it cannot be byte-identical. Everything
+# outside the blog-section markers still must be: strip the front matter and
+# the marked region from both sides, then diff the remainder.
+strip_dynamic() {
+  awk 'NR==1 && /^---$/ {fm=1; next} fm && /^---$/ {fm=0; next} fm {next} {print}' "$1" \
+    | sed '/blog-section:start/,/blog-section:end/d'
+}
+if diff -q <(strip_dynamic index.html) <(strip_dynamic _site/index.html) >/dev/null 2>&1; then
+  pass "index.html unchanged outside the blog section"
+else
+  fail "index.html CHANGED outside the blog section — Liquid altered static markup"
+fi
 
 echo "== static assets copied =="
 check_file _site/css/forms.css
@@ -163,13 +180,34 @@ if [ -z "$DUPES" ]; then pass "no duplicate tag anchor ids"; else fail "duplicat
 
 echo "== homepage links to blog =="
 check_contains _site/index.html 'href="/blog/"'
-# The homepage must stay bilingual and front-matter-free.
+# The homepage must stay bilingual.
 check_contains _site/index.html 'lang-jp'
-if head -1 index.html | grep -qF '<!DOCTYPE html>'; then
-  pass "index.html has no front matter"
+# Front matter must stay minimal: `layout: null` only. Any real layout would
+# wrap this hand-written document inside another one.
+check_contains index.html 'layout: null'
+check_absent _site/index.html 'layout: null'
+if head -1 index.html | grep -qF -- '---'; then
+  pass "index.html front matter present (required to render recent posts)"
 else
-  fail "index.html gained front matter — Jekyll will now render it through Liquid"
+  fail "index.html lost its front matter — the blog section will not render"
 fi
+
+echo "== homepage blog section =="
+HOME=_site/index.html
+check_contains "$HOME" 'id="blog"'
+check_contains "$HOME" 'colorme-points-5-decisions'
+check_contains "$HOME" 'すべての記事を見る'
+check_contains "$HOME" 'Read all articles'
+# Whole card clickable, same technique as the /blog/ list.
+check_contains "$HOME" "after:absolute after:inset-0"
+# No unrendered Liquid may reach the published page.
+check_absent "$HOME" '{{'
+check_absent "$HOME" '{%'
+# The pre-existing homepage must survive Liquid rendering intact.
+check_contains "$HOME" 'G-PD4WWX28GL'
+check_contains "$HOME" 'particle-canvas'
+check_contains "$HOME" 'id="products"'
+check_contains "$HOME" 'id="contact"'
 
 echo "== blog list design =="
 # Footer pinned to the viewport bottom on short pages: body is a full-height

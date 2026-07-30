@@ -1,7 +1,9 @@
 ---
 layout: default
 ---
-<article class="container mx-auto max-w-3xl">
+<!-- ~680px measure, matching Medium's; ≈38 Japanese characters per line, inside
+     the 35–45 that reads comfortably. -->
+<article class="container mx-auto max-w-[43rem]">
 
   {%- assign body_chars = content | strip_html | strip_newlines | size -%}
   {%- assign read_minutes = body_chars | divided_by: 500 | plus: 1 -%}
@@ -41,9 +43,26 @@ layout: default
   </figure>
   {% endif %}
 
+  {%- comment -%}
+    Reading typography measured against a live Medium article (1512px viewport):
+    20px / 32px line-height (1.6), 34px paragraph gap, 680px measure,
+    rgb(36,36,36) body colour.
+
+    Adopted here: the 34px gap, the ~680px measure, and the neutral ink.
+    Deliberately NOT their 1.6 line-height — that suits a Latin serif, while
+    Japanese needs more leading to separate dense glyphs, so this uses 1.9
+    (within the 1.7–2.0 convention for Japanese body text).
+  {%- endcomment -%}
   <div class="prose prose-base sm:prose-lg max-w-none
+              prose-p:text-[17px] sm:prose-p:text-[19px]
+              prose-p:leading-[1.9] prose-p:my-[1.75em] prose-p:text-[#242424]
+              prose-li:text-[17px] sm:prose-li:text-[19px] prose-li:leading-[1.9] prose-li:text-[#242424]
+              prose-ul:my-[1.75em] prose-ol:my-[1.75em]
               prose-headings:font-bold prose-headings:text-gray-900
+              prose-h2:mt-[2.2em] prose-h2:mb-[0.9em]
+              prose-h3:mt-[1.8em] prose-h3:mb-[0.7em]
               prose-a:text-brand-blue prose-a:no-underline hover:prose-a:underline
+              prose-strong:text-[#242424]
               prose-img:rounded-lg prose-img:border prose-img:border-gray-200 prose-img:mx-auto
               prose-figcaption:text-center prose-figcaption:text-xs prose-figcaption:sm:text-sm">
     {{ content }}
