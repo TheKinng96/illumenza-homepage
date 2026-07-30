@@ -1,0 +1,106 @@
+# Blog authoring guide
+
+The blog lives at `illumenza.dev/blog/`. Source is markdown in `_posts/`,
+built by GitHub Pages' Jekyll on every push to the default branch. There is no
+CMS and no database — git history is the edit log.
+
+## Cadence and workflow
+
+One post per day, written by an agent:
+
+1. Pick a topic (see `docs/blog-topics.md`; delete the line you use).
+2. Write `_posts/YYYY-MM-DD-<ascii-kebab-slug>.md` with complete front matter.
+3. Run `script/check-build.sh` — it must print `ALL CHECKS PASSED`.
+4. Commit and push. GitHub Pages publishes within a couple of minutes.
+
+Use `/blog-post <topic>` in Claude Code to do all of this in one shot.
+
+## Front matter contract
+
+```yaml
+---
+title: "記事タイトル（30〜45文字を目安に）"
+date: 2026-07-30 09:00:00 +0900
+tags: [ポイント制度, ロイヤルティ]
+description: "検索結果とメール配信に出る要約。70〜110文字。記事の結論を含める。"
+ogImage: /images/points.webp
+---
+```
+
+| Key | Required | Notes |
+| --- | --- | --- |
+| `title` | yes | Becomes `<h1>` and `<title>`. Do not repeat it as a heading in the body. |
+| `date` | yes | Include `+0900`. Must match the filename date. Future dates are not published (`future: false`). |
+| `tags` | yes | Japanese tags. Reuse existing ones — check `/blog/tags/` (or `_posts/`) before inventing new. English/Latin-script tags must use one consistent casing (lowercase) — `slugify` lowercases the anchor id on `/blog/tags/`, so `Points` and `points` collide into the same `id="points"`, producing a duplicate section that no link can reach. Japanese tags are unaffected by this. |
+| `description` | yes | Used verbatim as the meta description, the OG description, and the RSS `<description>` the Mails app reads. Not optional. |
+| `ogImage` | no | Root-relative path. Defaults to `/images/logo-full.png`. Use `/images/points.webp` for points-app topics. |
+
+`layout` is set automatically by `_config.yml`'s `defaults:` block (scope:
+`type: posts` → `layout: post`). Do not set it per post.
+
+Filename slug is ASCII kebab-case, not Japanese — it becomes the URL via
+`_config.yml`'s `permalink: /blog/:title/`
+(`_posts/2026-07-30-points-expiry-basics.md` → `/blog/points-expiry-basics/`).
+
+## Content rules
+
+**Never write these — absolute:**
+
+- 導入事例, お客様の声, testimonials, case studies, customer quotes
+- Any store, named or anonymous, presented as a real user
+- Invented numbers attributed to real shops
+
+There are no clients yet. Fabricating social proof is prohibited. Use
+mechanics, arithmetic worked examples, screenshots, and how-to steps instead.
+Neutral illustrative arithmetic ("粗利率30%のショップで1%還元の場合") is fine —
+it is a calculation, not a claimed customer.
+
+**Style:**
+
+- Japanese, polite 敬体 (です/ます). Never だ/である.
+- Audience: ColorMe (カラーミーショップ) store owners. Mostly non-technical,
+  cannot edit DNS, run small shops. Gloss any technical term on first use.
+- Match the homepage's calm, explanatory tone. No hype, no exclamation marks.
+- 1,200–2,500 Japanese characters. Long enough to answer the question fully.
+- Structure with `##` headings. Start at `##`, never `#` (the title is the h1).
+- Tables and numbered lists are encouraged; they survive translation to email.
+- Do not write a CTA — `_layouts/post.html` appends the points.illumenza.dev
+  CTA automatically. A second CTA in the body is duplication.
+- Do not add UTM parameters to any link. The Mails app appends them.
+
+## What is generated for you
+
+Do not hand-maintain these; they update from `site.posts` on build:
+
+- `/blog/` — paginated list, 10 per page (`_config.yml`'s `paginate: 10`)
+- `/blog/page2/`, `/blog/page3/`… — later pages
+- `/blog/tags/` — tag index with `#<slug>` anchors
+- `/blog/feed.xml` — **RSS 2.0. Frozen URL.** The Illumenza Mails app polls this
+  to draft biweekly digests. Never rename it, never drop `title`, `link`,
+  `description`, or `pubDate` from an item.
+- `/sitemap.xml` — posts are looped in. **New static (non-post) pages must be
+  added to the hand-written list in `sitemap.xml` manually.**
+
+## Local preview
+
+Ruby 3.x is required — the macOS system Ruby (2.6) cannot build this gemset
+(the `ffi` native extension needs Ruby >= 3.0). `mise.toml` pins `ruby = "3.3"`.
+
+```bash
+mise install                          # first time only, installs Ruby 3.3
+bundle config set path 'vendor/bundle'  # first time only
+bundle install                        # first time only (or after Gemfile changes)
+bundle exec jekyll serve --port 4000
+# http://localhost:4000/blog/
+```
+
+`bundle install --path` was removed in Bundler 4 (this repo's
+`Gemfile.lock` pins Bundler 4.0.17) — use `bundle config set path` instead, as
+above.
+
+## Verification
+
+`script/check-build.sh` builds the site and asserts on `_site/`. It checks that
+every existing static page is byte-identical after the build, that the feed and
+sitemap are well-formed XML, that the CTA is present, and that no forbidden
+vocabulary or UTM parameter slipped in. Run it before every push.

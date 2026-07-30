@@ -1,0 +1,35 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RSS 2.0 feed for the Illumenza blog.
+  CONTRACT: consumed by the Illumenza Mails app to draft biweekly digests.
+  This URL (/blog/feed.xml) and the item fields (title, link, description,
+  pubDate) are frozen. Do not rename or drop them.
+  UTM parameters are appended by the mails app, never baked in here.
+-->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title | xml_escape }}</title>
+    <link>{{ '/blog/' | absolute_url }}</link>
+    <description>{{ site.description | xml_escape }}</description>
+    <language>ja</language>
+    <atom:link href="{{ '/blog/feed.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
+    {%- if site.posts.first %}
+    <lastBuildDate>{{ site.posts.first.date | date_to_rfc822 }}</lastBuildDate>
+    {%- endif %}
+    {%- for post in site.posts limit: 50 %}
+    <item>
+      <title>{{ post.title | xml_escape }}</title>
+      <link>{{ post.url | absolute_url }}</link>
+      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
+      <description>{{ post.description | default: post.excerpt | strip_html | normalize_whitespace | xml_escape }}</description>
+      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+      {%- for tag in post.tags %}
+      <category>{{ tag | xml_escape }}</category>
+      {%- endfor %}
+    </item>
+    {%- endfor %}
+  </channel>
+</rss>

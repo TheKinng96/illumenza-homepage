@@ -1,3 +1,9 @@
 .DS_Store
 .playwright-mcp/
 test-results/
+.superpowers/
+_site/
+.jekyll-cache/
+.jekyll-metadata
+vendor/
+.bundle/
