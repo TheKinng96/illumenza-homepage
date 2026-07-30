@@ -5,7 +5,10 @@ description: Write and publish one Illumenza blog post
 Write one blog post for illumenza.dev/blog/ on this topic: $ARGUMENTS
 
 If no topic was given, read `docs/blog-topics.md` and pick the first topic
-that is not already covered by an existing file in `_posts/`.
+that is not already covered by an existing file in `_posts/`. If no topics
+remain in the backlog, generate one yourself within the existing categories,
+following all content rules below, and append 2–3 fresh ideas to
+`docs/blog-topics.md` for future runs.
 
 Read `docs/blog-authoring.md` first and follow it exactly. Then:
 
@@ -35,7 +38,7 @@ ABSOLUTE CONTENT RULES:
 
 4. Run `script/check-build.sh`. It must print `ALL CHECKS PASSED`. Fix anything
    it reports; do not proceed past a failure.
-5. Remove the topic's line from `docs/blog-topics.md`.
+5. If the topic came from `docs/blog-topics.md`, remove its line.
 6. Commit `_posts/<file>` and `docs/blog-topics.md` with
    `content: add blog post on <short topic>`, then push.
 

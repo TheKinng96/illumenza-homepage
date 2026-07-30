@@ -8,7 +8,7 @@
   {%- assign meta_desc = page.description | default: site.description -%}
   {%- assign og_image = page.ogImage | default: '/images/logo-full.png' | absolute_url -%}
 
-  <title>{% if page.title %}{{ page.title }} | Illumenza ブログ{% else %}{{ site.title }}{% endif %}</title>
+  <title>{% if page.title %}{{ page.title | escape }} | Illumenza ブログ{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ meta_desc | strip_newlines | escape }}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
   <link rel="icon" type="image/png" href="/images/logo-short.png">

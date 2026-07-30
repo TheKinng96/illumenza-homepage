@@ -94,7 +94,7 @@ check_contains "$LIST" "ブログ"
 check_contains "$LIST" 'rel="canonical" href="https://illumenza.dev/blog/"'
 check_contains "$LIST" 'property="og:type" content="website"'
 # paginator must be wired up, not just a plain post loop
-if grep -qF 'data-paginator="1"' "$LIST"; then
+if grep -qE 'data-paginator="[0-9]+"' "$LIST"; then
   pass "$LIST paginator active"
 else
   fail "$LIST paginator inactive (jekyll-paginate did not run — check plugin + filename)"
@@ -158,6 +158,8 @@ check_contains "$TAGS" 'rel="canonical" href="https://illumenza.dev/blog/tags/"'
 check_contains "$TAGS" 'id="ポイント制度"'
 check_contains "$TAGS" 'id="ロイヤルティ"'
 check_contains "$TAGS" 'id="カラーミーショップ"'
+DUPES=$(grep -oE '<section id="[^"]*"' "$TAGS" | sort | uniq -d)
+if [ -z "$DUPES" ]; then pass "no duplicate tag anchor ids"; else fail "duplicate tag anchor ids: $DUPES"; fi
 
 echo "== homepage links to blog =="
 check_contains _site/index.html 'href="/blog/"'
