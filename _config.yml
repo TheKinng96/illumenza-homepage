@@ -1,0 +1,47 @@
+# Jekyll config for the illumenza.dev blog.
+# The rest of this site is hand-written static HTML. Files without YAML front
+# matter are copied through untouched, so existing pages are unaffected.
+
+title: "Illumenza ブログ"
+description: "カラーミーショップ運営者のための、ポイント・ロイヤルティ施策とECマーケティングの実践ガイド。"
+url: "https://illumenza.dev"
+lang: ja
+timezone: Asia/Tokyo
+
+# Posts live at /blog/<slug>/ — settled URL structure, do not change.
+permalink: /blog/:title/
+
+# Pagination for /blog/ (jekyll-paginate is GitHub Pages whitelisted).
+paginate: 10
+paginate_path: "/blog/page:num/"
+
+plugins:
+  - jekyll-paginate
+
+# Posts get the post layout automatically; no per-post `layout:` needed.
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+# Do not publish posts dated in the future.
+future: false
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - docs
+  - script
+  - test-results
+  - .playwright-mcp
+  - .claude
+  - .DS_Store
