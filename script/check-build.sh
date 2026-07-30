@@ -69,6 +69,23 @@ check_absent _layouts/default.html 'js/main.js'
 # The points CTA is in the layout so no post can ship without it.
 check_contains _layouts/post.html 'https://points.illumenza.dev'
 
+echo "== first post renders =="
+POST=_site/blog/colorme-points-5-decisions/index.html
+check_file "$POST"
+check_contains "$POST" "<h1"
+check_contains "$POST" "ポイント制度"
+check_contains "$POST" '<time datetime="2026-07-30'
+check_contains "$POST" 'rel="canonical" href="https://illumenza.dev/blog/colorme-points-5-decisions/"'
+check_contains "$POST" 'property="og:type" content="article"'
+check_contains "$POST" 'property="og:image" content="https://illumenza.dev/images/points.webp"'
+check_contains "$POST" '"@type": "BlogPosting"'
+check_contains "$POST" 'https://points.illumenza.dev'
+# Content rule: forbidden fabricated-social-proof vocabulary.
+check_absent "$POST" "導入事例"
+check_absent "$POST" "お客様の声"
+# No UTM in post content or CTA — the mails app adds those.
+check_absent "$POST" "utm_"
+
 # ---- Blog checks below are added by later tasks ----
 
 echo
