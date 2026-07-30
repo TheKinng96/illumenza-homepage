@@ -171,5 +171,19 @@ fi
 
 # ---- Blog checks below are added by later tasks ----
 
+echo "== authoring pipeline docs =="
+check_file docs/blog-authoring.md
+check_file docs/blog-topics.md
+check_file .claude/commands/blog-post.md
+# The forbidden-content rule must be stated in both the doc and the command.
+check_contains docs/blog-authoring.md "導入事例"
+check_contains .claude/commands/blog-post.md "導入事例"
+check_contains .claude/commands/blog-post.md "points.illumenza.dev"
+check_contains docs/blog-authoring.md "/blog/feed.xml"
+# docs/ and .claude/ are excluded from the build.
+for leaked in _site/docs _site/.claude; do
+  if [ -e "$leaked" ]; then fail "leaked into _site: $leaked"; else pass "not in _site: $leaked"; fi
+done
+
 echo
 if [ "$failures" -eq 0 ]; then echo "ALL CHECKS PASSED"; else echo "CHECKS FAILED"; exit 1; fi
