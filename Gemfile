@@ -13,5 +13,5 @@ group :jekyll_plugins do
   gem "jekyll-paginate", "~> 1.1"
 end
 
-# Ruby 3.x removed webrick from stdlib; harmless on 2.6.
+# Ruby 3.x removed webrick from stdlib; jekyll serve needs it.
 gem "webrick", "~> 1.8"
