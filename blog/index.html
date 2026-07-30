@@ -1,0 +1,57 @@
+---
+layout: default
+title: "ブログ"
+description: "カラーミーショップ運営者のための、ポイント・ロイヤルティ施策とECマーケティングの実践ガイド。"
+---
+<div class="container mx-auto max-w-3xl" data-paginator="{{ paginator.total_pages }}">
+
+  <header class="mb-10 sm:mb-14">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">ブログ</h1>
+    <p class="text-base sm:text-lg text-gray-600">
+      カラーミーショップでポイント制度やロイヤルティ施策を運用するための、実践的な記事をお届けします。
+    </p>
+    <p class="mt-4 text-sm">
+      <a href="/blog/tags/" class="text-brand-blue hover:underline">タグ一覧</a>
+      <span class="text-gray-300 mx-2">|</span>
+      <a href="/blog/feed.xml" class="text-brand-blue hover:underline">RSS</a>
+    </p>
+  </header>
+
+  {% if paginator.posts.size == 0 %}
+  <p class="text-gray-600">記事はまだありません。</p>
+  {% endif %}
+
+  <ul class="space-y-8 sm:space-y-10">
+    {% for post in paginator.posts %}
+    <li class="pb-8 sm:pb-10 border-b border-gray-200 last:border-0">
+      <p class="text-sm text-gray-500 mb-2">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y年%-m月%-d日' }}</time>
+      </p>
+      <h2 class="text-xl sm:text-2xl font-bold mb-3 leading-snug">
+        <a href="{{ post.url }}" class="text-gray-900 hover:text-brand-blue transition-colors">{{ post.title }}</a>
+      </h2>
+      <p class="text-sm sm:text-base text-gray-600 mb-4">{{ post.description }}</p>
+      {% if post.tags and post.tags.size > 0 %}
+      <ul class="flex flex-wrap gap-2">
+        {% for tag in post.tags %}
+        <li><a href="/blog/tags/#{{ tag | slugify }}" class="inline-block px-3 py-1 text-xs bg-brand-light text-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-colors">{{ tag }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if paginator.total_pages > 1 %}
+  <nav class="mt-12 flex items-center justify-between text-sm" aria-label="ページ送り">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path }}" class="px-4 py-2 bg-brand-light text-brand-blue rounded-lg hover:bg-brand-blue hover:text-white transition-colors">&larr; 新しい記事</a>
+    {% else %}<span></span>{% endif %}
+    <span class="text-gray-500">{{ paginator.page }} / {{ paginator.total_pages }}</span>
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path }}" class="px-4 py-2 bg-brand-light text-brand-blue rounded-lg hover:bg-brand-blue hover:text-white transition-colors">過去の記事 &rarr;</a>
+    {% else %}<span></span>{% endif %}
+  </nav>
+  {% endif %}
+
+</div>

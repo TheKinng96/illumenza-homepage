@@ -86,6 +86,20 @@ check_absent "$POST" "お客様の声"
 # No UTM in post content or CTA — the mails app adds those.
 check_absent "$POST" "utm_"
 
+echo "== /blog/ list page =="
+LIST=_site/blog/index.html
+check_file "$LIST"
+check_contains "$LIST" "colorme-points-5-decisions"
+check_contains "$LIST" "ブログ"
+check_contains "$LIST" 'rel="canonical" href="https://illumenza.dev/blog/"'
+check_contains "$LIST" 'property="og:type" content="website"'
+# paginator must be wired up, not just a plain post loop
+if grep -qF 'data-paginator="1"' "$LIST"; then
+  pass "$LIST paginator active"
+else
+  fail "$LIST paginator inactive (jekyll-paginate did not run — check plugin + filename)"
+fi
+
 # ---- Blog checks below are added by later tasks ----
 
 echo
