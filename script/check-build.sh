@@ -146,6 +146,18 @@ check_contains _site/robots.txt "Sitemap: https://illumenza.dev/sitemap.xml"
 check_absent _site/robots.txt "thekinng96.github.io"
 check_contains _site/robots.txt "Allow: /"
 
+echo "== tag index =="
+TAGS=_site/blog/tags/index.html
+check_file "$TAGS"
+check_contains "$TAGS" "ポイント制度"
+check_contains "$TAGS" "ロイヤルティ"
+check_contains "$TAGS" "カラーミーショップ"
+check_contains "$TAGS" "colorme-points-5-decisions"
+check_contains "$TAGS" 'rel="canonical" href="https://illumenza.dev/blog/tags/"'
+# Anchors referenced from post/list pages must exist on this page.
+TAG_SLUG=$(grep -o 'id="[^"]*"' "$TAGS" | head -1 || true)
+if [ -n "$TAG_SLUG" ]; then pass "tag anchors present ($TAG_SLUG)"; else fail "no id= anchors on tag page"; fi
+
 # ---- Blog checks below are added by later tasks ----
 
 echo
