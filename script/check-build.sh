@@ -57,6 +57,18 @@ for leaked in _site/Gemfile _site/Gemfile.lock _site/mise.toml _site/README.html
   if [ -e "$leaked" ]; then fail "leaked into _site: $leaked"; else pass "not in _site: $leaked"; fi
 done
 
+echo "== layouts exist =="
+check_file _layouts/default.html
+check_file _layouts/post.html
+check_contains _layouts/default.html 'cdn.tailwindcss.com?plugins=typography'
+check_contains _layouts/default.html "G-PD4WWX28GL"
+check_contains _layouts/default.html '#0066CC'
+check_contains _layouts/default.html 'application/rss+xml'
+# Blog pages must not load the homepage language toggle.
+check_absent _layouts/default.html 'js/main.js'
+# The points CTA is in the layout so no post can ship without it.
+check_contains _layouts/post.html 'https://points.illumenza.dev'
+
 # ---- Blog checks below are added by later tasks ----
 
 echo
