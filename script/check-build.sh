@@ -124,6 +124,28 @@ else
   fail "$FEED is NOT well-formed XML"
 fi
 
+echo "== sitemap + robots =="
+SM=_site/sitemap.xml
+check_file "$SM"
+check_contains "$SM" "<loc>https://illumenza.dev/</loc>"
+check_contains "$SM" "<loc>https://illumenza.dev/blog/</loc>"
+check_contains "$SM" "<loc>https://illumenza.dev/blog/colorme-points-5-decisions/</loc>"
+check_contains "$SM" "<loc>https://illumenza.dev/blog/tags/</loc>"
+check_contains "$SM" "<loc>https://illumenza.dev/contact-us/</loc>"
+check_contains "$SM" "<loc>https://illumenza.dev/points/contact-us/</loc>"
+# Feed is not a page; must not appear. Neither should the wrong host.
+check_absent "$SM" "feed.xml"
+check_absent "$SM" "thekinng96.github.io"
+check_absent "$SM" "layout:"
+if python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse('$SM')" 2>/dev/null; then
+  pass "$SM is well-formed XML"
+else
+  fail "$SM is NOT well-formed XML"
+fi
+check_contains _site/robots.txt "Sitemap: https://illumenza.dev/sitemap.xml"
+check_absent _site/robots.txt "thekinng96.github.io"
+check_contains _site/robots.txt "Allow: /"
+
 # ---- Blog checks below are added by later tasks ----
 
 echo

@@ -1,42 +1,86 @@
+---
+layout: null
+---
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-    <url>
-        <loc>https://illumenza.dev/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://thekinng96.github.io/illumenza-HP/"/>
-        <xhtml:link rel="alternate" hreflang="jp" href="https://thekinng96.github.io/illumenza-HP/"/>
-        <lastmod>2025-07-30</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>https://illumenza.dev/contact-us/</loc>
-        <lastmod>2026-06-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://illumenza.dev/coupon/contact-us/</loc>
-        <lastmod>2026-06-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://illumenza.dev/coupon/uninstall/</loc>
-        <lastmod>2026-06-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://illumenza.dev/mostra/contact-us/</loc>
-        <lastmod>2026-06-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://illumenza.dev/points/contact-us/</loc>
-        <lastmod>2026-06-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
+<!--
+  Hand-maintained for static pages, generated for blog posts.
+  jekyll-sitemap is not used: it emits /path/index.html for the existing
+  static HTML pages instead of the clean directory URLs already indexed.
+  When adding a new static page, add it to the list below.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{{ '/' | absolute_url }}</loc>
+    <lastmod>2025-07-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>{{ '/blog/' | absolute_url }}</loc>
+    {%- if site.posts.first %}
+    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- endif %}
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  {%- for post in site.posts %}
+  <url>
+    <loc>{{ post.url | absolute_url }}</loc>
+    <lastmod>{{ post.date | date: '%Y-%m-%d' }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {%- endfor %}
+  {%- if site.tags.size > 0 %}
+  <url>
+    <loc>{{ '/blog/tags/' | absolute_url }}</loc>
+    {%- if site.posts.first %}
+    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- endif %}
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  {%- endif %}
+  <url>
+    <loc>{{ '/contact-us/' | absolute_url }}</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>{{ '/coupon/contact-us/' | absolute_url }}</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>{{ '/coupon/uninstall/' | absolute_url }}</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>{{ '/mostra/contact-us/' | absolute_url }}</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>{{ '/points/contact-us/' | absolute_url }}</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>{{ '/privacy/' | absolute_url }}</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>{{ '/tokushoho/' | absolute_url }}</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>
