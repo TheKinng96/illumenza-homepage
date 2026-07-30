@@ -707,7 +707,7 @@ check_contains "$LIST" "ブログ"
 check_contains "$LIST" 'rel="canonical" href="https://illumenza.dev/blog/"'
 check_contains "$LIST" 'property="og:type" content="website"'
 # paginator must be wired up, not just a plain post loop
-if grep -qF 'data-paginator="1"' "$LIST"; then
+if grep -qE 'data-paginator="[0-9]+"' "$LIST"; then
   pass "$LIST paginator active"
 else
   fail "$LIST paginator inactive (jekyll-paginate did not run — check plugin + filename)"
@@ -794,7 +794,9 @@ description: "カラーミーショップ運営者のための、ポイント・
 script/check-build.sh
 ```
 
-Expected: `ALL CHECKS PASSED`. The `data-paginator="1"` assertion passes because `paginator.total_pages` is `1` with a single post — proving the plugin ran (without it, `paginator` is nil and the attribute renders empty).
+Expected: `ALL CHECKS PASSED`. The `data-paginator` assertion proves the plugin ran: `paginator.total_pages` renders a digit, whereas a nil paginator (plugin missing or filename wrong) renders `data-paginator=""`, which `[0-9]+` cannot match.
+
+**The regex matters — do not tighten it to `data-paginator="1"`.** That was the original form and it is a latent time bomb: with `paginate: 10`, the 11th post makes `total_pages` become `2`, the exact-string check fails, and the harness prints `CHECKS FAILED` on a completely correct site. Because the authoring pipeline tells the daily agent not to proceed past a harness failure, that would halt posting around day 11. The assertion must stay scale-invariant.
 
 - [ ] **Step 5: Verify pagination actually splits at 11 posts**
 
