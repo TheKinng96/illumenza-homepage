@@ -36,7 +36,7 @@ ABSOLUTE CONTENT RULES:
   https://points.illumenza.dev CTA to every post automatically.
 - Do not put UTM parameters in any link.
 
-4. Run `script/check-build.sh`. It must print `ALL CHECKS PASSED`. Fix anything
+4. Run `make check`. It must print `ALL CHECKS PASSED`. Fix anything
    it reports; do not proceed past a failure.
 5. If the topic came from `docs/blog-topics.md`, remove its line.
 6. Commit `_posts/<file>` and `docs/blog-topics.md` with

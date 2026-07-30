@@ -10,7 +10,7 @@ One post per day, written by an agent:
 
 1. Pick a topic (see `docs/blog-topics.md`; delete the line you use).
 2. Write `_posts/YYYY-MM-DD-<ascii-kebab-slug>.md` with complete front matter.
-3. Run `script/check-build.sh` — it must print `ALL CHECKS PASSED`.
+3. Run `make check` — it must print `ALL CHECKS PASSED`.
 4. Commit and push. GitHub Pages publishes within a couple of minutes.
 
 Use `/blog-post <topic>` in Claude Code to do all of this in one shot.
@@ -127,11 +127,22 @@ Ruby 3.x is required — the macOS system Ruby (2.6) cannot build this gemset
 (the `ffi` native extension needs Ruby >= 3.0). `mise.toml` pins `ruby = "3.3"`.
 
 ```bash
-mise install                          # first time only, installs Ruby 3.3
-bundle config set path 'vendor/bundle'  # first time only
-bundle install                        # first time only (or after Gemfile changes)
+make setup    # first time only (or after Gemfile changes)
+make serve    # http://localhost:4000/blog/ — live reload
+```
+
+`make` on its own lists every target. Others worth knowing: `make check` runs
+the full build gate, `make drafts` also renders future-dated posts, and
+`make clean` clears `_site/` and the caches. Override the port with
+`make serve PORT=4321`.
+
+The Makefile just wraps these, if you'd rather run them directly:
+
+```bash
+mise install                            # installs Ruby 3.3
+bundle config set path 'vendor/bundle'
+bundle install
 bundle exec jekyll serve --port 4000
-# http://localhost:4000/blog/
 ```
 
 `bundle install --path` was removed in Bundler 4 (this repo's
@@ -140,7 +151,12 @@ above.
 
 ## Verification
 
-`script/check-build.sh` builds the site and asserts on `_site/`. It checks that
-every existing static page is byte-identical after the build, that the feed and
+`make check` builds the site and asserts on `_site/`. It checks that every
+existing static page is byte-identical after the build, that the feed and
 sitemap are well-formed XML, that the CTA is present, and that no forbidden
 vocabulary or UTM parameter slipped in. Run it before every push.
+
+Use `make check`, not `script/check-build.sh` directly. Run bare, the script
+picks up the macOS system Ruby (2.6) and dies with
+`Could not find 'bundler' (4.0.17)` before running a single assertion. The
+Makefile wraps it in `mise exec --` so it gets Ruby 3.3.
