@@ -171,6 +171,24 @@ else
   fail "index.html gained front matter — Jekyll will now render it through Liquid"
 fi
 
+echo "== blog list design =="
+# Footer pinned to the viewport bottom on short pages: body is a full-height
+# flex column and main takes the slack.
+check_contains "$LIST" 'min-h-screen flex flex-col'
+check_contains "$LIST" '<main class="flex-1'
+# Whole card clickable: the title link's ::after stretches over the card.
+check_contains "$LIST" "after:absolute after:inset-0"
+# Tag links must stay above that overlay, or they become unclickable.
+check_contains "$LIST" 'relative z-10 flex flex-wrap gap-2'
+# Reading time is derived from body length.
+check_contains "$LIST" '分で読めます'
+check_contains "$POST" '分で読めます'
+# Post body supports images: prose styling plus optional hero.
+check_contains "$POST" 'prose-img:rounded-lg'
+# The list thumbnail must not fall back to ogImage — a wide social card
+# square-cropped mangles its subject.
+check_absent blog/index.html 'post.ogImage'
+
 # ---- Blog checks below are added by later tasks ----
 
 echo "== authoring pipeline docs =="

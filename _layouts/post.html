@@ -3,9 +3,14 @@ layout: default
 ---
 <article class="container mx-auto max-w-3xl">
 
+  {%- assign body_chars = content | strip_html | strip_newlines | size -%}
+  {%- assign read_minutes = body_chars | divided_by: 500 | plus: 1 -%}
+
   <header class="mb-8 sm:mb-12">
-    <p class="text-sm text-gray-500 mb-3">
+    <p class="flex items-center gap-2 text-sm text-gray-500 mb-3">
       <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y年%-m月%-d日' }}</time>
+      <span aria-hidden="true">·</span>
+      <span>{{ read_minutes }}分で読めます</span>
     </p>
     <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 leading-snug">{{ page.title }}</h1>
     {% if page.tags and page.tags.size > 0 %}
@@ -19,7 +24,28 @@ layout: default
     {% endif %}
   </header>
 
-  <div class="prose prose-base sm:prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-brand-blue prose-a:no-underline hover:prose-a:underline">
+  {%- comment -%}
+    Optional hero image. `heroAlt` is required alongside `heroImage` — a hero
+    carries meaning, so it must not fall back to an empty alt like the
+    decorative list thumbnails do.
+  {%- endcomment -%}
+  {% if page.heroImage %}
+  <figure class="mb-8 sm:mb-12">
+    <img src="{{ page.heroImage }}"
+         alt="{{ page.heroAlt | default: page.title | escape }}"
+         decoding="async"
+         class="w-full rounded-lg bg-gray-100">
+    {% if page.heroCaption %}
+    <figcaption class="mt-2 text-xs sm:text-sm text-gray-500 text-center">{{ page.heroCaption | escape }}</figcaption>
+    {% endif %}
+  </figure>
+  {% endif %}
+
+  <div class="prose prose-base sm:prose-lg max-w-none
+              prose-headings:font-bold prose-headings:text-gray-900
+              prose-a:text-brand-blue prose-a:no-underline hover:prose-a:underline
+              prose-img:rounded-lg prose-img:border prose-img:border-gray-200 prose-img:mx-auto
+              prose-figcaption:text-center prose-figcaption:text-xs prose-figcaption:sm:text-sm">
     {{ content }}
   </div>
 
