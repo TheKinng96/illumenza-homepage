@@ -1,10 +1,12 @@
 /* Illumenza contact forms — declarative config.
  *
- * One Discord forum channel receives every submission. Each submit creates a
- * new forum post (thread_name, built by form-renderer.js per the title rule)
- * and applies the form's source tag (applied_tags).
+ * Each submit creates a new Discord forum post (thread_name, built by
+ * form-renderer.js per the title rule) and applies the form's tag
+ * (applied_tags). Most forms post to the single shared DISCORD_WEBHOOK_URL
+ * below; a form can override webhookUrl/color/tags with either a plain
+ * value or a function(values) for per-submission routing (see "points-issue").
  *
- * Field shape: { name, type, label, desc?, required?, placeholder?, options?, role?, accept? }
+ * Field shape: { name, type, label, desc?, required?, placeholder?, options?, role?, accept?, maxLength?, prefillParam? }
  *   type : 'text' | 'email' | 'textarea' | 'radio' | 'checkbox-group' | 'file'
  *   role : 'category' | 'summary' | 'who'  (used to build the forum post title)
  *
@@ -12,6 +14,10 @@
  * webhook in Discord and replace the string below.
  */
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1517166050616147999/ZBznx5iVoNy2HsMsB-yeolQkW9OdcQT28asQWlu80yEgeDBUmDLoBHQj53nu6aTHeMxQ";
+
+/* Points feature-request/improvement channel — separate from the shared
+ * support webhook above. Routed to by the points-issue form's "type" field. */
+const POINTS_FEEDBACK_WEBHOOK_URL = "https://discord.com/api/webhooks/1531934538328965224/qh3SdZAmEtHbkp9FDIQWgGglRs89r6kJ8m-o21MxT6El7mCk3tWYKWpOVOrtlNcKrBZE";
 
 /* Max bytes per uploaded file (Discord non-boosted servers allow ~8MB). */
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
@@ -129,58 +135,34 @@ const ILLUMENZA_FORMS = {
         ],
     },
 
-    /* 5 — Points / loyalty support (JP) — clone of coupon-issue ------------ */
+    /* 5 — Points / loyalty: support + feature requests, one form ----------- */
     "points-issue": {
-        lang: "ja",
-        app: "Points",
-        defaultCategory: "サポート",
-        tags: ["1517164358906413186"],
-        icon: "📤",
-        title: "お問い合わせ - Illumenza Points サポート",
-        intro: "ご不明な点やお困りのことがございましたら、お気軽にお問い合わせください。1〜2営業日以内にご回答いたします。\n緊急の技術的問題については illumenza.dev@gmail.com まで直接ご連絡ください。",
-        fields: [
-            { name: "email", type: "email", label: "メールアドレス", required: true,
-              desc: "返信用のメールアドレスをご入力ください。確実に受信できるアドレスをお使いください。" },
-            { name: "name", type: "text", label: "名前", required: true, role: "who",
-              desc: "お名前またはショップ名をご入力ください" },
-            { name: "category", type: "radio", label: "お問い合わせ種別", required: true, role: "category",
-              desc: "お問い合わせ内容に最も近いカテゴリをお選びください",
-              options: [
-                  "🔧 技術的な問題", "💰 料金・プランについて", "🎯 アプリの使い方",
-                  "📊 データ・分析について", "🎁 ポイント・特典について", "📱 アカウント・ログイン",
-                  "💡 機能要望・提案", "📄 その他",
-              ] },
-            { name: "message", type: "textarea", label: "問い合わせ内容", required: true, role: "summary",
-              desc: "問題を迅速に解決するため、可能な限り詳細をお聞かせください。\nできるだけ詳しく状況をお聞かせください：\n- いつから問題が発生していますか？\n- どのような操作をした時に起こりますか？\n- エラーメッセージは表示されますか？\n- ご利用のブラウザは何ですか？" },
-            { name: "screenshot", type: "file", label: "スクリーンショット", accept: "image/*",
-              desc: "問題の画面があれば添付してください（JPG、PNG、最大8MB）\nエラー画面や期待する動作との違いを示す画像は問題解決に役立ちます" },
-        ],
-    },
-
-    /* 6 — Points feature request / bug / question (JP) — own forum webhook -- */
-    "points-feedback": {
         lang: "ja",
         app: "Points",
         defaultCategory: "その他",
         icon: "💬",
         title: "ご意見・ご要望 - Illumenza Points",
-        intro: "機能のご要望、不具合報告、ご質問など、どんなことでもお聞かせください。内容を確認のうえ、ご入力いただいたメールアドレスにご返信いたします。",
-        /* Own forum channel — separate from the shared DISCORD_WEBHOOK_URL above. */
-        webhookUrl: "https://discord.com/api/webhooks/1531934538328965224/qh3SdZAmEtHbkp9FDIQWgGglRs89r6kJ8m-o21MxT6El7mCk3tWYKWpOVOrtlNcKrBZE",
-        /* Embed color keyed by the "type" field's selected option. */
-        colorByField: {
-            field: "type",
-            map: {
-                "機能要望": 5763719,
-                "既存機能の改善": 3447003,
-                "不具合報告": 15548997,
-                "質問・その他": 9807270,
-            },
+        intro: "機能のご要望、不具合報告、ご質問など、どんなことでもお聞かせください。内容を確認のうえ、ご入力いただいたメールアドレスにご返信いたします（1〜2営業日以内）。\n緊急の技術的問題については illumenza.dev@gmail.com まで直接ご連絡ください。",
+        /* 不具合報告/質問・その他 → shared support webhook (existing channel).
+         * 機能要望/既存機能の改善 → dedicated feature-request webhook. */
+        webhookUrl: function (values) {
+            var bugish = values.type === "不具合報告" || values.type === "質問・その他";
+            return bugish ? DISCORD_WEBHOOK_URL : POINTS_FEEDBACK_WEBHOOK_URL;
         },
-        /* Forum tag applied keyed by the "area" field's selected option. */
-        tagsByField: {
-            field: "area",
-            map: {
+        /* Embed color by type. */
+        color: function (values) {
+            var map = {
+                "機能要望": 5763719, "既存機能の改善": 3447003,
+                "不具合報告": 15548997, "質問・その他": 9807270,
+            };
+            return map[values.type];
+        },
+        /* Bug/question submissions keep the existing points-support forum tag;
+         * feature/improvement submissions get tagged by area instead. */
+        tags: function (values) {
+            var bugish = values.type === "不具合報告" || values.type === "質問・その他";
+            if (bugish) return ["1517164358906413186"];
+            var areaTags = {
                 "ポイント設定": "1532145128213319722",
                 "特典・交換": "1532145159029002392",
                 "友達紹介": "1532145183112822865",
@@ -190,12 +172,18 @@ const ILLUMENZA_FORMS = {
                 "ウィジェット・デザイン": "1532145247155392663",
                 "メール・通知": "1532145265434300437",
                 "その他": "1532145285592125625",
-            },
+            };
+            var tagId = areaTags[values.area];
+            return tagId ? [tagId] : undefined;
         },
         /* ?plan= query param (from the points-app sidebar link) — no input,
          * just appended to the embed when present. */
         hiddenParams: [{ param: "plan", label: "Plan" }],
         fields: [
+            { name: "email", type: "email", label: "メールアドレス", required: true,
+              desc: "返信用のメールアドレスをご入力ください。確実に受信できるアドレスをお使いください。" },
+            { name: "shop", type: "text", label: "お名前・ショップ名", required: true, role: "who",
+              prefillParam: "shop", desc: "お名前またはショップ名をご入力ください" },
             { name: "type", type: "radio", label: "種別", required: true, role: "category",
               desc: "お問い合わせの種類をお選びください",
               options: ["機能要望", "既存機能の改善", "不具合報告", "質問・その他"] },
@@ -209,11 +197,9 @@ const ILLUMENZA_FORMS = {
             { name: "title", type: "text", label: "タイトル", required: true, role: "summary",
               maxLength: 100, desc: "内容を簡潔に表すタイトルをご入力ください（100文字まで）" },
             { name: "details", type: "textarea", label: "詳細", required: true,
-              maxLength: 2000, desc: "できるだけ具体的にご記入ください（2000文字まで）" },
-            { name: "email", type: "email", label: "メールアドレス", required: true,
-              desc: "返信用のメールアドレスをご入力ください" },
-            { name: "shop", type: "text", label: "ショップ名", role: "who", prefillParam: "shop",
-              desc: "ショップ名をご入力ください" },
+              maxLength: 2000, desc: "できるだけ具体的にご記入ください（2000文字まで）\n- いつから発生していますか？\n- どのような操作をした時に起こりますか？\n- エラーメッセージは表示されますか？" },
+            { name: "screenshot", type: "file", label: "スクリーンショット", accept: "image/*",
+              desc: "問題の画面があれば添付してください（JPG、PNG、最大8MB・任意）" },
         ],
     },
 };
