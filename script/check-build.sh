@@ -100,6 +100,30 @@ else
   fail "$LIST paginator inactive (jekyll-paginate did not run — check plugin + filename)"
 fi
 
+echo "== RSS feed (mails app contract) =="
+FEED=_site/blog/feed.xml
+check_file "$FEED"
+check_contains "$FEED" '<?xml version="1.0" encoding="UTF-8"?>'
+check_contains "$FEED" '<rss version="2.0"'
+check_contains "$FEED" "<title>Illumenza ブログ</title>"
+check_contains "$FEED" "<link>https://illumenza.dev/blog/</link>"
+check_contains "$FEED" "<language>ja</language>"
+check_contains "$FEED" 'rel="self"'
+check_contains "$FEED" "<link>https://illumenza.dev/blog/colorme-points-5-decisions/</link>"
+check_contains "$FEED" "<pubDate>"
+check_contains "$FEED" "<description>"
+check_contains "$FEED" "<guid isPermaLink=\"true\">https://illumenza.dev/blog/colorme-points-5-decisions/</guid>"
+check_contains "$FEED" "<category>ポイント制度</category>"
+# No leaked front matter, no UTM (mails app appends those).
+check_absent "$FEED" "layout:"
+check_absent "$FEED" "utm_"
+# Feed must be well-formed XML.
+if python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse('$FEED')" 2>/dev/null; then
+  pass "$FEED is well-formed XML"
+else
+  fail "$FEED is NOT well-formed XML"
+fi
+
 # ---- Blog checks below are added by later tasks ----
 
 echo
