@@ -34,22 +34,18 @@ Every task's requirements implicitly include this section.
 
 Do this once, before Task 1. It is not a task because it produces no commit.
 
-- [ ] **Try the system Ruby first.** Jekyll 3.10 requires Ruby >= 2.5; system Ruby is 2.6.10, so it should work and needs no install.
+**Ruby 3.x is REQUIRED — not a fallback.** The macOS system Ruby (2.6.10) cannot build this gemset: `ffi` >= 1.16 requires Ruby >= 3.0 and the native extension build fails. This was verified, not assumed. Install a working Ruby first:
 
 ```bash
 cd /Users/gen/Code/illumenza-HP
-ruby -v      # expect: ruby 2.6.10...
-bundle -v    # expect: Bundler version 1.17.2
-```
-
-- [ ] **Fallback only if `bundle install` in Task 1 fails on a native gem build** (e.g. `ffi`, `sassc`, `eventmachine` compile errors):
-
-```bash
-mise use ruby@3.3          # compiles Ruby; takes several minutes
+mise install                 # reads mise.toml (ruby = "3.3"); compiles, takes several minutes
+ruby -v                      # expect: ruby 3.3.x
 gem install bundler
+bundle config set path 'vendor/bundle'
+bundle install
 ```
 
-Then re-run the Task 1 `bundle install`. Everything else in this plan is unchanged.
+**Note on `bundle install --path`:** that flag was removed in Bundler 4. Use `bundle config set path 'vendor/bundle'` once (it writes machine-local `.bundle/config`, which is gitignored), then plain `bundle install`. Older docs and the commands in this plan's earlier drafts use the removed flag.
 
 ---
 
@@ -102,6 +98,7 @@ check_contains() {
 }
 
 # check_absent <file> <fixed-string>
+# Used by the blog checks added in Tasks 2 onward, not by Task 1's own checks.
 check_absent() {
   if [ ! -f "$1" ]; then fail "missing: $1"; return; fi
   if grep -qF -- "$2" "$1"; then fail "$1 unexpectedly contains: $2"; else pass "$1 free of: $2"; fi
@@ -134,7 +131,7 @@ check_file _site/images/points.webp
 check_contains _site/CNAME "illumenza.dev"
 
 echo "== build artifacts not leaked into output =="
-for leaked in _site/Gemfile _site/Gemfile.lock _site/README.html _site/docs _site/script; do
+for leaked in _site/Gemfile _site/Gemfile.lock _site/mise.toml _site/README.html _site/docs _site/script; do
   if [ -e "$leaked" ]; then fail "leaked into _site: $leaked"; else pass "not in _site: $leaked"; fi
 done
 
@@ -164,6 +161,12 @@ source "https://rubygems.org"
 # matches what gets published. Do not upgrade without checking
 # https://pages.github.com/versions/
 gem "jekyll", "~> 3.10.0"
+
+# Required for `kramdown: input: GFM` in _config.yml. GitHub Pages' builder
+# ships this gem and defaults to GFM; without it locally, any post using a
+# GFM table fails the build with "cannot load such file --
+# kramdown-parser-gfm". Omitting it makes local diverge from production.
+gem "kramdown-parser-gfm", "~> 1.1"
 
 group :jekyll_plugins do
   gem "jekyll-paginate", "~> 1.1"
@@ -216,6 +219,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor
+  - mise.toml
   - README.md
   - docs
   - script
@@ -224,6 +228,8 @@ exclude:
   - .claude
   - .DS_Store
 ```
+
+`mise.toml` must be listed explicitly: unlike the dotfile entries below it (which Jekyll skips by default anyway), it is a normal filename and would otherwise be published at `https://illumenza.dev/mise.toml`.
 
 Append to `.gitignore`:
 
@@ -237,13 +243,14 @@ vendor/
 - [ ] **Step 4: Install gems, then run the test to verify it passes**
 
 ```bash
-bundle install --path vendor/bundle
+bundle config set path 'vendor/bundle'
+bundle install
 script/check-build.sh
 ```
 
 Expected: `ALL CHECKS PASSED`.
 
-If `bundle install` dies on a native extension build, do the Pre-flight fallback (`mise use ruby@3.3`), then re-run both commands.
+If `bundle install` dies on a native extension build, you are on the system Ruby 2.6 — do the Pre-flight (`mise install`) and re-run. `bundle install --path` no longer exists in Bundler 4; see Pre-flight.
 
 If any `MODIFIED BY BUILD:` line appears, stop and investigate — an existing page picked up Liquid processing. Do not proceed; that breaks a Global Constraint.
 
@@ -1492,13 +1499,15 @@ Do not hand-maintain these; they update from `site.posts` on build:
 ## Local preview
 
 ```bash
-bundle install --path vendor/bundle   # first time only
+mise install                          # first time only — Ruby 3.x is required
+bundle config set path 'vendor/bundle'  # first time only
+bundle install                        # first time only
 bundle exec jekyll serve --port 4000
 # http://localhost:4000/blog/
 ```
 
-If `bundle install` fails building a native gem, install a newer Ruby
-(`mise use ruby@3.3`) and retry.
+Ruby 3.x is mandatory: the macOS system Ruby 2.6 cannot build the `ffi`
+native extension this gemset needs. `mise.toml` pins a working version.
 
 ## Verification
 
