@@ -159,6 +159,16 @@ check_contains "$TAGS" 'id="ポイント制度"'
 check_contains "$TAGS" 'id="ロイヤルティ"'
 check_contains "$TAGS" 'id="カラーミーショップ"'
 
+echo "== homepage links to blog =="
+check_contains _site/index.html 'href="/blog/"'
+# The homepage must stay bilingual and front-matter-free.
+check_contains _site/index.html 'lang-jp'
+if head -1 index.html | grep -qF '<!DOCTYPE html>'; then
+  pass "index.html has no front matter"
+else
+  fail "index.html gained front matter — Jekyll will now render it through Liquid"
+fi
+
 # ---- Blog checks below are added by later tasks ----
 
 echo
