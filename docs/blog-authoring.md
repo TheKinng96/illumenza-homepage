@@ -10,7 +10,7 @@ One post per day, written by an agent:
 
 1. Pick a topic (see `docs/blog-topics.md`; delete the line you use).
 2. Write `_posts/YYYY-MM-DD-<ascii-kebab-slug>.md` with complete front matter.
-3. Run `script/check-build.sh` — it must print `ALL CHECKS PASSED`.
+3. Run `make check` — it must print `ALL CHECKS PASSED`.
 4. Commit and push. GitHub Pages publishes within a couple of minutes.
 
 Use `/blog-post <topic>` in Claude Code to do all of this in one shot.
@@ -33,7 +33,11 @@ ogImage: /images/points.webp
 | `date` | yes | Include `+0900`. Must match the filename date. Future dates are not published (`future: false`). |
 | `tags` | yes | Japanese tags. Reuse existing ones — check `/blog/tags/` (or `_posts/`) before inventing new. English/Latin-script tags must use one consistent casing (lowercase) — `slugify` lowercases the anchor id on `/blog/tags/`, so `Points` and `points` collide into the same `id="points"`, producing a duplicate section that no link can reach. Japanese tags are unaffected by this. |
 | `description` | yes | Used verbatim as the meta description, the OG description, and the RSS `<description>` the Mails app reads. Not optional. |
-| `ogImage` | no | Root-relative path. Defaults to `/images/logo-full.png`. Use `/images/points.webp` for points-app topics. |
+| `ogImage` | no | Root-relative path. Defaults to `/images/logo-full.png`. Use `/images/points.webp` for points-app topics. Social-card only — never reused as the list thumbnail. |
+| `heroImage` | no | Wide image shown above the body. Requires `heroAlt`. |
+| `heroAlt` | with `heroImage` | Describes what the image shows, for screen readers and when it fails to load. A hero carries meaning, so this is not optional. |
+| `heroCaption` | no | Caption under the hero. |
+| `thumbnail` | no | Square-ish image for the `/blog/` list card. Falls back to `heroImage`. |
 
 `layout` is set automatically by `_config.yml`'s `defaults:` block (scope:
 `type: posts` → `layout: post`). Do not set it per post.
@@ -42,7 +46,43 @@ Filename slug is ASCII kebab-case, not Japanese — it becomes the URL via
 `_config.yml`'s `permalink: /blog/:title/`
 (`_posts/2026-07-30-points-expiry-basics.md` → `/blog/points-expiry-basics/`).
 
-## Content rules
+## Images
+
+**Add an image only when it does work the text cannot** — a settings screen
+the reader has to find, a step that is hard to describe in words, data worth
+seeing. Do not add decorative or stock imagery to make a post look finished; a
+text-only post is a perfectly good post here, and the list card is designed to
+read well without a thumbnail.
+
+Store images under `images/blog/<post-slug>/`, so an article's assets sit
+together and are obvious to delete with it.
+
+Inline images in the body use a figure with a caption:
+
+```markdown
+<figure>
+  <img src="/images/blog/points-expiry-basics/expiry-setting.png"
+       alt="ポイント有効期限の設定画面。「最終利用日から12か月」を選択した状態。"
+       loading="lazy" decoding="async">
+  <figcaption>有効期限は「最終利用日から延長」を選ぶと、購入のたびに期限が延びます。</figcaption>
+</figure>
+```
+
+Rules:
+
+- **`alt` is required and must describe what the image shows**, not restate the
+  caption. A reader who cannot see it should still follow the article.
+- Add `loading="lazy" decoding="async"` to inline images so they do not block
+  first paint. The hero is exempt — it is above the fold.
+- Prefer PNG for UI screenshots, WebP for photographs.
+- Crop screenshots to the relevant area. A full-desktop screenshot shrunk to
+  article width is unreadable on a phone.
+- Never include a real customer's shop name, logo, or data in a screenshot —
+  the same rule as the content rules below. Use your own test shop.
+
+**If a screenshot would genuinely help but does not exist, say so in your
+report rather than substituting a stand-in.** You cannot take screenshots of
+the Points admin UI yourself, and a placeholder image is worse than none.
 
 **Never write these — absolute:**
 
@@ -87,11 +127,22 @@ Ruby 3.x is required — the macOS system Ruby (2.6) cannot build this gemset
 (the `ffi` native extension needs Ruby >= 3.0). `mise.toml` pins `ruby = "3.3"`.
 
 ```bash
-mise install                          # first time only, installs Ruby 3.3
-bundle config set path 'vendor/bundle'  # first time only
-bundle install                        # first time only (or after Gemfile changes)
+make setup    # first time only (or after Gemfile changes)
+make serve    # http://localhost:4000/blog/ — live reload
+```
+
+`make` on its own lists every target. Others worth knowing: `make check` runs
+the full build gate, `make drafts` also renders future-dated posts, and
+`make clean` clears `_site/` and the caches. Override the port with
+`make serve PORT=4321`.
+
+The Makefile just wraps these, if you'd rather run them directly:
+
+```bash
+mise install                            # installs Ruby 3.3
+bundle config set path 'vendor/bundle'
+bundle install
 bundle exec jekyll serve --port 4000
-# http://localhost:4000/blog/
 ```
 
 `bundle install --path` was removed in Bundler 4 (this repo's
@@ -100,7 +151,12 @@ above.
 
 ## Verification
 
-`script/check-build.sh` builds the site and asserts on `_site/`. It checks that
-every existing static page is byte-identical after the build, that the feed and
+`make check` builds the site and asserts on `_site/`. It checks that every
+existing static page is byte-identical after the build, that the feed and
 sitemap are well-formed XML, that the CTA is present, and that no forbidden
 vocabulary or UTM parameter slipped in. Run it before every push.
+
+Use `make check`, not `script/check-build.sh` directly. Run bare, the script
+picks up the macOS system Ruby (2.6) and dies with
+`Could not find 'bundler' (4.0.17)` before running a single assertion. The
+Makefile wraps it in `mise exec --` so it gets Ruby 3.3.
