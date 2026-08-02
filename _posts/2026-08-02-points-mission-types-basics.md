@@ -24,7 +24,7 @@ Illumenza Points で設定できるミッションは、性質ごとに3つの�
 
 <figure>
   <img src="/images/blog/points-mission-types-basics/missions.png"
-       alt="ミッション一覧画面。注文ポイント（100円ごと）、Instagram・Facebook・X・TikTokの各フォロー、誕生日ポイント（毎年200pt）、会員登録ポイント（登録で100pt）、商品レビュー、Xでシェア（500pt）、YouTubeチャンネル登録（150pt）などが並び、それぞれに付与数とステータスの切り替えが付いている。"
+       alt="ミッション一覧画面。注文ポイント（100円ごと）、アンケートに回答（100pt）、イベントに参加（50pt）、Instagram・Facebook・X・TikTokの各フォロー、誕生日ポイント（毎年200pt）、会員登録ポイント（登録で100pt）、商品レビュー、Xでシェア（500pt）、YouTubeチャンネル登録（150pt）、カスタムミッション（無効）が並び、それぞれに付与数とステータスの切り替えが付いている。"
        loading="lazy" decoding="async">
   <figcaption>ミッションは一覧で管理します。種類ごとにアイコンが付き、有効・無効はその場で切り替えられます。</figcaption>
 </figure>
