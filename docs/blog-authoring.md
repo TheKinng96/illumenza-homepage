@@ -38,6 +38,8 @@ ogImage: /images/points.webp
 | `heroAlt` | with `heroImage` | Describes what the image shows, for screen readers and when it fails to load. A hero carries meaning, so this is not optional. |
 | `heroCaption` | no | Caption under the hero. |
 | `thumbnail` | no | Square-ish image for the `/blog/` list card. Falls back to `heroImage`. |
+| `app` | yes | Which product the post is about — `points`, `coupon`, `mostra`, or `none`. Reserved for future filter pages. |
+| `section` | yes | Which part of the app. Must be a key in `_data/sections.yml`: `getting-started`, `missions`, `redemption`, `ranks`, `referral`. Drives prev/next and, later, filtering. |
 
 `layout` is set automatically by `_config.yml`'s `defaults:` block (scope:
 `type: posts` → `layout: post`). Do not set it per post.
@@ -45,6 +47,27 @@ ogImage: /images/points.webp
 Filename slug is ASCII kebab-case, not Japanese — it becomes the URL via
 `_config.yml`'s `permalink: /blog/:title/`
 (`_posts/2026-07-30-points-expiry-basics.md` → `/blog/points-expiry-basics/`).
+
+## Sections
+
+Every post declares a `section`, defined in `_data/sections.yml`. Two things
+depend on it:
+
+**Prev/next navigation.** `_layouts/post.html` links to the previous and next
+post *within the same section*, not the whole blog. Chronological neighbours
+are useless here — posts have been published in bulk, so date order jumps
+between unrelated subjects. A section with only one post falls back to a link
+to the article guide.
+
+**Future filtering.** The plan is filter pages such as `/blog/points/redemption/`.
+`app` plus `section` is the pair those pages will group by, which is why both
+are required now — retrofitting them across every post later is the expensive
+part.
+
+Adding a section means adding a key to `_data/sections.yml` with a `label` and
+an `order`, then using that key in a post's front matter. `script/check-build.sh`
+fails the build if a post has no `section`, or if its navigation points at a
+post in a different one.
 
 ## Images
 

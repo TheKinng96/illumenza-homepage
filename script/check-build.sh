@@ -155,6 +155,34 @@ else
   fail "$FEED is NOT well-formed XML"
 fi
 
+echo "== post navigation (section-scoped) =="
+# Every post must declare a section, and its prev/next must stay inside it.
+# Chronological neighbours are useless here — posts were published in bulk, so
+# date order jumps between unrelated subjects.
+nav_fail=0
+for src in _posts/*.md; do
+  slug=$(basename "$src" .md | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//')
+  sect=$(grep -m1 '^section: ' "$src" | sed 's/^section: //' | tr -d '\r')
+  if [ -z "$sect" ]; then fail "$src has no section:"; nav_fail=1; continue; fi
+  out="_site/blog/$slug/index.html"
+  if [ ! -f "$out" ]; then fail "missing built post: $out"; nav_fail=1; continue; fi
+  if ! grep -qF -- 'aria-label="同じテーマの記事"' "$out"; then
+    fail "$slug rendered no section nav"; nav_fail=1; continue
+  fi
+  navhtml=$(awk '/aria-label="同じテーマの記事"/{f=1} f' "$out")
+  for target in $(printf '%s' "$navhtml" | grep -oE 'href="/blog/[a-z0-9-]+/"' | sed -E 's|href="/blog/([a-z0-9-]+)/"|\1|' | sort -u); do
+    [ "$target" = "points-guide" ] && continue
+    tsrc=$(ls _posts/*-"$target".md 2>/dev/null | head -1)
+    [ -z "$tsrc" ] && { fail "$slug links to unknown post $target"; nav_fail=1; continue; }
+    tsect=$(grep -m1 '^section: ' "$tsrc" | sed 's/^section: //' | tr -d '\r')
+    if [ "$tsect" != "$sect" ]; then
+      fail "$slug ($sect) navigates to $target ($tsect) — nav must stay in section"
+      nav_fail=1
+    fi
+  done
+done
+[ "$nav_fail" -eq 0 ] && pass "every post declares a section and navigates within it"
+
 echo "== sitemap + robots =="
 SM=_site/sitemap.xml
 check_file "$SM"

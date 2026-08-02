@@ -1,0 +1,18 @@
+# Article sections. Drives prev/next within a section on post pages, and is the
+# field future filter pages will group by (e.g. /blog/points/redemption/).
+# `order` is the reading order used by the article guide.
+missions:
+  label: ポイントの貯め方
+  order: 2
+redemption:
+  label: ポイントの使い方
+  order: 3
+ranks:
+  label: 会員ランク
+  order: 4
+referral:
+  label: 友達紹介
+  order: 5
+getting-started:
+  label: はじめる前に
+  order: 1
