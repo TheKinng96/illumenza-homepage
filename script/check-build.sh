@@ -26,6 +26,11 @@ check_absent() {
   if grep -qF -- "$2" "$1"; then fail "$1 unexpectedly contains: $2"; else pass "$1 free of: $2"; fi
 }
 
+# check_no_file <path> — asserts a retired file has not come back.
+check_no_file() {
+  if [ -e "$1" ]; then fail "should not exist: $1"; else pass "absent: $1"; fi
+}
+
 echo "== building =="
 bundle exec jekyll build --trace
 
@@ -231,8 +236,12 @@ check_absent blog/index.html 'post.ogImage'
 
 echo "== authoring pipeline docs =="
 check_file docs/blog-authoring.md
-check_file docs/blog-topics.md
 check_file .claude/commands/blog-post.md
+# The backlog moved to the illumenza-brain vault, where each topic is a note
+# carrying status and a link to its published post. Asserting absence rather
+# than just deleting it stops the flat list being recreated here and quietly
+# becoming a second, diverging source of truth.
+check_no_file docs/blog-topics.md
 # The forbidden-content rule must be stated in both the doc and the command.
 check_contains docs/blog-authoring.md "導入事例"
 check_contains .claude/commands/blog-post.md "導入事例"

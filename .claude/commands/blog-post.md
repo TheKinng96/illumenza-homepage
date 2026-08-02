@@ -4,11 +4,14 @@ description: Write and publish one Illumenza blog post
 
 Write one blog post for illumenza.dev/blog/ on this topic: $ARGUMENTS
 
-If no topic was given, read `docs/blog-topics.md` and pick the first topic
-that is not already covered by an existing file in `_posts/`. If no topics
-remain in the backlog, generate one yourself within the existing categories,
-following all content rules below, and append 2–3 fresh ideas to
-`docs/blog-topics.md` for future runs.
+If no topic was given, pick one from the `topics/` directory of the
+`illumenza-brain` vault — the first note with `status: idea` that is not
+already covered by a file in `_posts/`, weighing `priority` and any
+`target_date` for seasonal pieces.
+
+**If no unwritten topics remain, stop and say so.** Do not invent one. The
+backlog is a reviewed roadmap; an article generated to fill a gap is an article
+nobody decided to publish.
 
 Read `docs/blog-authoring.md` first and follow it exactly. Then:
 
@@ -38,9 +41,11 @@ ABSOLUTE CONTENT RULES:
 
 4. Run `make check`. It must print `ALL CHECKS PASSED`. Fix anything
    it reports; do not proceed past a failure.
-5. If the topic came from `docs/blog-topics.md`, remove its line.
-6. Commit `_posts/<file>` and `docs/blog-topics.md` with
-   `content: add blog post on <short topic>`, then push.
+5. Commit `_posts/<file>` with `content: add blog post on <short topic>`, then
+   push.
+6. In the `illumenza-brain` vault, set the topic note's `status` to `drafting`
+   and fill `post_url` once the post is live. **Never delete the note.** That
+   repository is private and separate — it takes its own commit.
 
 Report the published URL (`https://illumenza.dev/blog/<slug>/`) and note that
 GitHub Pages takes a couple of minutes to build.
