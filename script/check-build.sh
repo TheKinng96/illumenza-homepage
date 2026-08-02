@@ -111,7 +111,21 @@ check_absent "$POST" "utm_"
 echo "== /blog/ list page =="
 LIST=_site/blog/index.html
 check_file "$LIST"
-check_contains "$LIST" "colorme-points-5-decisions"
+# The list paginates at 10 per page, so asserting one specific slug appears on
+# page 1 only held while fewer than ten posts existed. Assert the page is
+# populated instead, and that the oldest post is reachable somewhere in the
+# paginated set — which is the property that actually matters.
+LIST_POSTS=$(grep -oE 'href="/blog/[a-z0-9-]+/"' "$LIST" | sort -u | wc -l | tr -d ' ')
+if [ "$LIST_POSTS" -ge 1 ]; then
+  pass "$LIST lists $LIST_POSTS post link(s)"
+else
+  fail "$LIST rendered no post links"
+fi
+if grep -rqF -- 'colorme-points-5-decisions' _site/blog/index.html _site/blog/page*/index.html 2>/dev/null; then
+  pass "oldest post reachable from a /blog/ page"
+else
+  fail "oldest post missing from every /blog/ page"
+fi
 check_contains "$LIST" "ブログ"
 check_contains "$LIST" 'rel="canonical" href="https://illumenza.dev/blog/"'
 check_contains "$LIST" 'property="og:type" content="website"'
@@ -145,6 +159,34 @@ if python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse('$FEED')" 2>/de
 else
   fail "$FEED is NOT well-formed XML"
 fi
+
+echo "== post navigation (section-scoped) =="
+# Every post must declare a section, and its prev/next must stay inside it.
+# Chronological neighbours are useless here — posts were published in bulk, so
+# date order jumps between unrelated subjects.
+nav_fail=0
+for src in _posts/*.md; do
+  slug=$(basename "$src" .md | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//')
+  sect=$(grep -m1 '^section: ' "$src" | sed 's/^section: //' | tr -d '\r')
+  if [ -z "$sect" ]; then fail "$src has no section:"; nav_fail=1; continue; fi
+  out="_site/blog/$slug/index.html"
+  if [ ! -f "$out" ]; then fail "missing built post: $out"; nav_fail=1; continue; fi
+  if ! grep -qF -- 'aria-label="同じテーマの記事"' "$out"; then
+    fail "$slug rendered no section nav"; nav_fail=1; continue
+  fi
+  navhtml=$(awk '/aria-label="同じテーマの記事"/{f=1} f' "$out")
+  for target in $(printf '%s' "$navhtml" | grep -oE 'href="/blog/[a-z0-9-]+/"' | sed -E 's|href="/blog/([a-z0-9-]+)/"|\1|' | sort -u); do
+    [ "$target" = "points-guide" ] && continue
+    tsrc=$(ls _posts/*-"$target".md 2>/dev/null | head -1)
+    [ -z "$tsrc" ] && { fail "$slug links to unknown post $target"; nav_fail=1; continue; }
+    tsect=$(grep -m1 '^section: ' "$tsrc" | sed 's/^section: //' | tr -d '\r')
+    if [ "$tsect" != "$sect" ]; then
+      fail "$slug ($sect) navigates to $target ($tsect) — nav must stay in section"
+      nav_fail=1
+    fi
+  done
+done
+[ "$nav_fail" -eq 0 ] && pass "every post declares a section and navigates within it"
 
 echo "== sitemap + robots =="
 SM=_site/sitemap.xml
@@ -200,7 +242,16 @@ fi
 echo "== homepage blog section =="
 HOME=_site/index.html
 check_contains "$HOME" 'id="blog"'
-check_contains "$HOME" 'colorme-points-5-decisions'
+# The section renders `site.posts limit: 3`, so asserting one specific slug
+# only held while that post was among the newest three. Assert the section is
+# populated instead — a gate that fails every time you publish is a gate people
+# start ignoring.
+HOME_POSTS=$(grep -oE 'href="/blog/[a-z0-9-]+/"' "$HOME" | sort -u | wc -l | tr -d ' ')
+if [ "$HOME_POSTS" -ge 1 ]; then
+  pass "$HOME lists $HOME_POSTS post link(s) in the blog section"
+else
+  fail "$HOME blog section rendered no post links"
+fi
 check_contains "$HOME" 'すべての記事を見る'
 check_contains "$HOME" 'Read all articles'
 # Whole card clickable, same technique as the /blog/ list.

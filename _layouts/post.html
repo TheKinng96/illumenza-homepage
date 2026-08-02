@@ -79,13 +79,46 @@ layout: default
     </a>
   </aside>
 
-  <nav class="mt-10 flex justify-between text-sm gap-4">
-    {% if page.previous %}
-      <a href="{{ page.previous.url }}" class="text-brand-blue hover:underline">&larr; {{ page.previous.title }}</a>
-    {% else %}<span></span>{% endif %}
-    {% if page.next %}
-      <a href="{{ page.next.url }}" class="text-brand-blue hover:underline text-right">{{ page.next.title }} &rarr;</a>
-    {% else %}<span></span>{% endif %}
+  {%- comment -%}
+    Prev/next within the same `section`, not across the whole blog. Posts were
+    published in bulk, so `page.previous` and `page.next` are date-neighbours
+    that jump between unrelated subjects. Walking the section's own posts keeps
+    the pair topically useful.
+
+    Liquid has no index lookup, so this walks the list once: everything before
+    the current post overwrites `prev_post`, and the first post after it sets
+    `next_post`. Falls back to the article guide when a section has no sibling.
+  {%- endcomment -%}
+  {%- assign siblings = site.posts | where: "section", page.section | sort: "date" -%}
+  {%- assign passed = false -%}
+  {%- for sibling in siblings -%}
+    {%- if sibling.url == page.url -%}
+      {%- assign passed = true -%}
+    {%- elsif passed -%}
+      {%- unless next_post -%}{%- assign next_post = sibling -%}{%- endunless -%}
+    {%- else -%}
+      {%- assign prev_post = sibling -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign section_label = site.data.sections[page.section].label -%}
+
+  <nav class="mt-10 border-t border-gray-200 pt-6" aria-label="同じテーマの記事">
+    {% if section_label %}
+    <p class="mb-4 text-xs text-gray-500">同じテーマの記事：{{ section_label }}</p>
+    {% endif %}
+    <div class="flex justify-between gap-4 text-sm">
+      {% if prev_post %}
+        <a href="{{ prev_post.url }}" class="text-brand-blue hover:underline">&larr; {{ prev_post.title }}</a>
+      {% else %}<span></span>{% endif %}
+      {% if next_post %}
+        <a href="{{ next_post.url }}" class="text-brand-blue hover:underline text-right">{{ next_post.title }} &rarr;</a>
+      {% else %}<span></span>{% endif %}
+    </div>
+    {% unless prev_post or next_post %}
+    <p class="text-sm">
+      <a href="/blog/points-guide/" class="text-brand-blue hover:underline">記事ガイドで他の記事を見る &rarr;</a>
+    </p>
+    {% endunless %}
   </nav>
 
 </article>
