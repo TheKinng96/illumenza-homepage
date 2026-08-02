@@ -195,7 +195,16 @@ fi
 echo "== homepage blog section =="
 HOME=_site/index.html
 check_contains "$HOME" 'id="blog"'
-check_contains "$HOME" 'colorme-points-5-decisions'
+# The section renders `site.posts limit: 3`, so asserting one specific slug
+# only held while that post was among the newest three. Assert the section is
+# populated instead — a gate that fails every time you publish is a gate people
+# start ignoring.
+HOME_POSTS=$(grep -oE 'href="/blog/[a-z0-9-]+/"' "$HOME" | sort -u | wc -l | tr -d ' ')
+if [ "$HOME_POSTS" -ge 1 ]; then
+  pass "$HOME lists $HOME_POSTS post link(s) in the blog section"
+else
+  fail "$HOME blog section rendered no post links"
+fi
 check_contains "$HOME" 'すべての記事を見る'
 check_contains "$HOME" 'Read all articles'
 # Whole card clickable, same technique as the /blog/ list.
