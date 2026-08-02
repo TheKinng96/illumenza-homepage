@@ -106,7 +106,21 @@ check_absent "$POST" "utm_"
 echo "== /blog/ list page =="
 LIST=_site/blog/index.html
 check_file "$LIST"
-check_contains "$LIST" "colorme-points-5-decisions"
+# The list paginates at 10 per page, so asserting one specific slug appears on
+# page 1 only held while fewer than ten posts existed. Assert the page is
+# populated instead, and that the oldest post is reachable somewhere in the
+# paginated set — which is the property that actually matters.
+LIST_POSTS=$(grep -oE 'href="/blog/[a-z0-9-]+/"' "$LIST" | sort -u | wc -l | tr -d ' ')
+if [ "$LIST_POSTS" -ge 1 ]; then
+  pass "$LIST lists $LIST_POSTS post link(s)"
+else
+  fail "$LIST rendered no post links"
+fi
+if grep -rqF -- 'colorme-points-5-decisions' _site/blog/index.html _site/blog/page*/index.html 2>/dev/null; then
+  pass "oldest post reachable from a /blog/ page"
+else
+  fail "oldest post missing from every /blog/ page"
+fi
 check_contains "$LIST" "ブログ"
 check_contains "$LIST" 'rel="canonical" href="https://illumenza.dev/blog/"'
 check_contains "$LIST" 'property="og:type" content="website"'

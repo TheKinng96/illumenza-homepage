@@ -42,6 +42,14 @@ layout: null
   </url>
   {%- endif %}
   <url>
+    <loc>{{ '/blog/points-guide/' | absolute_url }}</loc>
+    {%- if site.posts.first %}
+    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- endif %}
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>{{ '/contact-us/' | absolute_url }}</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
