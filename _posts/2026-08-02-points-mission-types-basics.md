@@ -24,9 +24,9 @@ Illumenza Points で設定できるミッションは、性質ごとに3つの�
 
 <figure>
   <img src="/images/blog/points-mission-types-basics/missions.png"
-       alt="ミッション設定画面。「商品を購入（注文ポイント・100）」「Instagramをフォロー（Instagramフォロー・50）」「誕生日特典（誕生日ポイント・200）」の3件が有効になっている。"
+       alt="ミッション一覧画面。注文ポイント（100円ごと）、Instagram・Facebook・X・TikTokの各フォロー、誕生日ポイント（毎年200pt）、会員登録ポイント（登録で100pt）、商品レビュー、Xでシェア（500pt）、YouTubeチャンネル登録（150pt）などが並び、それぞれに付与数とステータスの切り替えが付いている。"
        loading="lazy" decoding="async">
-  <figcaption>ミッションは1件ずつ、名前・種類・獲得ポイントを決めて追加します。</figcaption>
+  <figcaption>ミッションは一覧で管理します。種類ごとにアイコンが付き、有効・無効はその場で切り替えられます。</figcaption>
 </figure>
 
 3つのグループは役割が違います。購入系は売上に直結する一方、購入がなければ発生しません。SNS系は一度きりで終わりますが、購入前のお客様にも設定できます。コンテンツ系は、レビューのように「買ったあと」の行動を促せます。
