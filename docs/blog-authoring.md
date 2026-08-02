@@ -8,7 +8,9 @@ CMS and no database — git history is the edit log.
 
 One post per day, written by an agent:
 
-1. Pick a topic (see `docs/blog-topics.md`; delete the line you use).
+1. Pick a topic from the `topics/` directory of the `illumenza-brain` vault and
+   set that note's `status` to `drafting`. **Never delete the note** — it is the
+   record of the article, and gains `post_url` when the post goes live.
 2. Write `_posts/YYYY-MM-DD-<ascii-kebab-slug>.md` with complete front matter.
 3. Run `make check` — it must print `ALL CHECKS PASSED`.
 4. Commit and push. GitHub Pages publishes within a couple of minutes.
