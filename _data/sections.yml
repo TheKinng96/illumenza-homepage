@@ -13,6 +13,15 @@ ranks:
 referral:
   label: 友達紹介
   order: 5
+operations:
+  label: 日々の運用
+  order: 6
+appearance:
+  label: 表示設定
+  order: 7
+email:
+  label: 通知メール
+  order: 8
 getting-started:
   label: はじめる前に
   order: 1
