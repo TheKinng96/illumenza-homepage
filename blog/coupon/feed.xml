@@ -10,7 +10,7 @@ layout: null
 -->
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Illumenza Coupon ブログ</title>
+    <title>Illumenza Coupon の記事</title>
     <link>{{ '/blog/coupon/' | absolute_url }}</link>
     <description>カラーミーショップ向けクーポン抽選アプリ Illumenza Coupon の記事。</description>
     <language>ja</language>

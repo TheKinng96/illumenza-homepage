@@ -2,7 +2,7 @@
 # The rest of this site is hand-written static HTML. Files without YAML front
 # matter are copied through untouched, so existing pages are unaffected.
 
-title: "Illumenza ブログ"
+title: "Illumenza の記事"
 description: "カラーミーショップ運営者のための、ポイント・ロイヤルティ施策とECマーケティングの実践ガイド。"
 url: "https://illumenza.dev"
 lang: ja
