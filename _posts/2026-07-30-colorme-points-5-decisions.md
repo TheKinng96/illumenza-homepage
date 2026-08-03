@@ -6,6 +6,7 @@ description: "ポイント制度は「還元率を決めて終わり」ではあ
 ogImage: /images/points.webp
 app: points
 section: getting-started
+verified: 2026-07-30
 ---
 
 ポイント制度は、リピート購入を増やす施策のなかでも導入しやすいものです。一方で「とりあえず1%還元で始めた」あと、次のような迷いが出てくることがよくあります。

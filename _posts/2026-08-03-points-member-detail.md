@@ -6,6 +6,8 @@ description: "会員詳細には概要のほか、ポイント履歴・紹介・
 ogImage: /images/points.webp
 app: points
 section: operations
+verified: 2026-08-03
+screen: /members/[id]
 ---
 
 会員一覧から1人を選ぶと、その会員の詳細が開きます。問い合わせに答えるとき、いちばん情報が集まっている画面です。

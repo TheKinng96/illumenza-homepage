@@ -6,6 +6,8 @@ description: "商品交換のクーポンは、交換時にカラーミーの商
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption/product-exchange
 ---
 
 商品交換の設定では、必要ポイントは自分で決めますが、**割引額は自分で決めません。**

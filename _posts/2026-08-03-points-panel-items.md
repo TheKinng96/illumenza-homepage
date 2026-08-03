@@ -6,6 +6,8 @@ description: "パネルに並ぶ6つのセクションはドラッグで並べ�
 ogImage: /images/points.webp
 app: points
 section: appearance
+verified: 2026-08-03
+screen: /panel/member
 ---
 
 会員がショップで開くパネルには、複数のセクションが縦に並びます。どれを出すか、どの順で出すかは設定で決められます。
@@ -13,7 +15,7 @@ section: appearance
 ## 並ぶのは6つ
 
 <figure>
-  <img src="/images/blog/points-panel-items/settings.png"
+  <img src="/images/blog/points-panel-items/settings.webp"
        alt="表示パネルの会員タブ設定画面。表示項目としてポイント数の切り替えと見出しテキストがあり、その下の表示順の設定に、ポイント・紹介・会員ランク・ポイント獲得利用履歴・マイクーポン・アカウントの6項目がドラッグして並べ替えられる形で並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>6つのセクションをドラッグで並べ替えられます。</figcaption>

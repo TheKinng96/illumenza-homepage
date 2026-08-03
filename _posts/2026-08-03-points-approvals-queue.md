@@ -6,6 +6,8 @@ description: "交換申請・紹介承認・ミッション申請は同じ画面
 ogImage: /images/points.webp
 app: points
 section: operations
+verified: 2026-08-03
+screen: /approvals
 ---
 
 ポイント制度を運用していると、こちらの判断を待っている申請が溜まります。特典の交換、友達紹介の成立、承認制にしたミッション。種類は違いますが、やることは同じ「見て、承認するか却下するか」です。
@@ -15,7 +17,7 @@ section: operations
 ## 3種類が同じ場所に集まります
 
 <figure>
-  <img src="/images/blog/points-approvals-queue/queue.png"
+  <img src="/images/blog/points-approvals-queue/queue.webp"
        alt="承認管理の画面。「承認待ち」と「処理済み」のタブがあり、その下に交換申請・紹介承認・ミッション申請の3つの区分が並んでいる。現在は0件で、承認待ちの申請はありませんと表示されている。"
        loading="lazy" decoding="async">
   <figcaption>承認待ちと処理済みが分かれ、申請の種類ごとに確認できます。</figcaption>

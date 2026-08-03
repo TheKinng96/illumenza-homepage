@@ -6,6 +6,8 @@ description: "会員ランクは、しきい値より先に集計期間で性格
 ogImage: /images/points.webp
 app: points
 section: ranks
+verified: 2026-08-02
+screen: /vip
 ---
 
 会員ランクを作るとき、多くの方が最初に考えるのは「いくらで上のランクに上がるか」というしきい値です。ただ、その前に決めるべき設定があります。**集計期間**です。
@@ -17,7 +19,7 @@ section: ranks
 Illumenza Points では、アクティビティポイントの集計期間を3つから選びます。
 
 <figure>
-  <img src="/images/blog/points-rank-period/settings.png"
+  <img src="/images/blog/points-rank-period/settings.webp"
        alt="ランク設定画面。左に「ランク機能」の有効切り替えと「計算期間」の月間・年間・累計の選択肢があり、月間が選択されている。右に「ランク管理」として、ブロンズ0pt、シルバー100pt、ゴールド500pt、プラチナ2000ptの4つのランクが色とアイコン付きで並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>計算期間はランクごとではなく、制度全体に対して1つ選びます。</figcaption>

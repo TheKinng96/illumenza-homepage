@@ -6,6 +6,8 @@ description: "購入完了ページなどに出る通知は5種類あり、条�
 ogImage: /images/points.webp
 app: points
 section: appearance
+verified: 2026-08-03
+screen: /nudges
 ---
 
 購入が完了した直後は、会員の関心がいちばん高い瞬間です。ここで何を伝えるかを設定するのが通知パネルです。
@@ -15,7 +17,7 @@ section: appearance
 ## 5種類と、その条件
 
 <figure>
-  <img src="/images/blog/points-nudge-types/list.png"
+  <img src="/images/blog/points-nudge-types/list.webp"
        alt="通知パネルの一覧画面。表示位置として左下・中央下・右下の選択肢があり、その下に、お友達紹介のご案内、ポイント獲得のお知らせ、特典交換のご案内、商品レビュー依頼、紹介リンク訪問時の案内の5つが、ドラッグで並べ替えられる一覧として表示されている。"
        loading="lazy" decoding="async">
   <figcaption>表示位置は5種類すべてに共通で、並び順が優先度になります。</figcaption>

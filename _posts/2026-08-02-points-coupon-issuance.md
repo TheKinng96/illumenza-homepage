@@ -6,6 +6,8 @@ description: "ポイント交換で出るクーポンは一意のコードで1�
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption
 ---
 
 ポイントの交換先のうち、**限定特典とショップポイント交換を除くすべて**は、交換した時点でクーポンとして発行されます。

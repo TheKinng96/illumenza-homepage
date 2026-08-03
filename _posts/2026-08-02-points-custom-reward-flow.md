@@ -6,6 +6,8 @@ description: "限定特典はクーポンを発行しません。ポイントを
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption/custom
 ---
 
 ポイントの交換先には、クーポンでも商品でもない枠があります。**限定特典**です。
@@ -15,7 +17,7 @@ section: redemption
 ## 4つの段階
 
 <figure>
-  <img src="/images/blog/points-custom-reward-flow/settings.png"
+  <img src="/images/blog/points-custom-reward-flow/settings.webp"
        alt="限定特典の設定画面。「交換フロー リクエスト → 凍結 → 連絡 → 承認」の説明、活用例、運用のヒント、アプリ外での対応が必要である旨の注意書きが並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>設定画面に交換フローと注意点がまとめて表示されます。</figcaption>

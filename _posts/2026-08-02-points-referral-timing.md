@@ -6,6 +6,8 @@ description: "紹介特典を登録直後に渡すと自作自演を防げませ
 ogImage: /images/points.webp
 app: points
 section: referral
+verified: 2026-08-02
+screen: /referral
 ---
 
 友達紹介の設計でいちばん難しいのは、特典の金額ではなく**渡すタイミング**です。
@@ -17,7 +19,7 @@ Illumenza Points では、この調整を3つの条件で行います。
 ## 3つの条件
 
 <figure>
-  <img src="/images/blog/points-referral-timing/rewards.png"
+  <img src="/images/blog/points-referral-timing/rewards.webp"
        alt="紹介のリワード設定画面。紹介者へのリワードが200ポイント、新規会員には1000円・30日間有効のクーポン。下に「待機期間を設定」（オフ）、「初回購入を必須にする」（オン、1500円以上）、「承認が必要」（オフ）の3つの切り替えが並び、初回購入の条件には金額を下回ると紹介が拒否される旨の注意書きが出ている。"
        loading="lazy" decoding="async">
   <figcaption>3つの条件は独立していて、必要なものだけを組み合わせられます。</figcaption>

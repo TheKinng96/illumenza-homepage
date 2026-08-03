@@ -6,6 +6,8 @@ description: "通知パネルの文面には獲得ポイントや特典名を差
 ogImage: /images/points.webp
 app: points
 section: appearance
+verified: 2026-08-03
+screen: /nudges/[type]
 ---
 
 通知パネルをどれにするか決めたら、次は文面です。ここは初期値のままでも動きますが、ショップの言葉に直すと印象が変わります。
@@ -13,7 +15,7 @@ section: appearance
 ## 変数が使えます
 
 <figure>
-  <img src="/images/blog/points-nudge-copy/editor.png"
+  <img src="/images/blog/points-nudge-copy/editor.webp"
        alt="ポイント獲得のお知らせの編集画面。表示条件、詳細条件、デフォルト・会員・非会員のタブ、見出しとメッセージの入力欄、利用可能な変数として獲得ポイント、ボタンテキスト、非会員向けの見出しとメッセージ、ボタンの表示先と色の設定が並び、右側にプレビューが表示されている。"
        loading="lazy" decoding="async">
   <figcaption>変数はクリックでコピーでき、プレビューにはサンプル値が入ります。</figcaption>
