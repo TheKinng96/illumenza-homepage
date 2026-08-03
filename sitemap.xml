@@ -54,11 +54,22 @@ layout: null
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>{{ '/blog/coupon/' | absolute_url }}</loc>
+    {%- if site.posts.first %}
+    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- endif %}
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  {%- assign blog_apps = "points,coupon" | split: "," %}
+  {%- for app in blog_apps %}
+  {%- assign app_posts = site.posts | where: "app", app %}
   {%- for entry in site.data.sections %}
-  {%- assign has_posts = site.posts | where: "section", entry[0] | size %}
+  {%- assign has_posts = app_posts | where: "section", entry[0] | size %}
   {%- if has_posts > 0 %}
   <url>
-    <loc>{{ '/blog/points/' | append: entry[0] | append: '/' | absolute_url }}</loc>
+    <loc>{{ '/blog/' | append: app | append: '/' | append: entry[0] | append: '/' | absolute_url }}</loc>
     {%- if site.posts.first %}
     <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
@@ -66,6 +77,7 @@ layout: null
     <priority>0.6</priority>
   </url>
   {%- endif %}
+  {%- endfor %}
   {%- endfor %}
   <url>
     <loc>{{ '/blog/points-guide/' | absolute_url }}</loc>

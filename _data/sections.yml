@@ -20,3 +20,13 @@ appearance:
   label: 表示設定
 email:
   label: 通知メール
+campaigns:
+  label: キャンペーン設計
+prizes:
+  label: クーポンと当選確率
+forms:
+  label: フォームとメッセージ
+anti-cheat:
+  label: 不正防止
+participants:
+  label: 参加者データ
