@@ -23,12 +23,21 @@ description: "Illumenza Points に関する記事を、はじめる前に・貯�
       {%- assign key = entry[0] -%}
       {%- assign meta = entry[1] -%}
       {%- assign count = points_posts | where: "section", key | size -%}
+      {%- comment -%}
+        Sections are shared across apps, so this loop walks Coupon's six as
+        well. Rendering them here produced 0件 cards linking to
+        /blog/points/campaigns/ and five others that are never built — six
+        404s on a live page. /blog/coupon/ already guards this; Points was
+        written first and missed it.
+      {%- endcomment -%}
+      {% if count > 0 %}
       <li class="group relative rounded-xl border border-gray-200 p-5 transition hover:border-gray-300 hover:shadow-sm">
         <h2 class="text-lg font-bold text-gray-900">
           <a href="/blog/points/{{ key }}/" class="after:absolute after:inset-0 hover:underline underline-offset-4">{{ meta.label }}</a>
         </h2>
         <p class="mt-1 text-sm text-gray-500">{{ count }}件</p>
       </li>
+      {% endif %}
     {% endfor %}
   </ul>
 
