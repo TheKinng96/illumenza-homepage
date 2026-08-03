@@ -96,7 +96,11 @@ POST=_site/blog/colorme-points-5-decisions/index.html
 check_file "$POST"
 check_contains "$POST" "<h1"
 check_contains "$POST" "ポイント制度"
-check_contains "$POST" '<time datetime="2026-07-30'
+# Derived from the source rather than pinned: publication dates were spread
+# across a range once already, and a hardcoded date turns that into a gate
+# failure instead of what it is — a content edit.
+FIRST_DATE=$(grep -m1 '^date:' _posts/*colorme-points-5-decisions.md | awk '{print $2}')
+check_contains "$POST" "<time datetime=\"$FIRST_DATE"
 check_contains "$POST" 'rel="canonical" href="https://illumenza.dev/blog/colorme-points-5-decisions/"'
 check_contains "$POST" 'property="og:type" content="article"'
 check_contains "$POST" 'property="og:image" content="https://illumenza.dev/images/points.webp"'
