@@ -126,6 +126,23 @@
          text readable while the particle background stays visible in the gutters.
          Posts get none of it — see plain_reading above. -->
     <div class="container mx-auto max-w-4xl px-5 sm:px-12 py-8 sm:py-14{% unless plain_reading %} bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-sm{% endunless %}">
+      {%- comment -%}
+        Points is submitted to ColorMe and awaiting review, so it cannot be
+        installed yet. Every Points article ends with a CTA to
+        points.illumenza.dev, and the whole section reads as a how-to for a
+        product you can go and get. Saying so once, above the body, is the
+        honest framing — and it is one edit to remove on approval.
+
+        Gated on `app`, so Coupon — which is live — never shows it. Posts carry
+        `app` already; the Points filter pages and the guide have it added.
+      {%- endcomment -%}
+      {% if page.app == 'points' %}
+      <aside class="mb-8 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <strong class="font-bold">Illumenza Points は現在審査中です。</strong>
+        カラーミーショップ アプリストアではまだ公開されておらず、インストールいただけません。
+        公開までのあいだ、記事は管理画面を確認しながら書いています。
+      </aside>
+      {% endif %}
       {{ content }}
     </div>
   </main>

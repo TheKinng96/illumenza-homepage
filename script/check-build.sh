@@ -192,6 +192,36 @@ fi
 # The old shape: a summary in a sibling <span> that was not part of the link.
 check_absent "$GUIDE" 'class="text-sm text-gray-500 block"'
 
+echo "== Points under-review banner =="
+# Points is submitted and not installable. The banner must appear on every
+# Points surface and on no Coupon one — asserted both ways, because a banner
+# that leaks onto the live product is worse than one that is missing.
+BANNER="Illumenza Points は現在審査中です"
+check_contains "$POST" "$BANNER"                       # a Points post
+check_contains _site/blog/points/index.html "$BANNER"  # the app index
+check_contains _site/blog/points-guide/index.html "$BANNER"
+check_contains _site/blog/points/missions/index.html "$BANNER"
+check_absent _site/blog/coupon/index.html "$BANNER"
+check_absent _site/blog/index.html "$BANNER"
+# Every built Points section page must carry it, not just the one sampled above.
+missing=0
+for d in _site/blog/points/*/; do
+  [ -f "$d/index.html" ] || continue
+  if ! grep -qF -- "$BANNER" "$d/index.html"; then
+    fail "$d/index.html is missing the under-review banner"; missing=1
+  fi
+done
+if [ "$missing" = "0" ]; then pass "every /blog/points/<section>/ page carries the banner"; fi
+# And no Coupon section page may carry it.
+leaked=0
+for d in _site/blog/coupon/*/; do
+  [ -f "$d/index.html" ] || continue
+  if grep -qF -- "$BANNER" "$d/index.html"; then
+    fail "$d/index.html shows the Points banner"; leaked=1
+  fi
+done
+if [ "$leaked" = "0" ]; then pass "no /blog/coupon/ page shows the Points banner"; fi
+
 echo "== RSS feed (mails app contract) =="
 FEED=_site/blog/feed.xml
 check_file "$FEED"
