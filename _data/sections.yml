@@ -30,3 +30,5 @@ anti-cheat:
   label: 不正防止
 participants:
   label: 参加者データ
+insights:
+  label: 数字を読む
