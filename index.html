@@ -397,8 +397,30 @@ layout: null
                 {%- assign body_chars = post.content | strip_html | strip_newlines | size -%}
                 {%- assign read_minutes = body_chars | divided_by: 500 | plus: 1 -%}
                 {%- assign delay = forloop.index | times: 100 | plus: 100 -%}
+                {%- comment -%}
+                  Which product a post is about is the first thing a reader needs
+                  here: the three cards mix Points and Coupon, and the titles are
+                  specific enough that neither name appears in them. The badge is
+                  a link to that app's articles, sitting on z-10 above the card's
+                  stretched title link — the same idiom /blog/ uses for tags.
+                {%- endcomment -%}
+                {%- assign app_label = nil -%}
+                {%- if post.app == 'points' -%}
+                  {%- assign app_label = 'Points' -%}
+                  {%- assign app_url = '/blog/points/' -%}
+                  {%- assign app_class = 'bg-brand-light text-brand-blue hover:bg-brand-blue hover:text-white' -%}
+                {%- elsif post.app == 'coupon' -%}
+                  {%- assign app_label = 'Coupon' -%}
+                  {%- assign app_url = '/blog/coupon/' -%}
+                  {%- assign app_class = 'bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white' -%}
+                {%- endif -%}
                 <article class="group relative bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-shadow p-6 sm:p-8 flex flex-col scale-in delay-{{ delay }}">
-                    <p class="flex items-center gap-2 text-xs text-gray-500 mb-3">
+                    <p class="flex flex-wrap items-center gap-2 text-xs text-gray-500 mb-3">
+                        {%- if app_label %}
+                        <a href="{{ app_url }}" data-app-badge
+                           class="relative z-10 inline-block px-2.5 py-1 rounded-full font-medium transition-colors {{ app_class }}">{{ app_label }}</a>
+                        <span aria-hidden="true">·</span>
+                        {%- endif %}
                         <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y年%-m月%-d日' }}</time>
                         <span aria-hidden="true">·</span>
                         <span>{{ read_minutes }}分</span>

@@ -192,6 +192,27 @@ fi
 # The old shape: a summary in a sibling <span> that was not part of the link.
 check_absent "$GUIDE" 'class="text-sm text-gray-500 block"'
 
+echo "== homepage article cards name their app =="
+# The three cards mix Points and Coupon and the titles rarely name either, so
+# every card must carry its app badge. Counted against the cards themselves
+# rather than asserting a fixed number — the section renders 1, 2 or 3 cards
+# depending on how many posts exist.
+HOME_CARDS=$(grep -c 'class="group relative bg-white rounded-xl' _site/index.html || true)
+HOME_BADGES=$(grep -c 'data-app-badge' _site/index.html || true)
+if [ "$HOME_CARDS" = "$HOME_BADGES" ]; then
+  pass "all $HOME_CARDS homepage article card(s) carry an app badge"
+else
+  fail "_site/index.html has $HOME_CARDS article card(s) but $HOME_BADGES app badge(s)"
+fi
+# The badge must resolve to a page that exists, not just render a label.
+for href in $(grep -oE 'href="/blog/(points|coupon)/"' _site/index.html | sed 's/href="//;s/"//' | sort -u); do
+  if [ -f "_site${href}index.html" ]; then
+    pass "homepage badge target ${href} is built"
+  else
+    fail "homepage badge links ${href} but it was not built"
+  fi
+done
+
 echo "== RSS feed (mails app contract) =="
 FEED=_site/blog/feed.xml
 check_file "$FEED"
