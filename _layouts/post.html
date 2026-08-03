@@ -104,7 +104,7 @@ layout: default
 
   <nav class="mt-10 border-t border-gray-200 pt-6" aria-label="同じテーマの記事">
     {% if section_label %}
-    <p class="mb-4 text-xs text-gray-500">同じテーマの記事：{{ section_label }}</p>
+    <p class="mb-4 text-xs text-gray-500">同じテーマの記事：<a href="/blog/points/{{ page.section }}/" class="text-brand-blue hover:underline">{{ section_label }}</a></p>
     {% endif %}
     <div class="flex justify-between gap-4 text-sm">
       {% if prev_post %}

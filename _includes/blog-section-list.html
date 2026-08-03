@@ -1,0 +1,64 @@
+{%- comment -%}
+  Renders every post in one section, newest first.
+
+  Params:
+    section — a key in _data/sections.yml
+    app     — optional; when set, only posts for that app
+
+  Used by the /blog/points/<section>/ filter pages. Kept as an include so the
+  eight pages are eight front-matter blocks rather than eight copies of this
+  markup.
+{%- endcomment -%}
+{%- assign meta = site.data.sections[include.section] -%}
+{%- assign in_section = site.posts | where: "section", include.section -%}
+{%- if include.app -%}
+  {%- assign in_section = in_section | where: "app", include.app -%}
+{%- endif -%}
+
+<div class="container mx-auto max-w-3xl">
+
+  <header class="mb-8 sm:mb-12">
+    <p class="text-sm text-gray-500 mb-3">
+      <a href="/blog/" class="hover:text-gray-900 underline underline-offset-4">ブログ</a>
+      <span class="text-gray-300 mx-2">/</span>
+      <a href="/blog/points-guide/" class="hover:text-gray-900 underline underline-offset-4">記事ガイド</a>
+    </p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">{{ meta.label }}</h1>
+    <p class="text-base text-gray-600">
+      {{ include.description }}
+    </p>
+    <p class="mt-3 text-sm text-gray-500">{{ in_section.size }}件の記事</p>
+  </header>
+
+  {% if in_section.size == 0 %}
+  <p class="text-gray-600">このテーマの記事はまだありません。</p>
+  {% endif %}
+
+  <ul class="space-y-6">
+    {% for post in in_section %}
+    <li class="group relative border border-gray-200 rounded-xl p-5 sm:p-6 hover:border-gray-300 hover:shadow-sm transition">
+      <p class="text-xs text-gray-500 mb-2">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y年%-m月%-d日' }}</time>
+      </p>
+      <h2 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
+        <a href="{{ post.url }}" class="after:absolute after:inset-0 hover:underline underline-offset-4">{{ post.title }}</a>
+      </h2>
+      {% if post.description %}
+      <p class="mt-2 text-sm text-gray-600 leading-relaxed">{{ post.description }}</p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <nav class="mt-12 border-t border-gray-200 pt-6 text-sm">
+    <p class="text-gray-600 mb-3">ほかのテーマ</p>
+    <ul class="flex flex-wrap gap-x-4 gap-y-2">
+      {% for entry in site.data.sections %}
+        {% unless entry[0] == include.section %}
+        <li><a href="/blog/points/{{ entry[0] }}/" class="text-brand-blue hover:underline">{{ entry[1].label }}</a></li>
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  </nav>
+
+</div>

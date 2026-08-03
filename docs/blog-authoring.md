@@ -66,10 +66,30 @@ to the article guide.
 are required now — retrofitting them across every post later is the expensive
 part.
 
-Adding a section means adding a key to `_data/sections.yml` with a `label` and
-an `order`, then using that key in a post's front matter. `script/check-build.sh`
-fails the build if a post has no `section`, or if its navigation points at a
-post in a different one.
+**Filter pages.** `/blog/points/<section>/` lists every post in one section.
+The eight pages share `_includes/blog-section-list.html`, so each page file is
+just front matter plus one include. `/blog/points/` indexes them, the article
+guide links to each from its heading, and every post's navigation links to its
+own section page.
+
+Adding a section means three things:
+
+1. Add a key with a `label` to `_data/sections.yml`, **in the position it should
+   be read** — Liquid cannot sort a hash by one of its values, so this file's
+   order is the reading order everywhere.
+2. Create `blog/points/<key>/index.html` — copy an existing one and change the
+   `section` parameter.
+3. Use the key in a post's front matter.
+
+Sitemap entries for filter pages are generated from `_data/sections.yml`, so
+that part is automatic. `script/check-build.sh` fails the build if a post has no
+`section`, if its navigation points at a post in a different one, if a section
+has no filter page, if a filter page lists a post from another section, or if
+the guide does not link to it.
+
+**Careful with `{{` in post bodies.** Jekyll runs Liquid over Markdown, so text
+like `{{獲得ポイント}}` — the app's own variable names — is parsed as a Liquid
+tag and warns at build time. Wrap those passages in `{% raw %}` / `{% endraw %}`.
 
 ## Images
 
