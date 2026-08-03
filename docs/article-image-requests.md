@@ -12,9 +12,9 @@ Status as of 2026-08-03:
 | | Count |
 | --- | --- |
 | Already has a figure | 17 |
-| Screenshot taken today | 4 |
+| Screenshot taken today | 6 |
 | **Needs a generated image** (section A) | **7** |
-| Screenshot possible, currently blocked (section B) | 16 |
+| Screenshot possible, currently blocked (section B) | 14 |
 
 ---
 
@@ -118,7 +118,15 @@ straightforward captures:
 `coupon-messages`, `coupon-bars` (`/campaigns/[id]/forms`) · `coupon-themes`,
 `coupon-colors` (`/campaigns/[id]/appearance`) · `coupon-spin-limits`,
 `coupon-reset-period`, `coupon-limit-messages` (`/campaigns/[id]/anti-cheat`) ·
-`coupon-campaign-status`, `coupon-duplicate` (`/campaigns`)
+`coupon-duplicate` (`/campaigns`)
+
+**Blocked in a second way.** Campaign cards with no preview image render a
+broken `<img>` pointing at a dead ngrok tunnel
+(`74c8-…ngrok-free.app/images/default/image-placeholder.svg`). Five broken
+images on `/campaigns` alone. Any capture containing a card thumbnail is
+unusable until that asset URL is repointed — the `coupon-campaign-status` shot
+had to be taken from the ordering modal for this reason. Worth checking whether
+that URL can reach production data.
 
 ## B2 — `/points` returns HTTP 500 (1 article)
 
@@ -126,11 +134,9 @@ straightforward captures:
 `https://points.illumenza.dev/points` returns **500 Internal Error**,
 reproducibly. This is a production fault, not a screenshot problem.
 
-## B3 — capture pending (1 article)
+## B3 — done
 
-`points-email-variables` needs a template editor on `/email-templates`, showing
-the variable list. The screen is reachable; the shot was not taken before the
-`/points` fault interrupted the sweep.
+`points-email-variables` and `coupon-campaign-status` are now captured.
 
 ---
 
