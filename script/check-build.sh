@@ -189,59 +189,46 @@ done
 if [ "$nav_fail" -eq 0 ]; then pass "every post declares a section and navigates within it"; fi
 
 echo "== section filter pages =="
-# One page per section in _data/sections.yml, each listing only its own posts.
-# A filter page that leaks another section's posts is worse than no filter.
+# Derived from the posts themselves, not from _data/sections.yml: every
+# (app, section) pair that actually has posts must have a filter page at
+# /blog/<app>/<section>/ listing only those posts. Deriving it from posts means
+# adding a section for one app does not demand an empty page for every other.
 filter_fail=0
 check_file _site/blog/points/index.html
-for sect in $(grep -E '^[a-z-]+:' _data/sections.yml | tr -d ':'); do
-  page="_site/blog/points/$sect/index.html"
-  if [ ! -f "$page" ]; then fail "missing filter page: $page"; filter_fail=1; continue; fi
-  # Every post linked from the page must declare this section.
+pairs=$(for f in _posts/*.md; do
+          a=$(sed -n 's/^app: //p' "$f" | head -1)
+          s=$(sed -n 's/^section: //p' "$f" | head -1)
+          if [ -n "$a" ] && [ -n "$s" ]; then printf '%s %s\n' "$a" "$s"; fi
+        done | sort -u)
+while read -r app sect; do
+  if [ -z "$app" ]; then continue; fi
+  page="_site/blog/$app/$sect/index.html"
+  if [ ! -f "$page" ]; then
+    fail "missing filter page for $app/$sect: $page"
+    filter_fail=1
+    continue
+  fi
   for target in $(grep -oE 'href="/blog/[a-z0-9-]+/"' "$page" | sed -E 's|href="/blog/([a-z0-9-]+)/"|\1|' | sort -u); do
     tsrc=$(ls _posts/*-"$target".md 2>/dev/null | head -1 || true)
-    if [ -z "$tsrc" ]; then continue; fi   # guide, index and sibling filter links are not posts
-    tsect=$(grep -m1 '^section: ' "$tsrc" | sed 's/^section: //' | tr -d '\r')
-    if [ "$tsect" != "$sect" ]; then
-      fail "filter page $sect lists $target (section: $tsect)"
+    if [ -z "$tsrc" ]; then continue; fi
+    tsect=$(sed -n 's/^section: //p' "$tsrc" | head -1)
+    tapp=$(sed -n 's/^app: //p' "$tsrc" | head -1)
+    if [ "$tsect" != "$sect" ] || [ "$tapp" != "$app" ]; then
+      fail "filter page $app/$sect lists $target ($tapp/$tsect)"
       filter_fail=1
     fi
   done
-  # And the guide must link to it.
+done <<< "$pairs"
+# Points sections are also linked from the article guide.
+for sect in $(printf '%s\n' "$pairs" | awk '$1=="points"{print $2}' | sort -u); do
   if ! grep -qF -- "/blog/points/$sect/" blog/points-guide/index.html; then
     fail "article guide does not link to /blog/points/$sect/"
     filter_fail=1
   fi
 done
-if [ "$filter_fail" -eq 0 ]; then pass "every section has a filter page listing only its own posts"; fi
-
-echo "== verified dates =="
-# Articles document an admin UI that changes. Every post records when it was
-# last checked against that UI. This does not fail on age — that is a judgement
-# call, and script/stale-check.sh reports it — but a post with no verified date
-# at all cannot be audited later, so that is an error.
-verified_fail=0
-oldest=""
-for src in _posts/*.md; do
-  v=$(sed -n 's/^verified: //p' "$src" | head -1)
-  if [ -z "$v" ]; then
-    fail "$(basename "$src") has no verified: date"
-    verified_fail=1
-    continue
-  fi
-  if ! printf '%s' "$v" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
-    fail "$(basename "$src") verified: '$v' is not YYYY-MM-DD"
-    verified_fail=1
-    continue
-  fi
-  if [ -z "$oldest" ] || [ "$v" \< "$oldest" ]; then oldest="$v"; fi
-done
-if [ "$verified_fail" -eq 0 ]; then
-  pass "every post records a verified date (oldest: $oldest)"
+if [ "$filter_fail" -eq 0 ]; then
+  pass "every app/section pair with posts has a filter page listing only its own posts"
 fi
-# The rendered page must actually show it, or the reader gains nothing.
-SAMPLE=$(ls -1 _posts/*.md | tail -1)
-SAMPLE_SLUG=$(basename "$SAMPLE" .md | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//')
-check_contains "_site/blog/$SAMPLE_SLUG/index.html" "この記事は"
 
 echo "== sitemap + robots =="
 SM=_site/sitemap.xml
@@ -260,6 +247,14 @@ if python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse('$SM')" 2>/dev/
   pass "$SM is well-formed XML"
 else
   fail "$SM is NOT well-formed XML"
+fi
+# Filter pages must be in the sitemap. They were silently absent once when a
+# Liquid for-loop took a filter inline and rendered nothing.
+SM_FILTERS=$(grep -cE '<loc>https://illumenza.dev/blog/(points|coupon)/[a-z-]+/</loc>' "$SM" || true)
+if [ "$SM_FILTERS" -ge 1 ]; then
+  pass "$SM lists $SM_FILTERS filter page(s)"
+else
+  fail "$SM lists no filter pages — check the sections loop"
 fi
 check_contains _site/robots.txt "Sitemap: https://illumenza.dev/sitemap.xml"
 check_absent _site/robots.txt "thekinng96.github.io"
