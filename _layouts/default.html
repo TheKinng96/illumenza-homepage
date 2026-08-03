@@ -65,6 +65,17 @@
   </script>
   {% endif %}
 
+  {%- comment -%}
+    Posts drop the ambient background entirely: no particle canvas, no
+    translucent card, no shadow. Long-form Japanese at 1.9 line-height asks
+    enough of a reader without motion behind it, and the canvas runs a
+    requestAnimationFrame loop for the whole time an article is open. Every
+    other page — the list, the filter pages, the guide — keeps it.
+  {%- endcomment -%}
+  {%- assign plain_reading = false -%}
+  {%- if page.layout == 'post' -%}{%- assign plain_reading = true -%}{%- endif -%}
+
+  {%- unless plain_reading %}
   <style>
     /* Same ambient background as the homepage. */
     #particle-canvas {
@@ -79,6 +90,7 @@
       #particle-canvas { display: none; }
     }
   </style>
+  {%- endunless %}
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PD4WWX28GL"></script>
@@ -91,7 +103,9 @@
 </head>
 <body class="font-sans text-gray-800 min-h-screen flex flex-col">
 
+  {%- unless plain_reading %}
   <canvas id="particle-canvas"></canvas>
+  {%- endunless %}
 
   <nav class="sticky top-0 w-full bg-white/90 backdrop-blur-sm shadow-sm z-50">
     <div class="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-3">
@@ -109,8 +123,9 @@
   <!-- flex-1 pins the footer to the viewport bottom on short pages. -->
   <main class="flex-1 px-4 sm:px-6 py-8 sm:py-14">
     <!-- Translucent surface, same idiom as the homepage sections: keeps long-form
-         text readable while the particle background stays visible in the gutters. -->
-    <div class="container mx-auto max-w-4xl bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-sm px-5 sm:px-12 py-8 sm:py-14">
+         text readable while the particle background stays visible in the gutters.
+         Posts get none of it — see plain_reading above. -->
+    <div class="container mx-auto max-w-4xl px-5 sm:px-12 py-8 sm:py-14{% unless plain_reading %} bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-sm{% endunless %}">
       {{ content }}
     </div>
   </main>
@@ -140,8 +155,10 @@
     </div>
   </footer>
 
+  {%- unless plain_reading %}
   <!-- Draws into #particle-canvas. Plain Canvas 2D — no three.js needed. -->
   <script src="/js/particles-simple.js"></script>
+  {%- endunless %}
   <script src="/js/footer-year.js"></script>
 </body>
 </html>

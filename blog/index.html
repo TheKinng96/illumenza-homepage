@@ -13,10 +13,6 @@ description: "カラーミーショップ運営者のための、ポイント・
     <p class="mt-4 text-sm">
       <a href="/blog/points-guide/" class="text-brand-blue hover:underline">記事ガイド</a>
       <span class="text-gray-300 mx-2">|</span>
-      <a href="/blog/points/" class="text-brand-blue hover:underline">Points</a>
-      <span class="text-gray-300 mx-2">|</span>
-      <a href="/blog/coupon/" class="text-brand-blue hover:underline">Coupon</a>
-      <span class="text-gray-300 mx-2">|</span>
       <a href="/blog/tags/" class="text-brand-blue hover:underline">タグ一覧</a>
       <span class="text-gray-300 mx-2">|</span>
       <a href="/blog/feed.xml" class="text-brand-blue hover:underline">RSS</a>
@@ -26,6 +22,61 @@ description: "カラーミーショップ運営者のための、ポイント・
       ミッション・交換先・会員ランク・友達紹介の4つに整理して、読む順番をまとめています。
     </p>
   </header>
+
+  {%- comment -%}
+    Filter bar. Reaching an app's section used to take two clicks — /blog/ to
+    /blog/points/ to /blog/points/missions/. These chips do it in one.
+
+    The app chips are real links to pages that exist, so they still work with
+    JavaScript off; blog-filter.js intercepts the click and filters in place.
+    The search box and the section chips are hidden until that script runs,
+    because neither has a no-JS equivalent, and a search box that does nothing
+    is worse than no search box.
+
+    Section keys are shared across apps — `appearance` belongs to both Points
+    and Coupon — so a section chip alone is ambiguous. That is why picking an
+    app clears the section, and why chips with nothing under the current app
+    hide themselves.
+  {%- endcomment -%}
+  {%- assign points_posts = site.posts | where: "app", "points" -%}
+  {%- assign coupon_posts = site.posts | where: "app", "coupon" -%}
+
+  <section aria-label="記事の絞り込み" class="mb-8 border-b border-gray-100 pb-6">
+    <label for="blog-search" class="sr-only">記事を検索</label>
+    <input type="search" id="blog-search" hidden
+           placeholder="キーワードで検索（タイトル・説明・タグ）"
+           autocomplete="off"
+           class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
+                  focus:border-brand-blue focus:outline-none focus:ring-1 focus:ring-brand-blue">
+
+    <div class="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="アプリ">
+      <a href="/blog/points/" data-app="points" aria-pressed="false"
+         class="rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue">Points<span class="ml-1.5 text-xs text-gray-400">{{ points_posts.size }}</span></a>
+      <a href="/blog/coupon/" data-app="coupon" aria-pressed="false"
+         class="rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue">Coupon<span class="ml-1.5 text-xs text-gray-400">{{ coupon_posts.size }}</span></a>
+    </div>
+
+    <div id="blog-section-chips" hidden class="mt-2 flex flex-wrap items-center gap-2" role="group" aria-label="テーマ">
+      {%- for entry in site.data.sections -%}
+      {%- assign in_section = site.posts | where: "section", entry[0] -%}
+      {%- if in_section.size > 0 -%}
+      <button type="button" data-section="{{ entry[0] }}" aria-pressed="false"
+              class="rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue">{{ entry[1].label }}<span data-count class="ml-1.5 text-xs text-gray-400">{{ in_section.size }}</span></button>
+      {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="mt-3 flex items-center gap-3">
+      <p id="blog-status" hidden role="status" aria-live="polite" class="text-sm text-gray-500"></p>
+      <button type="button" id="blog-clear" hidden
+              class="text-sm text-brand-blue hover:underline">条件をクリア</button>
+    </div>
+  </section>
+
+  <!-- Filtered results. Markup mirrors the static list below; see blog-filter.js. -->
+  <ul id="blog-results" hidden></ul>
+
+  <div id="blog-static">
 
   {% if paginator.posts.size == 0 %}
   <p class="text-gray-600">記事はまだありません。</p>
@@ -108,5 +159,9 @@ description: "カラーミーショップ運営者のための、ポイント・
     {% else %}<span></span>{% endif %}
   </nav>
   {% endif %}
+
+  </div><!-- #blog-static -->
+
+  <script src="/js/blog-filter.js" defer></script>
 
 </div>

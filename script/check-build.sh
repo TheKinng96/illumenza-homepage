@@ -107,9 +107,17 @@ check_absent "$POST" "導入事例"
 check_absent "$POST" "お客様の声"
 # No UTM in post content or CTA — the mails app adds those.
 check_absent "$POST" "utm_"
+# Posts read on a plain white page. The ambient particle background belongs to
+# every other page; asserted both ways so the exemption cannot silently widen
+# to the whole site or quietly disappear from posts.
+check_absent "$POST" "particle-canvas"
+check_absent "$POST" "particles-simple.js"
+check_absent "$POST" "bg-white/95"  # the translucent card; the nav keeps its own backdrop-blur
 
 echo "== /blog/ list page =="
 LIST=_site/blog/index.html
+# The list keeps the ambient background — only post pages drop it.
+check_contains "$LIST" "particle-canvas"
 check_file "$LIST"
 # The list paginates at 10 per page, so asserting one specific slug appears on
 # page 1 only held while fewer than ten posts existed. Assert the page is
@@ -135,6 +143,50 @@ if grep -qE 'data-paginator="[0-9]+"' "$LIST"; then
 else
   fail "$LIST paginator inactive (jekyll-paginate did not run — check plugin + filename)"
 fi
+
+echo "== /blog/ filter and search =="
+# The filter bar reaches every post, not just the ten on page 1, so it reads a
+# JSON index. If that index silently loses posts, search quietly stops finding
+# them — assert its length against _posts/ rather than merely that it parses.
+ARTICLES=_site/blog/articles.json
+check_file "$ARTICLES"
+ARTICLE_N=$(grep -o '"url":"/blog/' "$ARTICLES" | wc -l | tr -d ' ')
+POST_N=$(find _posts -name '*.md' | wc -l | tr -d ' ')
+if [ "$ARTICLE_N" = "$POST_N" ]; then
+  pass "articles.json holds all $POST_N posts"
+else
+  fail "articles.json holds $ARTICLE_N entries but _posts/ has $POST_N"
+fi
+if python3 -c "import json,sys; json.load(open('$ARTICLES'))" 2>/dev/null; then
+  pass "articles.json parses as JSON"
+else
+  fail "articles.json is not valid JSON"
+fi
+check_contains "$ARTICLES" '"sectionLabel"'
+check_file _site/js/blog-filter.js
+check_contains "$LIST" 'id="blog-search"'
+check_contains "$LIST" 'id="blog-results"'
+check_contains "$LIST" 'id="blog-static"'
+check_contains "$LIST" '/js/blog-filter.js'
+# App chips must stay real links. They are the whole no-JS story: without the
+# href a reader with JavaScript off loses every route into an app's articles.
+check_contains "$LIST" 'href="/blog/points/" data-app="points"'
+check_contains "$LIST" 'href="/blog/coupon/" data-app="coupon"'
+
+echo "== 記事ガイド cards =="
+# Guide entries used to be a bare text link with the summary sitting outside
+# it, so only the title line was tappable. Every entry is now a card whose
+# whole area is the hit target, via the same stretched-link idiom as /blog/.
+GUIDE=_site/blog/points-guide/index.html
+check_file "$GUIDE"
+GUIDE_CARDS=$(grep -c "after:absolute after:inset-0" "$GUIDE" || true)
+if [ "$GUIDE_CARDS" -ge 29 ]; then
+  pass "$GUIDE has $GUIDE_CARDS stretched-link cards"
+else
+  fail "$GUIDE has $GUIDE_CARDS stretched-link cards, expected at least 29"
+fi
+# The old shape: a summary in a sibling <span> that was not part of the link.
+check_absent "$GUIDE" 'class="text-sm text-gray-500 block"'
 
 echo "== RSS feed (mails app contract) =="
 FEED=_site/blog/feed.xml
