@@ -126,7 +126,7 @@ if grep -rqF -- 'colorme-points-5-decisions' _site/blog/index.html _site/blog/pa
 else
   fail "oldest post missing from every /blog/ page"
 fi
-check_contains "$LIST" "ブログ"
+check_contains "$LIST" "記事"
 check_contains "$LIST" 'rel="canonical" href="https://illumenza.dev/blog/"'
 check_contains "$LIST" 'property="og:type" content="website"'
 # paginator must be wired up, not just a plain post loop
@@ -141,7 +141,7 @@ FEED=_site/blog/feed.xml
 check_file "$FEED"
 check_contains "$FEED" '<?xml version="1.0" encoding="UTF-8"?>'
 check_contains "$FEED" '<rss version="2.0"'
-check_contains "$FEED" "<title>Illumenza ブログ</title>"
+check_contains "$FEED" "<title>Illumenza の記事</title>"
 check_contains "$FEED" "<link>https://illumenza.dev/blog/</link>"
 check_contains "$FEED" "<language>ja</language>"
 check_contains "$FEED" 'rel="self"'

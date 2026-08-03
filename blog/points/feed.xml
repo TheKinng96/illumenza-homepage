@@ -10,7 +10,7 @@ layout: null
 -->
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Illumenza Points ブログ</title>
+    <title>Illumenza Points の記事</title>
     <link>{{ '/blog/points/' | absolute_url }}</link>
     <description>カラーミーショップ向けロイヤルティアプリ Illumenza Points の記事。</description>
     <language>ja</language>
