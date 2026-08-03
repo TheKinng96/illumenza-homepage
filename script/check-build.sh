@@ -192,6 +192,20 @@ fi
 # The old shape: a summary in a sibling <span> that was not part of the link.
 check_absent "$GUIDE" 'class="text-sm text-gray-500 block"'
 
+echo "== homepage Points review note =="
+# Points cannot be installed yet, and its card sits beside Coupon, which can.
+# Both languages asserted: the toggle shows one and hides the other, so a
+# missing translation is invisible until a reader switches.
+HOME=_site/index.html
+check_contains "$HOME" "カラーミーショップ アプリストアではまだ公開されていません"
+check_contains "$HOME" "Not yet available on the Colorme app store"
+# It must not attach itself to the Coupon card, which is live.
+if [ "$(grep -c 'Not yet available on the Colorme app store' "$HOME")" = "1" ]; then
+  pass "$HOME shows the review note exactly once"
+else
+  fail "$HOME shows the review note $(grep -c 'Not yet available on the Colorme app store' "$HOME") times, expected 1"
+fi
+
 echo "== RSS feed (mails app contract) =="
 FEED=_site/blog/feed.xml
 check_file "$FEED"
