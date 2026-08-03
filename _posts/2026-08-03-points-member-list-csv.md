@@ -6,6 +6,8 @@ description: "会員一覧には最終活動日と累計ポイントが並びま
 ogImage: /images/points.webp
 app: points
 section: operations
+verified: 2026-08-03
+screen: /members
 ---
 
 会員が増えてくると、全体を眺める画面が要ります。会員一覧がそれです。

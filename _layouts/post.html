@@ -15,6 +15,19 @@ layout: default
       <span>{{ read_minutes }}分で読めます</span>
     </p>
     <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 leading-snug">{{ page.title }}</h1>
+
+    {%- comment -%}
+      Articles describe an admin UI that changes. `verified` records when the
+      screen was last opened and checked; `screen` records which one. Without
+      this, a reader has no way to judge whether a how-to still matches what
+      they see, and we have no way to find what a release invalidated.
+    {%- endcomment -%}
+    {% if page.verified %}
+    <p class="mt-4 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-xs sm:text-sm text-gray-600">
+      この記事は <time datetime="{{ page.verified }}">{{ page.verified | date: '%Y年%-m月%-d日' }}</time> 時点の管理画面{% if page.screen %}（<code class="text-gray-700">{{ page.screen }}</code>）{% endif %}を確認して書いています。
+      アプリの更新により画面が変わっている場合があります。
+    </p>
+    {% endif %}
     {% if page.tags and page.tags.size > 0 %}
     <ul class="flex flex-wrap gap-2 mt-5">
       {% for tag in page.tags %}

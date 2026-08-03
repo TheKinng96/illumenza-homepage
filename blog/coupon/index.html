@@ -1,0 +1,32 @@
+---
+layout: default
+title: "Illumenza Coupon の記事 — テーマ別"
+description: "カラーミーショップ向けのクーポン抽選アプリ Illumenza Coupon に関する記事を、テーマ別にまとめています。"
+---
+{%- assign coupon_posts = site.posts | where: "app", "coupon" -%}
+<div class="container mx-auto max-w-3xl">
+  <header class="mb-8 sm:mb-12">
+    <p class="text-sm text-gray-500 mb-3">
+      <a href="/blog/" class="hover:text-gray-900 underline underline-offset-4">記事</a>
+    </p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Illumenza Coupon の記事</h1>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      ルーレットでクーポンを配り、参加者の情報を集めるアプリです。設定する場所ごとに分けています。
+    </p>
+    <p class="mt-3 text-sm text-gray-500">全{{ coupon_posts.size }}件</p>
+  </header>
+  <ul class="grid gap-4 sm:grid-cols-2">
+    {% for entry in site.data.sections %}
+      {%- assign key = entry[0] -%}
+      {%- assign count = coupon_posts | where: "section", key | size -%}
+      {% if count > 0 %}
+      <li class="group relative rounded-xl border border-gray-200 p-5 transition hover:border-gray-300 hover:shadow-sm">
+        <h2 class="text-lg font-bold text-gray-900">
+          <a href="/blog/coupon/{{ key }}/" class="after:absolute after:inset-0 hover:underline underline-offset-4">{{ entry[1].label }}</a>
+        </h2>
+        <p class="mt-1 text-sm text-gray-500">{{ count }}件</p>
+      </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>

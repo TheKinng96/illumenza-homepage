@@ -6,6 +6,8 @@ description: "上位ランクだけ交換レートを優遇できます。還元
 ogImage: /images/points.webp
 app: points
 section: ranks
+verified: 2026-08-02
+screen: /redemption/colorme-points
 ---
 
 会員ランクの特典を考えるとき、多くの場合は還元率の上乗せを検討します。ゴールドは1.5倍、プラチナは2倍、という形です。
@@ -19,7 +21,7 @@ section: ranks
 ショップポイントへの交換設定には、通常の交換レートに加えて「VIPランク別レート」があります。
 
 <figure>
-  <img src="/images/blog/points-rank-based-rate/settings.png"
+  <img src="/images/blog/points-rank-based-rate/settings.webp"
        alt="ショップポイント交換の設定画面。交換レートと交換制限の設定に続いて「VIPランク別レート」の欄があり、シルバー以上、プラチナ以上について、それぞれポイント数とショップポイント数を指定する入力欄と「レートを追加」ボタンが並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>ランクごとに、何ポイントが何ショップポイントになるかを個別に設定できます。</figcaption>

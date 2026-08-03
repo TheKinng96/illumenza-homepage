@@ -8,11 +8,11 @@
   {%- assign meta_desc = page.description | default: site.description -%}
   {%- assign og_image = page.ogImage | default: '/images/logo-full.png' | absolute_url -%}
 
-  <title>{% if page.title %}{{ page.title | escape }} | Illumenza ブログ{% else %}{{ site.title | escape }}{% endif %}</title>
+  <title>{% if page.title %}{{ page.title | escape }} | Illumenza の記事{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ meta_desc | strip_newlines | escape }}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
   <link rel="icon" type="image/png" href="/images/logo-short.png">
-  <link rel="alternate" type="application/rss+xml" title="Illumenza ブログ" href="{{ '/blog/feed.xml' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="Illumenza の記事" href="{{ '/blog/feed.xml' | absolute_url }}">
 
   <!-- Open Graph -->
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
@@ -98,7 +98,7 @@
       <!-- Blog sits with the logo as site navigation; the product CTA stays right. -->
       <div class="flex items-center gap-2 sm:gap-4 text-sm min-w-0">
         <a href="/"><img src="/images/logo-full.png" alt="Illumenza" class="h-8 sm:h-10"></a>
-        <a href="/blog/" class="shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 font-medium text-gray-700 border border-gray-300 rounded-lg hover:border-brand-blue hover:text-brand-blue transition-colors">ブログ</a>
+        <a href="/blog/" class="shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 font-medium text-gray-700 border border-gray-300 rounded-lg hover:border-brand-blue hover:text-brand-blue transition-colors">記事</a>
       </div>
       <a href="https://points.illumenza.dev" class="shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm font-medium bg-brand-light text-brand-blue rounded-lg hover:bg-brand-blue hover:text-white transition-colors">
         Illumenza Points
@@ -130,7 +130,7 @@
       <div class="border-t border-gray-800 pt-6 sm:pt-8 text-center">
         <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 mb-3 text-xs text-gray-500">
           <a href="/" class="hover:text-white transition-colors">ホーム</a>
-          <a href="/blog/" class="hover:text-white transition-colors">ブログ</a>
+          <a href="/blog/" class="hover:text-white transition-colors">記事</a>
           <a href="/contact-us/" class="hover:text-white transition-colors">お問い合わせ</a>
           <a href="/privacy/" class="hover:text-white transition-colors">プライバシーポリシー</a>
           <a href="/tokushoho/" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>

@@ -6,6 +6,8 @@ description: "ショップポイントへの交換だけはクーポンを発行
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption/colorme-points
 ---
 
 ポイントの交換先のひとつに「ショップポイントに交換」があります。アプリで貯めたポイントを、カラーミーショップ側のショップポイントに変換する設定です。

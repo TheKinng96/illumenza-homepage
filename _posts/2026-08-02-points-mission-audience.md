@@ -6,6 +6,8 @@ description: "ミッションは全員に同じものを見せる必要があり
 ogImage: /images/points.webp
 app: points
 section: missions
+verified: 2026-08-02
+screen: /points/[type]/[id]
 ---
 
 ミッションを追加していくと、パネルの一覧が長くなります。会員登録、SNSフォロー4種、レビュー、誕生日。10個を超えるころには、何をすればよいのか分かりにくくなります。

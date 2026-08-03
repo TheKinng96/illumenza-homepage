@@ -6,6 +6,8 @@ description: "パネルを開くボタンは色・形・位置を設定できま
 ogImage: /images/points.webp
 app: points
 section: appearance
+verified: 2026-08-03
+screen: /trigger
 ---
 
 会員がパネルを開くためのボタンは、ショップの画面に常に表示されます。目立たなければ使われず、邪魔になれば嫌われます。
@@ -15,7 +17,7 @@ section: appearance
 ## 色・形・文言
 
 <figure>
-  <img src="/images/blog/points-trigger-button/settings.png"
+  <img src="/images/blog/points-trigger-button/settings.webp"
        alt="ボタン設定画面。表示テキスト、ブランドカラー、テキスト色の白と黒、ボタン形状、表示位置の左下と右下、スマホではアイコンのみ表示の切り替え、下からの距離50px、端からの距離50px、モバイルで個別に設定する項目が並び、右側にデスクトップとスマホのプレビューがある。"
        loading="lazy" decoding="async">
   <figcaption>設定を変えると、右のプレビューがデスクトップとスマホの両方で更新されます。</figcaption>

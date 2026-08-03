@@ -6,6 +6,8 @@ description: "パネルには未登録者向けと会員向けの2つの状態�
 ogImage: /images/points.webp
 app: points
 section: appearance
+verified: 2026-08-03
+screen: /panel/visitor
 ---
 
 パネルの設定には「まだ会員登録していない方」と「会員の方」の2つのタブがあります。同じパネルでも、見る人の状態によって中身が変わります。
@@ -15,7 +17,7 @@ section: appearance
 ## 未登録の方に見せるもの
 
 <figure>
-  <img src="/images/blog/points-panel-visitor/settings.png"
+  <img src="/images/blog/points-panel-visitor/settings.webp"
        alt="表示パネルの未登録者タブ設定画面。会員プログラム名、挨拶文、会員登録セクションの見出し・説明文・ボタンテキスト・ログインリンクの設定があり、右側のプレビューに紹介特典の案内、会員登録の案内、ポイントの説明、会員ランクの一覧が表示されている。"
        loading="lazy" decoding="async">
   <figcaption>未登録者向けのパネルでは、登録の案内と制度の説明が中心になります。</figcaption>

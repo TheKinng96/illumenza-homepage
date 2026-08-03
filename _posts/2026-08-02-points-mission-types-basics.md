@@ -6,6 +6,8 @@ description: "ポイントの付与きっかけを購入だけにすると、買
 ogImage: /images/points.webp
 app: points
 section: missions
+verified: 2026-08-02
+screen: /points
 ---
 
 ポイント制度を「購入金額の○%を付与する」だけで組むと、お客様との接点は購入したときにしか生まれません。買っていない期間は、こちらから働きかける手がかりがない状態になります。
@@ -25,7 +27,7 @@ Illumenza Points で設定できるミッションは、性質ごとに3つの�
 管理画面では、名前・種類・獲得ポイントを指定して並べていきます。
 
 <figure>
-  <img src="/images/blog/points-mission-types-basics/missions.png"
+  <img src="/images/blog/points-mission-types-basics/missions.webp"
        alt="ミッション一覧画面。注文ポイント（100円ごと）、アンケートに回答（100pt）、イベントに参加（50pt）、Instagram・Facebook・X・TikTokの各フォロー、誕生日ポイント（毎年200pt）、会員登録ポイント（登録で100pt）、商品レビュー、Xでシェア（500pt）、YouTubeチャンネル登録（150pt）、カスタムミッション（無効）が並び、それぞれに付与数とステータスの切り替えが付いている。"
        loading="lazy" decoding="async">
   <figcaption>ミッションは一覧で管理します。種類ごとにアイコンが付き、有効・無効はその場で切り替えられます。</figcaption>

@@ -6,6 +6,8 @@ description: "限定特典は手作業を伴う枠です。金額に置き換え
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption/custom
 ---
 
 限定特典は、ポイントを凍結してから店舗が直接やりとりする交換先です。受け渡しはアプリの外で、すべて手作業になります。
