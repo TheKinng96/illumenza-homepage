@@ -107,9 +107,17 @@ check_absent "$POST" "導入事例"
 check_absent "$POST" "お客様の声"
 # No UTM in post content or CTA — the mails app adds those.
 check_absent "$POST" "utm_"
+# Posts read on a plain white page. The ambient particle background belongs to
+# every other page; asserted both ways so the exemption cannot silently widen
+# to the whole site or quietly disappear from posts.
+check_absent "$POST" "particle-canvas"
+check_absent "$POST" "particles-simple.js"
+check_absent "$POST" "bg-white/95"  # the translucent card; the nav keeps its own backdrop-blur
 
 echo "== /blog/ list page =="
 LIST=_site/blog/index.html
+# The list keeps the ambient background — only post pages drop it.
+check_contains "$LIST" "particle-canvas"
 check_file "$LIST"
 # The list paginates at 10 per page, so asserting one specific slug appears on
 # page 1 only held while fewer than ten posts existed. Assert the page is
