@@ -6,6 +6,8 @@ description: "ポイント制度から送られるメールは自動返信とイ
 ogImage: /images/points.webp
 app: points
 section: email
+verified: 2026-08-03
+screen: /email-templates
 ---
 
 ポイント制度を動かすと、メールが自動で送られます。交換が承認されたとき、ミッションが達成されたとき、紹介が成立したとき。
@@ -17,7 +19,7 @@ section: email
 ## 何が届くか
 
 <figure>
-  <img src="/images/blog/points-notification-emails/templates.png"
+  <img src="/images/blog/points-notification-emails/templates.webp"
        alt="メールテンプレートの一覧画面。承認・却下・ミッション完了・ポイント利用・紹介成立・ミッション承認・ミッション却下・ポイント交換完了・紹介承認などのテンプレートが、種類のラベルと件名、使用数とともに並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>テンプレートごとに件名と使用数が表示されます。</figcaption>

@@ -6,6 +6,8 @@ description: "定額・割引率・送料無料の3種類は、原資の読み�
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption/coupon
 ---
 
 ポイントと交換できるクーポンは3種類あります。どれを何ポイントで出すかで、制度の性格が変わります。
@@ -13,7 +15,7 @@ section: redemption
 ## 3種類の違い
 
 <figure>
-  <img src="/images/blog/points-coupon-types/settings.png"
+  <img src="/images/blog/points-coupon-types/settings.webp"
        alt="クーポン設定画面。左に定額クーポン・割引率クーポン・送料無料クーポンの説明があり、右のパネルに500円引120pt、10%引1000pt、1000円引1000pt（1回まで）、20%引2000pt、30%オフ3000pt、送料無料100pt（ゴールド以上）、500円引500pt（2回まで・シルバー以上）が必要ポイント順に並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>クーポンは必要ポイント順に並びます。ランク条件や回数制限も設定できます。</figcaption>

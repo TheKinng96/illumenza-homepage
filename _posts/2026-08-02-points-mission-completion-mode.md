@@ -6,6 +6,8 @@ description: "タップで達成は体験が良く、確認はできません。
 ogImage: /images/points.webp
 app: points
 section: missions
+verified: 2026-08-02
+screen: /points/[type]/[id]
 ---
 
 購入以外のミッションには、こちら側で達成を確認できないものがあります。SNSのフォローがその代表です。
@@ -15,7 +17,7 @@ section: missions
 ## 2つの達成方法
 
 <figure>
-  <img src="/images/blog/points-mission-completion-mode/form.png"
+  <img src="/images/blog/points-mission-completion-mode/form.webp"
        alt="ミッション編集画面。ミッション名、説明、付与ポイント100、実行回数「何度でも」、対象顧客「すべての顧客」の設定に続いて、達成方法として「タップで達成」と「承認が必要」の2択があり、承認が必要が選択されている。右側に会員向けパネルのプレビューが表示されている。"
        loading="lazy" decoding="async">
   <figcaption>達成方法を切り替えると、右のプレビューの表示も変わります。</figcaption>

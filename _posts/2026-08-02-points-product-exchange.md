@@ -6,6 +6,8 @@ description: "ポイントで商品と交換する設定では、選んだ商品
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption/product-exchange
 ---
 
 ポイントの交換先に「商品」を選べます。500ポイントでバスソルト、といった設定です。
@@ -17,7 +19,7 @@ section: redemption
 商品交換を設定すると、**選んだ商品が専用の商品グループに自動で追加されます。** メンバーがポイントと交換したとき、発行されるのはそのグループだけに使えるクーポンです。
 
 <figure>
-  <img src="/images/blog/points-product-exchange/settings.png"
+  <img src="/images/blog/points-product-exchange/settings.webp"
        alt="商品交換の設定画面。左に「専用クーポンの仕組み」「価格の自動反映」「運用のヒント」「ご注意（商品削除・非公開時）」の説明があり、右のパネルにバスソルト100pt、テーブルランナー120pt、扇子200pt、フルーツジャム5000ptの交換設定が並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>設定画面には、仕組みと注意点が一緒に表示されます。</figcaption>

@@ -6,6 +6,8 @@ description: "必要ポイントを高くしすぎると誰も届かず、低す
 ogImage: /images/points.webp
 app: points
 section: redemption
+verified: 2026-08-02
+screen: /redemption
 ---
 
 ポイントの交換先を用意するとき、いちばん迷うのは「何ポイントに設定するか」です。高すぎれば誰も届かず、低すぎれば購入なしで交換されてしまいます。
@@ -24,7 +26,7 @@ Illumenza Points の交換先は、大きく4つに分かれています。
 | 限定特典に交換 | 通常は会員に表示されません。条件を満たした方だけに出す特別枠です |
 
 <figure>
-  <img src="/images/blog/points-redemption-design/redemption.png"
+  <img src="/images/blog/points-redemption-design/redemption.webp"
        alt="ポイント交換特典の設定画面。左にクーポン発行の説明、右のパネルプレビューに「ショップポイントに交換（現在有効）」「クーポンに交換（7件の特典）」「商品に交換（4件の特典）」「限定特典に交換（メンバーには非表示）」の4グループが並んでいる。"
        loading="lazy" decoding="async">
   <figcaption>右側のパネルでグループを選ぶと、そのグループの特典を編集できます。</figcaption>

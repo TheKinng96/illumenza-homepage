@@ -6,6 +6,8 @@ description: "ポイントの増減はすべて記録され、タイプと経路
 ogImage: /images/points.webp
 app: points
 section: operations
+verified: 2026-08-03
+screen: /activity
 ---
 
 「ポイントが増えていないのですが」という問い合わせは、ポイント制度を運用していれば必ず来ます。

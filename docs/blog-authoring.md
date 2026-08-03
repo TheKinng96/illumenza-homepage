@@ -41,6 +41,8 @@ ogImage: /images/points.webp
 | `heroCaption` | no | Caption under the hero. |
 | `thumbnail` | no | Square-ish image for the `/blog/` list card. Falls back to `heroImage`. |
 | `app` | yes | Which product the post is about — `points`, `coupon`, `mostra`, or `none`. Reserved for future filter pages. |
+| `verified` | yes | `YYYY-MM-DD` — when the article was last checked against the live admin. Shown to the reader as 確認日. |
+| `screen` | when applicable | The admin path the article documents, e.g. `/redemption/coupon`. Lets `script/stale-check.sh --screen <path>` find every article a release may have invalidated. |
 | `section` | yes | Which part of the app. Must be a key in `_data/sections.yml`: `getting-started`, `missions`, `redemption`, `ranks`, `referral`. Drives prev/next and, later, filtering. |
 
 `layout` is set automatically by `_config.yml`'s `defaults:` block (scope:
@@ -91,6 +93,34 @@ the guide does not link to it.
 like `{{獲得ポイント}}` — the app's own variable names — is parsed as a Liquid
 tag and warns at build time. Wrap those passages in `{% raw %}` / `{% endraw %}`.
 
+## Keeping articles true
+
+Articles document an admin UI that changes. Two front-matter fields make that
+manageable:
+
+- `verified` — the date the screen was last opened and checked
+- `screen` — which admin path the article covers
+
+The post page renders these as a note to the reader, so nobody has to guess
+whether a how-to still matches what they see.
+
+After shipping a change to the Points admin, find what it may have invalidated:
+
+```bash
+script/stale-check.sh --screen /redemption/coupon   # articles covering one screen
+script/stale-check.sh 90                            # anything not checked in 90 days
+script/stale-check.sh                               # everything, oldest first
+```
+
+Re-open the screen, correct anything that moved, and bump `verified`. **Bumping
+the date without re-opening the screen defeats the whole mechanism** — the date
+is a claim that someone looked.
+
+`script/check-build.sh` fails if a post has no `verified` date or if it is not
+`YYYY-MM-DD`. It deliberately does not fail on age: how stale is too stale is a
+judgement call, and a red build nobody can fix by writing is a build people
+learn to ignore.
+
 ## Images
 
 **Add an image only when it does work the text cannot** — a settings screen
@@ -119,7 +149,12 @@ Rules:
   caption. A reader who cannot see it should still follow the article.
 - Add `loading="lazy" decoding="async"` to inline images so they do not block
   first paint. The hero is exempt — it is above the fold.
-- Prefer PNG for UI screenshots, WebP for photographs.
+- **Use lossless WebP for UI screenshots**, not PNG. Measured on this repo's
+  16 screenshots, `cwebp -lossless -z 9` produced pixel-identical output at 64%
+  of the size (2,161K → 777K). Convert with:
+  `cwebp -lossless -z 9 shot.png -o shot.webp`
+- Lossy WebP is fine for photographs, but flat UI colour and text compress
+  better and safely with lossless.
 - Crop screenshots to the relevant area. A full-desktop screenshot shrunk to
   article width is unreadable on a phone.
 - Never include a real customer's shop name, logo, or data in a screenshot —

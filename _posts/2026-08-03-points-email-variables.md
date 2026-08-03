@@ -6,6 +6,8 @@ description: "テンプレートには店舗名や相手の名前を差し込む
 ogImage: /images/points.webp
 app: points
 section: email
+verified: 2026-08-03
+screen: /email-templates
 ---
 
 通知メールのテンプレートは、初期状態でも意味が通る文面になっています。そのままでも運用はできます。

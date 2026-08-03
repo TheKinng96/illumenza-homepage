@@ -214,6 +214,35 @@ for sect in $(grep -E '^[a-z-]+:' _data/sections.yml | tr -d ':'); do
 done
 if [ "$filter_fail" -eq 0 ]; then pass "every section has a filter page listing only its own posts"; fi
 
+echo "== verified dates =="
+# Articles document an admin UI that changes. Every post records when it was
+# last checked against that UI. This does not fail on age — that is a judgement
+# call, and script/stale-check.sh reports it — but a post with no verified date
+# at all cannot be audited later, so that is an error.
+verified_fail=0
+oldest=""
+for src in _posts/*.md; do
+  v=$(sed -n 's/^verified: //p' "$src" | head -1)
+  if [ -z "$v" ]; then
+    fail "$(basename "$src") has no verified: date"
+    verified_fail=1
+    continue
+  fi
+  if ! printf '%s' "$v" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+    fail "$(basename "$src") verified: '$v' is not YYYY-MM-DD"
+    verified_fail=1
+    continue
+  fi
+  if [ -z "$oldest" ] || [ "$v" \< "$oldest" ]; then oldest="$v"; fi
+done
+if [ "$verified_fail" -eq 0 ]; then
+  pass "every post records a verified date (oldest: $oldest)"
+fi
+# The rendered page must actually show it, or the reader gains nothing.
+SAMPLE=$(ls -1 _posts/*.md | tail -1)
+SAMPLE_SLUG=$(basename "$SAMPLE" .md | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//')
+check_contains "_site/blog/$SAMPLE_SLUG/index.html" "この記事は"
+
 echo "== sitemap + robots =="
 SM=_site/sitemap.xml
 check_file "$SM"
