@@ -173,6 +173,21 @@ check_contains "$LIST" '/js/blog-filter.js'
 check_contains "$LIST" 'href="/blog/points/" data-app="points"'
 check_contains "$LIST" 'href="/blog/coupon/" data-app="coupon"'
 
+echo "== 記事ガイド cards =="
+# Guide entries used to be a bare text link with the summary sitting outside
+# it, so only the title line was tappable. Every entry is now a card whose
+# whole area is the hit target, via the same stretched-link idiom as /blog/.
+GUIDE=_site/blog/points-guide/index.html
+check_file "$GUIDE"
+GUIDE_CARDS=$(grep -c "after:absolute after:inset-0" "$GUIDE" || true)
+if [ "$GUIDE_CARDS" -ge 29 ]; then
+  pass "$GUIDE has $GUIDE_CARDS stretched-link cards"
+else
+  fail "$GUIDE has $GUIDE_CARDS stretched-link cards, expected at least 29"
+fi
+# The old shape: a summary in a sibling <span> that was not part of the link.
+check_absent "$GUIDE" 'class="text-sm text-gray-500 block"'
+
 echo "== RSS feed (mails app contract) =="
 FEED=_site/blog/feed.xml
 check_file "$FEED"
