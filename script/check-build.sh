@@ -260,6 +260,28 @@ check_contains _site/robots.txt "Sitemap: https://illumenza.dev/sitemap.xml"
 check_absent _site/robots.txt "thekinng96.github.io"
 check_contains _site/robots.txt "Allow: /"
 
+echo "== app index pages link only to built sections =="
+# /blog/points/ walked every section in _data/sections.yml, including Coupon's,
+# and rendered a 0件 card for each — six links to pages that are never built.
+# Resolve every section link these pages emit rather than trusting the loop.
+for app in points coupon; do
+  APP_INDEX="_site/blog/$app/index.html"
+  check_file "$APP_INDEX"
+  if grep -qF -- '>0件<' "$APP_INDEX"; then
+    fail "$APP_INDEX renders an empty section card"
+  else
+    pass "$APP_INDEX renders no empty section cards"
+  fi
+  broken=0
+  for href in $(grep -oE "/blog/$app/[a-z-]+/" "$APP_INDEX" | sort -u); do
+    if [ ! -f "_site${href}index.html" ]; then
+      fail "$APP_INDEX links $href but _site${href}index.html was not built"
+      broken=1
+    fi
+  done
+  if [ "$broken" = "0" ]; then pass "$APP_INDEX section links all resolve"; fi
+done
+
 echo "== tag index =="
 TAGS=_site/blog/tags/index.html
 check_file "$TAGS"
