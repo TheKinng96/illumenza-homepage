@@ -144,6 +144,35 @@ else
   fail "$LIST paginator inactive (jekyll-paginate did not run — check plugin + filename)"
 fi
 
+echo "== /blog/ filter and search =="
+# The filter bar reaches every post, not just the ten on page 1, so it reads a
+# JSON index. If that index silently loses posts, search quietly stops finding
+# them — assert its length against _posts/ rather than merely that it parses.
+ARTICLES=_site/blog/articles.json
+check_file "$ARTICLES"
+ARTICLE_N=$(grep -o '"url":"/blog/' "$ARTICLES" | wc -l | tr -d ' ')
+POST_N=$(find _posts -name '*.md' | wc -l | tr -d ' ')
+if [ "$ARTICLE_N" = "$POST_N" ]; then
+  pass "articles.json holds all $POST_N posts"
+else
+  fail "articles.json holds $ARTICLE_N entries but _posts/ has $POST_N"
+fi
+if python3 -c "import json,sys; json.load(open('$ARTICLES'))" 2>/dev/null; then
+  pass "articles.json parses as JSON"
+else
+  fail "articles.json is not valid JSON"
+fi
+check_contains "$ARTICLES" '"sectionLabel"'
+check_file _site/js/blog-filter.js
+check_contains "$LIST" 'id="blog-search"'
+check_contains "$LIST" 'id="blog-results"'
+check_contains "$LIST" 'id="blog-static"'
+check_contains "$LIST" '/js/blog-filter.js'
+# App chips must stay real links. They are the whole no-JS story: without the
+# href a reader with JavaScript off loses every route into an app's articles.
+check_contains "$LIST" 'href="/blog/points/" data-app="points"'
+check_contains "$LIST" 'href="/blog/coupon/" data-app="coupon"'
+
 echo "== RSS feed (mails app contract) =="
 FEED=_site/blog/feed.xml
 check_file "$FEED"
