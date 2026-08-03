@@ -1,0 +1,35 @@
+---
+layout: default
+title: "Illumenza Points の記事 — テーマ別"
+description: "Illumenza Points に関する記事を、はじめる前に・貯め方・使い方・会員ランク・友達紹介・日々の運用・表示設定・通知メールの8つのテーマに分けてまとめています。"
+---
+{%- assign points_posts = site.posts | where: "app", "points" -%}
+<div class="container mx-auto max-w-3xl">
+
+  <header class="mb-8 sm:mb-12">
+    <p class="text-sm text-gray-500 mb-3">
+      <a href="/blog/" class="hover:text-gray-900 underline underline-offset-4">ブログ</a>
+    </p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Illumenza Points の記事</h1>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      設定する場所ごとに分けています。読む順番を知りたい方は
+      <a href="/blog/points-guide/" class="text-brand-blue hover:underline">記事ガイド</a> をご覧ください。
+    </p>
+    <p class="mt-3 text-sm text-gray-500">全{{ points_posts.size }}件</p>
+  </header>
+
+  <ul class="grid gap-4 sm:grid-cols-2">
+    {% for entry in site.data.sections %}
+      {%- assign key = entry[0] -%}
+      {%- assign meta = entry[1] -%}
+      {%- assign count = points_posts | where: "section", key | size -%}
+      <li class="group relative rounded-xl border border-gray-200 p-5 transition hover:border-gray-300 hover:shadow-sm">
+        <h2 class="text-lg font-bold text-gray-900">
+          <a href="/blog/points/{{ key }}/" class="after:absolute after:inset-0 hover:underline underline-offset-4">{{ meta.label }}</a>
+        </h2>
+        <p class="mt-1 text-sm text-gray-500">{{ count }}件</p>
+      </li>
+    {% endfor %}
+  </ul>
+
+</div>

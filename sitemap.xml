@@ -41,6 +41,32 @@ layout: null
     <priority>0.5</priority>
   </url>
   {%- endif %}
+  {%- comment -%}
+    Filter pages are generated from _data/sections.yml, so adding a section
+    adds its sitemap entry automatically. Everything else in this file is
+    hand-maintained; these are the exception.
+  {%- endcomment -%}
+  <url>
+    <loc>{{ '/blog/points/' | absolute_url }}</loc>
+    {%- if site.posts.first %}
+    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- endif %}
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  {%- for entry in site.data.sections %}
+  {%- assign has_posts = site.posts | where: "section", entry[0] | size %}
+  {%- if has_posts > 0 %}
+  <url>
+    <loc>{{ '/blog/points/' | append: entry[0] | append: '/' | absolute_url }}</loc>
+    {%- if site.posts.first %}
+    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- endif %}
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  {%- endif %}
+  {%- endfor %}
   <url>
     <loc>{{ '/blog/points-guide/' | absolute_url }}</loc>
     {%- if site.posts.first %}

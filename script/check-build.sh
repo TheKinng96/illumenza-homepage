@@ -176,8 +176,8 @@ for src in _posts/*.md; do
   fi
   navhtml=$(awk '/aria-label="同じテーマの記事"/{f=1} f' "$out")
   for target in $(printf '%s' "$navhtml" | grep -oE 'href="/blog/[a-z0-9-]+/"' | sed -E 's|href="/blog/([a-z0-9-]+)/"|\1|' | sort -u); do
-    [ "$target" = "points-guide" ] && continue
-    tsrc=$(ls _posts/*-"$target".md 2>/dev/null | head -1)
+    if [ "$target" = "points-guide" ]; then continue; fi
+    tsrc=$(ls _posts/*-"$target".md 2>/dev/null | head -1 || true)
     [ -z "$tsrc" ] && { fail "$slug links to unknown post $target"; nav_fail=1; continue; }
     tsect=$(grep -m1 '^section: ' "$tsrc" | sed 's/^section: //' | tr -d '\r')
     if [ "$tsect" != "$sect" ]; then
@@ -186,7 +186,33 @@ for src in _posts/*.md; do
     fi
   done
 done
-[ "$nav_fail" -eq 0 ] && pass "every post declares a section and navigates within it"
+if [ "$nav_fail" -eq 0 ]; then pass "every post declares a section and navigates within it"; fi
+
+echo "== section filter pages =="
+# One page per section in _data/sections.yml, each listing only its own posts.
+# A filter page that leaks another section's posts is worse than no filter.
+filter_fail=0
+check_file _site/blog/points/index.html
+for sect in $(grep -E '^[a-z-]+:' _data/sections.yml | tr -d ':'); do
+  page="_site/blog/points/$sect/index.html"
+  if [ ! -f "$page" ]; then fail "missing filter page: $page"; filter_fail=1; continue; fi
+  # Every post linked from the page must declare this section.
+  for target in $(grep -oE 'href="/blog/[a-z0-9-]+/"' "$page" | sed -E 's|href="/blog/([a-z0-9-]+)/"|\1|' | sort -u); do
+    tsrc=$(ls _posts/*-"$target".md 2>/dev/null | head -1 || true)
+    if [ -z "$tsrc" ]; then continue; fi   # guide, index and sibling filter links are not posts
+    tsect=$(grep -m1 '^section: ' "$tsrc" | sed 's/^section: //' | tr -d '\r')
+    if [ "$tsect" != "$sect" ]; then
+      fail "filter page $sect lists $target (section: $tsect)"
+      filter_fail=1
+    fi
+  done
+  # And the guide must link to it.
+  if ! grep -qF -- "/blog/points/$sect/" blog/points-guide/index.html; then
+    fail "article guide does not link to /blog/points/$sect/"
+    filter_fail=1
+  fi
+done
+if [ "$filter_fail" -eq 0 ]; then pass "every section has a filter page listing only its own posts"; fi
 
 echo "== sitemap + robots =="
 SM=_site/sitemap.xml
