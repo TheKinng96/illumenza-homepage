@@ -114,8 +114,18 @@
         <a href="/"><img src="/images/logo-full.png" alt="Illumenza" class="h-8 sm:h-10"></a>
         <a href="/blog/" class="shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 font-medium text-gray-700 border border-gray-300 rounded-lg hover:border-brand-blue hover:text-brand-blue transition-colors">記事</a>
       </div>
-      <a href="https://points.illumenza.dev" class="shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm font-medium bg-brand-light text-brand-blue rounded-lg hover:bg-brand-blue hover:text-white transition-colors">
-        Illumenza Points
+      {%- comment -%}
+        Matched to the page's app. On /blog/ itself the app is chosen by a query
+        string the server never sees, so blog-filter.js rewrites this when a
+        filter is active — data-app-cta marks it for that.
+      {%- endcomment -%}
+      {%- if page.app == 'coupon' -%}
+        {%- assign nav_cta = 'Illumenza Coupon' -%}{%- assign nav_url = 'https://coupon.illumenza.dev' -%}
+      {%- else -%}
+        {%- assign nav_cta = 'Illumenza Points' -%}{%- assign nav_url = 'https://points.illumenza.dev' -%}
+      {%- endif -%}
+      <a href="{{ nav_url }}" data-app-cta class="shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm font-medium bg-brand-light text-brand-blue rounded-lg hover:bg-brand-blue hover:text-white transition-colors">
+        {{ nav_cta }}
       </a>
     </div>
   </nav>

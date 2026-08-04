@@ -228,6 +228,25 @@ for u in $(grep -oh "/blog/[a-z0-9-]*/" _posts/*.md | sort -u); do
   fi
 done
 if [ "$broken" = "0" ]; then pass "every /blog/ link in _posts/ resolves"; fi
+echo "== CTA matches the article's app =="
+# Every Coupon article used to close with a Points CTA — a different product,
+# and the one that cannot be installed yet. Asserted per app, both directions.
+COUPON_POST=$(ls -1 _posts/*coupon-metrics.md | head -1)
+COUPON_URL="_site/blog/$(basename "$COUPON_POST" .md | sed 's/^[0-9-]\{11\}//')/index.html"
+check_contains "$COUPON_URL" "https://coupon.illumenza.dev"
+check_absent  "$COUPON_URL" "https://points.illumenza.dev"
+check_contains "$POST" "https://points.illumenza.dev"
+check_absent  "$POST" "https://coupon.illumenza.dev"
+# And no Coupon article anywhere may link the Points app.
+leaked=0
+for f in _posts/*.md; do
+  grep -q "^app: coupon" "$f" || continue
+  slug=$(basename "$f" .md | sed 's/^[0-9-]\{11\}//')
+  if grep -q "points.illumenza.dev" "_site/blog/$slug/index.html" 2>/dev/null; then
+    fail "coupon article $slug links the Points app"; leaked=1
+  fi
+done
+if [ "$leaked" = "0" ]; then pass "no Coupon article links the Points app"; fi
 
 echo "== RSS feed (mails app contract) =="
 FEED=_site/blog/feed.xml
