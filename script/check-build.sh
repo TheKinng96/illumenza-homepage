@@ -218,7 +218,9 @@ echo "== internal article links resolve =="
 # this build is a 404 that nothing else catches — the page renders fine, the
 # gate was green, and only a reader finds it.
 broken=0
-for u in $(grep -oh "/blog/[a-z0-9-]*/" _posts/*.md | sort -u); do
+# Strip image paths first: /images/blog/<slug>/foo.webp contains a "/blog/<slug>/"
+# substring, which this check would otherwise read as an article link.
+for u in $(sed 's#/images/blog/[a-z0-9-]*/##g' _posts/*.md | grep -oh "/blog/[a-z0-9-]*/" | sort -u); do
   case "$u" in
     /blog/tags/|/blog/points/|/blog/coupon/|/blog/points-guide/) continue ;;
   esac
