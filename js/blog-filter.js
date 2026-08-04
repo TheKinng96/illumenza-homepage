@@ -151,8 +151,23 @@
         : 'border-gray-300 text-gray-700 hover:border-brand-blue hover:text-brand-blue');
   }
 
+  // /blog/ is one page for both apps, so the navbar CTA cannot be resolved at
+  // build time — the app comes from a query string. Swap it with the filter.
+  var APP_CTA = {
+    points: { label: 'Illumenza Points', url: 'https://points.illumenza.dev' },
+    coupon: { label: 'Illumenza Coupon', url: 'https://coupon.illumenza.dev' }
+  };
+  function paintCta() {
+    var el = document.querySelector('[data-app-cta]');
+    if (!el) return;
+    var cta = APP_CTA[state.app] || APP_CTA.points;
+    el.textContent = cta.label;
+    el.setAttribute('href', cta.url);
+  }
+
   function render() {
     paintChips();
+    paintCta();
     clearBtn.hidden = !active();
 
     if (!active()) {
