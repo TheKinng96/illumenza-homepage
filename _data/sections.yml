@@ -6,6 +6,8 @@
 # they should be read, not at the end.
 getting-started:
   label: はじめる前に
+examples:
+  label: 業種別の設定例
 missions:
   label: ポイントの貯め方
 redemption:
