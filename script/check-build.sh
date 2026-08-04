@@ -222,10 +222,23 @@ check_contains "$FEED" "<title>Illumenza の記事</title>"
 check_contains "$FEED" "<link>https://illumenza.dev/blog/</link>"
 check_contains "$FEED" "<language>ja</language>"
 check_contains "$FEED" 'rel="self"'
-check_contains "$FEED" "<link>https://illumenza.dev/blog/colorme-points-5-decisions/</link>"
-check_contains "$FEED" "<pubDate>"
-check_contains "$FEED" "<description>"
-check_contains "$FEED" "<guid isPermaLink=\"true\">https://illumenza.dev/blog/colorme-points-5-decisions/</guid>"
+# The mails app contract is that every item carries link, guid, pubDate and
+# description — not that any particular post is present. The feed is capped at
+# 50 items, so pinning the *oldest* post broke the moment the 51st was
+# published. Derive from the newest instead, which is always in the feed, and
+# assert the per-item fields by count.
+NEWEST_SLUG=$(ls -1 _posts/*.md | sort | tail -1 | sed 's#_posts/[0-9-]\{11\}##;s#\.md$##')
+check_contains "$FEED" "<link>https://illumenza.dev/blog/${NEWEST_SLUG}/</link>"
+check_contains "$FEED" "<guid isPermaLink=\"true\">https://illumenza.dev/blog/${NEWEST_SLUG}/</guid>"
+FEED_ITEMS=$(grep -c "<item>" "$FEED" || true)
+for field in pubDate description guid; do
+  n=$(grep -c "<$field" "$FEED" || true)
+  if [ "$n" -ge "$FEED_ITEMS" ]; then
+    pass "$FEED: all $FEED_ITEMS item(s) carry <$field>"
+  else
+    fail "$FEED has $FEED_ITEMS item(s) but only $n <$field>"
+  fi
+done
 check_contains "$FEED" "<category>ポイント制度</category>"
 # No leaked front matter, no UTM (mails app appends those).
 check_absent "$FEED" "layout:"
