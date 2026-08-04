@@ -213,6 +213,21 @@ for href in $(grep -oE 'href="/blog/(points|coupon)/"' _site/index.html | sed 's
   fi
 done
 
+echo "== internal article links resolve =="
+# Articles cross-reference each other heavily. A link to a post that is not in
+# this build is a 404 that nothing else catches — the page renders fine, the
+# gate was green, and only a reader finds it.
+broken=0
+for u in $(grep -oh "/blog/[a-z0-9-]*/" _posts/*.md | sort -u); do
+  case "$u" in
+    /blog/tags/|/blog/points/|/blog/coupon/|/blog/points-guide/) continue ;;
+  esac
+  if [ ! -f "_site${u}index.html" ]; then
+    fail "a post links ${u} but it was not built"
+    broken=1
+  fi
+done
+if [ "$broken" = "0" ]; then pass "every /blog/ link in _posts/ resolves"; fi
 echo "== CTA matches the article's app =="
 # Every Coupon article used to close with a Points CTA — a different product,
 # and the one that cannot be installed yet. Asserted per app, both directions.
