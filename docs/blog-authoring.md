@@ -93,6 +93,34 @@ the guide does not link to it.
 like `{{獲得ポイント}}` — the app's own variable names — is parsed as a Liquid
 tag and warns at build time. Wrap those passages in `{% raw %}` / `{% endraw %}`.
 
+## Who you are writing for
+
+**Assume the reader has never designed a loyalty programme.** Not that they are
+new to our app — new to the whole subject. This is the default for every
+article, not a mode for beginner posts.
+
+In practice:
+
+- **Define the thing before using it.** 「1ポイント = 1円ではありません」 has to
+  be said out loud; a merchant seeing points for the first time assumes it is
+  yen. Every article that touches points earning or redemption states the
+  relationship rather than assuming it.
+- **Give a number to start from**, then say it is adjustable. 「100円で5ポイント
+  から」 is usable; 「還元率は業態によります」 is not. A reader who cannot start
+  cannot adjust.
+- **Anchor to the reader's own figures.** 平均注文額 and 粗利率 are numbers a
+  merchant already knows. Derive from those instead of asking them to pick a
+  point value out of the air.
+- **Convert to something physical.** 「1,250ポイント」 means nothing; 「5回買えば
+  届く」 means something. Where a threshold can be expressed in purchases, say
+  it in purchases.
+- **Name the failure.** Beginners do not know which mistakes are expensive.
+  Say plainly that onboarding points above the entry tier means customers can
+  claim a coupon without buying anything.
+
+Do not compress the explanation to fit the character range. If the setup needs
+more words than the mechanic, that is the correct proportion.
+
 ## Keeping articles true
 
 Articles document an admin UI that changes. Two front-matter fields make that
