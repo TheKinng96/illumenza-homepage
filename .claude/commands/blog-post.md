@@ -27,7 +27,8 @@ Read `docs/blog-authoring.md` first and follow it exactly. Then:
    lowercase) — `Points` and `points` produce the same `id="points"` anchor on
    `/blog/tags/` and silently collide into an unreachable duplicate section.
    Japanese tags are unaffected.
-3. Write 1,200–2,500 Japanese characters, polite 敬体, headings starting at
+3. Write 1,200–2,500 Japanese characters (up to ~3,000 for a foundational
+   article aimed at a first-time reader), polite 敬体, headings starting at
    `##`. Audience is カラーミーショップ store owners who are not technical.
 
 ABSOLUTE CONTENT RULES:

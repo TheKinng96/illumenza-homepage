@@ -210,6 +210,9 @@ it is a calculation, not a claimed customer.
   cannot edit DNS, run small shops. Gloss any technical term on first use.
 - Match the homepage's calm, explanatory tone. No hype, no exclamation marks.
 - 1,200–2,500 Japanese characters. Long enough to answer the question fully.
+  **Foundational articles may run to ~3,000** — the ones a beginner reads
+  first, where the setup legitimately needs more words than the mechanic.
+  See "Who you are writing for": do not compress an explanation to fit.
 - Structure with `##` headings. Start at `##`, never `#` (the title is the h1).
 - Tables and numbered lists are encouraged; they survive translation to email.
 - Do not write a CTA — `_layouts/post.html` appends the points.illumenza.dev
