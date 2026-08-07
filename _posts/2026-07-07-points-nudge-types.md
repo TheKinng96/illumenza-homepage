@@ -6,7 +6,7 @@ description: "購入完了ページなどに出る通知は5種類あり、条�
 ogImage: /images/points.webp
 app: points
 section: appearance
-verified: 2026-08-03
+verified: 2026-08-07
 screen: /nudges
 ---
 
@@ -32,6 +32,42 @@ screen: /nudges
 | 紹介リンク訪問時の案内 | 紹介リンクから訪問したとき |
 
 最後のひとつだけが購入完了ページ以外で出ます。紹介リンクを踏んで来た方に、その場で案内を出すためのものです。
+
+## 実際にはこう出ます
+
+設定画面には**プレビュー**があり、保存前に見た目を確認できます。5種類はそれぞれ別の文面と別のボタンを持ちます。
+
+<figure>
+  <img src="/images/blog/points-nudge-types/points-earned.webp"
+       alt="ポイント獲得のお知らせのプレビュー。クラッカーのアイコン、見出し「ポイント獲得！」、本文「ポイントを獲得しました」、青い「確認する」ボタン。">
+  <figcaption>ポイント獲得のお知らせ。本文に <code>{% raw %}{{獲得ポイント}}{% endraw %}</code> を入れると実際の数値が入ります。</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/blog/points-nudge-types/redemption.webp"
+       alt="特典交換のご案内のプレビュー。プレゼントのアイコン、見出し「特典交換可能」、本文「新しい特典と交換できます」、青い「交換する」ボタン。">
+  <figcaption>特典交換のご案内。交換できる特典があるときだけ出ます。</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/blog/points-nudge-types/referral.webp"
+       alt="お友達紹介のご案内のプレビュー。プレゼントのアイコン、見出し「友達を招待しよう」、本文「あなたに500、友達に500をプレゼント」、青い「招待する」ボタン。">
+  <figcaption>お友達紹介のご案内。両者の特典額が本文に差し込まれます。</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/blog/points-nudge-types/review.webp"
+       alt="商品レビュー依頼のプレビュー。メモのアイコン、見出し「商品レビューを書こう」、本文「サンプル商品のレビューを書いてポイントを獲得」、青い「レビューを書く」ボタン。">
+  <figcaption>商品レビュー依頼。商品名が差し込まれます。</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/blog/points-nudge-types/landing.webp"
+       alt="紹介リンク訪問時の案内のプレビュー。見出し「ようこそ！」、本文「友達からの紹介で500をゲット」、「会員登録して受け取る」ボタン。下に、ボタンをクリックすると利用規約・プライバシーポリシーに同意したものとみなされる旨の注記がある。">
+  <figcaption>紹介リンク訪問時の案内。これだけ会員登録前の方に出るので、同意の文言が付きます。</figcaption>
+</figure>
+
+どれも**小さなカード1枚**です。書ける文字数は多くありません。見出し・本文・ボタンの3つで完結させてください。
 
 ## 条件が重なります
 
