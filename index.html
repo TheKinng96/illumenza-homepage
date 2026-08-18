@@ -413,6 +413,10 @@ layout: null
                   {%- assign app_label = 'Coupon' -%}
                   {%- assign app_url = '/blog/coupon/' -%}
                   {%- assign app_class = 'bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white' -%}
+                {%- elsif post.app == 'reviews' -%}
+                  {%- assign app_label = 'Reviews' -%}
+                  {%- assign app_url = '/blog/reviews/' -%}
+                  {%- assign app_class = 'bg-amber-50 text-amber-700 hover:bg-amber-600 hover:text-white' -%}
                 {%- endif -%}
                 <article class="group relative bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-shadow p-6 sm:p-8 flex flex-col scale-in delay-{{ delay }}">
                     <p class="flex flex-wrap items-center gap-2 text-xs text-gray-500 mb-3">

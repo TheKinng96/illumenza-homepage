@@ -40,6 +40,7 @@ description: "カラーミーショップ運営者のための、ポイント・
   {%- endcomment -%}
   {%- assign points_posts = site.posts | where: "app", "points" -%}
   {%- assign coupon_posts = site.posts | where: "app", "coupon" -%}
+{%- assign reviews_posts = site.posts | where: "app", "reviews" -%}
 
   <section aria-label="記事の絞り込み" class="mb-8 border-b border-gray-100 pb-6">
     <label for="blog-search" class="sr-only">記事を検索</label>
@@ -54,6 +55,8 @@ description: "カラーミーショップ運営者のための、ポイント・
          class="rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue">Points<span class="ml-1.5 text-xs text-gray-400">{{ points_posts.size }}</span></a>
       <a href="/blog/coupon/" data-app="coupon" aria-pressed="false"
          class="rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue">Coupon<span class="ml-1.5 text-xs text-gray-400">{{ coupon_posts.size }}</span></a>
+      <a href="/blog/reviews/" data-app="reviews" aria-pressed="false"
+         class="rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue">Reviews<span class="ml-1.5 text-xs text-gray-400">{{ reviews_posts.size }}</span></a>
     </div>
 
     <div id="blog-section-chips" hidden class="mt-2 flex flex-wrap items-center gap-2" role="group" aria-label="テーマ">
