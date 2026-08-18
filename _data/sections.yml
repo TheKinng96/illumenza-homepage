@@ -20,6 +20,8 @@ operations:
   label: 日々の運用
 appearance:
   label: 表示設定
+review-templates:
+  label: レビュー項目の割り当て
 email:
   label: 通知メール
 campaigns:

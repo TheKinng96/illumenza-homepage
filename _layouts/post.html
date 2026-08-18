@@ -87,7 +87,12 @@ layout: default
     product — and the one that cannot be installed yet, on articles about the
     one that can.
   {%- endcomment -%}
-  {%- if page.app == 'coupon' -%}
+  {%- if page.app == 'reviews' -%}
+{%- assign cta_head = '商品レビューをノーコードで集めませんか' -%}
+{%- assign cta_body = 'Illumenza Reviews は、カラーミーショップ向けの商品レビューアプリです。レビューの承認、商品ごとのレビュー項目、商品ページへの表示までをまとめて設定できます。' -%}
+{%- assign cta_label = 'お問い合わせ' -%}
+{%- assign cta_url = 'https://illumenza.dev/contact-us/' -%}
+{%- elsif page.app == 'coupon' -%}
     {%- assign cta_head = 'クーポン施策をノーコードで始めませんか' -%}
     {%- assign cta_body = 'Illumenza Coupon は、カラーミーショップ向けのクーポン抽選アプリです。ルーレットの当選確率・参加フォーム・不正防止を、専門知識なしで設定できます。' -%}
     {%- assign cta_label = 'Illumenza Coupon を見る' -%}

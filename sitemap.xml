@@ -62,7 +62,15 @@ layout: null
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  {%- assign blog_apps = "points,coupon" | split: "," %}
+  <url>
+    <loc>{{ '/blog/reviews/' | absolute_url }}</loc>
+    {%- if site.posts.first %}
+    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- endif %}
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  {%- assign blog_apps = "points,coupon,reviews" | split: "," %}
   {%- for app in blog_apps %}
   {%- assign app_posts = site.posts | where: "app", app %}
   {%- for entry in site.data.sections %}
