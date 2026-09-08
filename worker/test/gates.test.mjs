@@ -6,6 +6,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import worker from "../src/index.js";
+import { ILLUMENZA_FORMS } from "../src/forms-config.generated.js";
 
 const SUPPORT = "https://discord.test/support";
 const POINTS = "https://discord.test/points";
@@ -257,6 +258,43 @@ test("rejects an unknown path", async () => {
     const res = await worker.fetch(
         new Request("https://forms.test/", { method: "POST", headers: { Origin: ORIGIN } }), ENV);
     assert.equal(res.status, 404);
+});
+
+/* --- 対象エリア routing keys -------------------------------------------- */
+
+/* The `area` radio's options in js/forms-config.js double as the lookup keys
+ * for POINTS_AREA_TAGS in src/routing.js. Rename one side without the other
+ * and it fails silently, in two different ways: the validator rejects the
+ * submission (index.js:198), or the tag lookup misses and the thread posts
+ * untagged (routing.js). Neither logs an error and neither is visible to the
+ * person who submitted, so assert every offered option still routes.
+ *
+ * `type` must be a non-bugish value here — 不具合報告 and 質問・その他
+ * short-circuit to the support forum's fixed tag and never read the area map.
+ *
+ * The reverse direction (a POINTS_AREA_TAGS key the form no longer offers) is
+ * dead config rather than a break, so it is deliberately not asserted. */
+test("every 対象エリア option maps to a forum tag", async () => {
+    const areas = ILLUMENZA_FORMS["points-issue"]
+        .fields.find((f) => f.name === "area").options;
+    assert.ok(areas.length, "the area field should offer options");
+
+    for (const area of areas) {
+        sent = null;
+        const res = await submit({
+            formId: "points-issue",
+            values: JSON.stringify({
+                email: "a@b.com", shop: "S", type: "機能要望",
+                area, title: "T", details: "D",
+            }),
+            params: "{}",
+        });
+        assert.equal(res.status, 204,
+            `"${area}" is offered by the form but the validator rejected it`);
+        const payload = await discordPayload();
+        assert.ok(payload.applied_tags && payload.applied_tags.length,
+            `"${area}" is offered by the form but has no POINTS_AREA_TAGS entry`);
+    }
 });
 
 /* --- rate limit --------------------------------------------------------- */
