@@ -95,7 +95,7 @@ echo "== first post renders =="
 POST=_site/blog/colorme-points-5-decisions/index.html
 check_file "$POST"
 check_contains "$POST" "<h1"
-check_contains "$POST" "チケット制度"
+check_contains "$POST" "マイル制度"
 # Derived from the source rather than pinned: publication dates were spread
 # across a range once already, and a hardcoded date turns that into a gate
 # failure instead of what it is — a content edit.
@@ -276,7 +276,7 @@ for field in pubDate description guid; do
     fail "$FEED has $FEED_ITEMS item(s) but only $n <$field>"
   fi
 done
-check_contains "$FEED" "<category>チケット制度</category>"
+check_contains "$FEED" "<category>マイル制度</category>"
 # No leaked front matter, no UTM (mails app appends those).
 check_absent "$FEED" "layout:"
 check_absent "$FEED" "utm_"
@@ -412,13 +412,13 @@ done
 echo "== tag index =="
 TAGS=_site/blog/tags/index.html
 check_file "$TAGS"
-check_contains "$TAGS" "チケット制度"
+check_contains "$TAGS" "マイル制度"
 check_contains "$TAGS" "ロイヤルティ"
 check_contains "$TAGS" "カラーミーショップ"
 check_contains "$TAGS" "colorme-points-5-decisions"
 check_contains "$TAGS" 'rel="canonical" href="https://illumenza.dev/blog/tags/"'
 # Anchors referenced from post/list pages must exist on this page.
-check_contains "$TAGS" 'id="チケット制度"'
+check_contains "$TAGS" 'id="マイル制度"'
 check_contains "$TAGS" 'id="ロイヤルティ"'
 check_contains "$TAGS" 'id="カラーミーショップ"'
 DUPES=$(grep -oE '<section id="[^"]*"' "$TAGS" | sort | uniq -d)

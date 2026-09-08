@@ -9,11 +9,11 @@ getting-started:
 examples:
   label: 業種別の設定例
 missions:
-  label: チケットの貯め方
+  label: マイルの貯め方
 redemption:
-  label: チケットの使い方
+  label: マイルの使い方
 ranks:
-  label: 会員クラス
+  label: 会員ステージ
 referral:
   label: 友達紹介
 operations:

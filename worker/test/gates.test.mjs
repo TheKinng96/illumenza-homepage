@@ -54,7 +54,7 @@ const VALID_POINTS = {
     formId: "points-issue",
     values: JSON.stringify({
         email: "a@b.com", shop: "Test Shop", type: "不具合報告",
-        area: "チケット設定", title: "T", details: "D",
+        area: "マイル設定", title: "T", details: "D",
     }),
     params: "{}",
 };
@@ -123,7 +123,7 @@ test("ignores caller-supplied username, embeds and applied_tags", async () => {
     const payload = await discordPayload();
     assert.equal(payload.username, "Illumenza Forms");
     assert.equal(payload.embeds.length, 1);
-    assert.equal(payload.embeds[0].title, "ご意見・ご要望 - ショップミッション");
+    assert.equal(payload.embeds[0].title, "ご意見・ご要望 - 会員ステージ -顧客育成-");
     assert.deepEqual(payload.applied_tags, ["1517164358906413186"]);
 });
 
@@ -134,7 +134,7 @@ test("rejects a radio value that is not one of the form's options", async () => 
         ...VALID_POINTS,
         values: JSON.stringify({
             email: "a@b.com", shop: "S", type: "../../admin",
-            area: "チケット設定", title: "T", details: "D",
+            area: "マイル設定", title: "T", details: "D",
         }),
     });
     assert.equal(res.status, 400);
@@ -153,7 +153,7 @@ test("rejects prototype-chain form ids", async () => {
 test("rejects a missing required field", async () => {
     const res = await submit({
         ...VALID_POINTS,
-        values: JSON.stringify({ email: "a@b.com", shop: "S", type: "不具合報告", area: "チケット設定", title: "T" }),
+        values: JSON.stringify({ email: "a@b.com", shop: "S", type: "不具合報告", area: "マイル設定", title: "T" }),
     });
     assert.equal(res.status, 400);
 });
@@ -163,7 +163,7 @@ test("rejects a malformed email", async () => {
         ...VALID_POINTS,
         values: JSON.stringify({
             email: "not-an-email", shop: "S", type: "不具合報告",
-            area: "チケット設定", title: "T", details: "D",
+            area: "マイル設定", title: "T", details: "D",
         }),
     });
     assert.equal(res.status, 400);
@@ -184,7 +184,7 @@ test("truncates an over-long field instead of forwarding it", async () => {
         ...VALID_POINTS,
         values: JSON.stringify({
             email: "a@b.com", shop: "S", type: "不具合報告",
-            area: "チケット設定", title: "T", details: "x".repeat(9000),
+            area: "マイル設定", title: "T", details: "x".repeat(9000),
         }),
     });
     const payload = await discordPayload();
@@ -228,7 +228,7 @@ test("reports the real upload count, not a caller-supplied one", async () => {
     await submit({
         ...VALID_POINTS,
         values: JSON.stringify({
-            email: "a@b.com", shop: "S", type: "不具合報告", area: "チケット設定",
+            email: "a@b.com", shop: "S", type: "不具合報告", area: "マイル設定",
             title: "T", details: "D", screenshot: "9999 file(s)",
         }),
     }, { files: [img] });
