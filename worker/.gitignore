@@ -1,0 +1,7 @@
+node_modules/
+.wrangler/
+# Generated from js/forms-config.js at build time — see build.sh
+src/forms-config.generated.js
+
+# Local secrets for `wrangler dev`
+.dev.vars
