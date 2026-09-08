@@ -23,7 +23,7 @@ Use `/blog-post <topic>` in Claude Code to do all of this in one shot.
 ---
 title: "記事タイトル（30〜45文字を目安に）"
 date: 2026-07-30 09:00:00 +0900
-tags: [ポイント制度, ロイヤルティ]
+tags: [チケット制度, ロイヤルティ]
 description: "検索結果とメール配信に出る要約。70〜110文字。記事の結論を含める。"
 ogImage: /images/points.webp
 ---
@@ -89,9 +89,10 @@ that part is automatic. `script/check-build.sh` fails the build if a post has no
 has no filter page, if a filter page lists a post from another section, or if
 the guide does not link to it.
 
-**Careful with `{{` in post bodies.** Jekyll runs Liquid over Markdown, so text
-like `{{獲得ポイント}}` — the app's own variable names — is parsed as a Liquid
-tag and warns at build time. Wrap those passages in `{% raw %}` / `{% endraw %}`.
+**Careful with `{{` in post bodies.** Jekyll runs Liquid over Markdown, so any
+double-brace text is parsed as a Liquid tag and warns at build time. Wrap those
+passages in `{% raw %}` / `{% endraw %}`. The app's own variable names use single
+braces (`{ticketsEarned}`), so they need no wrapping.
 
 ## Who you are writing for
 
@@ -101,17 +102,17 @@ article, not a mode for beginner posts.
 
 In practice:
 
-- **Define the thing before using it.** 「1ポイント = 1円ではありません」 has to
+- **Define the thing before using it.** 「1枚 = 1円ではありません」 has to
   be said out loud; a merchant seeing points for the first time assumes it is
   yen. Every article that touches points earning or redemption states the
   relationship rather than assuming it.
-- **Give a number to start from**, then say it is adjustable. 「100円で5ポイント
+- **Give a number to start from**, then say it is adjustable. 「100円で5枚
   から」 is usable; 「還元率は業態によります」 is not. A reader who cannot start
   cannot adjust.
 - **Anchor to the reader's own figures.** 平均注文額 and 粗利率 are numbers a
   merchant already knows. Derive from those instead of asking them to pick a
   point value out of the air.
-- **Convert to something physical.** 「1,250ポイント」 means nothing; 「5回買えば
+- **Convert to something physical.** 「1,250枚」 means nothing; 「5回買えば
   届く」 means something. Where a threshold can be expressed in purchases, say
   it in purchases.
 - **Name the failure.** Beginners do not know which mistakes are expensive.
@@ -165,7 +166,7 @@ Inline images in the body use a figure with a caption:
 ```markdown
 <figure>
   <img src="/images/blog/points-expiry-basics/expiry-setting.png"
-       alt="ポイント有効期限の設定画面。「最終利用日から12か月」を選択した状態。"
+       alt="チケット有効期限の設定画面。「最終利用日から12か月」を選択した状態。"
        loading="lazy" decoding="async">
   <figcaption>有効期限は「最終利用日から延長」を選ぶと、購入のたびに期限が延びます。</figcaption>
 </figure>

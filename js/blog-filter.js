@@ -154,7 +154,7 @@
   // /blog/ is one page for both apps, so the navbar CTA cannot be resolved at
   // build time — the app comes from a query string. Swap it with the filter.
   var APP_CTA = {
-    points: { label: 'Illumenza Points', url: 'https://points.illumenza.dev' },
+    points: { label: 'ショップミッション', url: 'https://points.illumenza.dev' },
     coupon: { label: 'Illumenza Coupon', url: 'https://coupon.illumenza.dev' }
   };
   function paintCta() {
