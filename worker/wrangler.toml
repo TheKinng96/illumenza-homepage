@@ -1,0 +1,27 @@
+name = "illumenza-forms"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+# Keep the Worker off the public internet as a *.workers.dev host only; the
+# apex illumenza.dev stays DNS-only so the GitHub Pages certificate setup is
+# untouched. The browser reaches it cross-origin, which the CORS + Origin
+# allowlist in src/index.js handles.
+workers_dev = true
+
+[build]
+command = "./build.sh"
+
+# Per-IP submission cap. Counters are per Cloudflare location, so treat this as
+# a volume cap on a single source, not a global quota. `period` must be 10 or 60.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
+
+# Secrets — set with `wrangler secret put <NAME>`, never in this file:
+#   SUPPORT_WEBHOOK           Discord webhook for the shared support forum
+#   POINTS_FEEDBACK_WEBHOOK   Discord webhook for the Points feedback forum
+#   TURNSTILE_SECRET          Turnstile secret key (pairs with the site key in js/forms-config.js)

@@ -1,9 +1,17 @@
-/* Illumenza contact forms — renderer + Discord submitter.
+/* Illumenza contact forms — renderer + submitter.
  *
  * Reads <div id="form-root" data-form="<id>">, looks the form up in
  * ILLUMENZA_FORMS (forms-config.js), renders it, validates on submit, and
- * posts to the Discord forum webhook (creating one forum post per submission
- * with the form's source tag applied).
+ * posts the raw field values to the forms Worker at FORMS_ENDPOINT.
+ *
+ * The Worker owns everything Discord-facing — which webhook a submission
+ * reaches, the forum post title, the embed, the applied tags — because this
+ * file and forms-config.js are public static JS that anyone can read or fork.
+ * The validation and file checks here are for UX only; worker/src/index.js
+ * re-runs all of them, and its copy is the one that decides.
+ *
+ * Every submission carries a Cloudflare Turnstile token. That is what stops a
+ * script from POSTing to the Worker directly.
  */
 (function () {
     "use strict";
@@ -17,6 +25,8 @@
             successTitle: "送信完了",
             successBody: "お問い合わせありがとうございます。内容を確認のうえ、ご返信いたします。",
             errorBanner: "送信に失敗しました。時間をおいて再度お試しください。",
+            rateLimited: "送信が集中しています。しばらく時間をおいてから再度お試しください。",
+            captchaPending: "認証が完了するまで少しお待ちください。",
             fileTooBig: "ファイルが大きすぎます（最大8MB）",
             fileType: "画像ファイルのみアップロードできます",
             uploadPrompt: "クリックして画像を選択（最大8MB・10枚まで）",
@@ -33,6 +43,8 @@
             successTitle: "Submitted",
             successBody: "Thanks for reaching out. We'll review your message and get back to you.",
             errorBanner: "Submission failed. Please try again in a moment.",
+            rateLimited: "Too many submissions right now. Please wait a moment and try again.",
+            captchaPending: "Please wait for the verification check to finish.",
             fileTooBig: "File too large (max 8MB)",
             fileType: "Only image files can be uploaded",
             uploadPrompt: "Click to choose images (max 8MB, up to 10)",
@@ -53,111 +65,81 @@
         return n;
     }
 
-    /* Trim a category option down to a short, searchable token for the title.
-       Strips leading emoji/symbols, then cuts at the first " - " / " (" / " （". */
-    function shortCat(v) {
-        var s = String(v || "").replace(/^[^\p{L}\p{N}]+/u, "").trim();
-        var cuts = [" (", " （", " - ", " ー ", " / "];
-        var idx = s.length;
-        cuts.forEach(function (c) {
-            var i = s.indexOf(c);
-            if (i >= 0 && i < idx) idx = i;
-        });
-        return s.slice(0, idx).trim() || s;
+    /* --- Turnstile -------------------------------------------------------
+       Loaded once, explicitly rendered so it works no matter whether the
+       script arrives before or after the form mounts. */
+
+    var turnstilePending = [];
+
+    window.illumenzaTurnstileReady = function () {
+        turnstilePending.splice(0).forEach(function (fn) { fn(); });
+    };
+
+    function loadTurnstile() {
+        if (document.getElementById("turnstile-script")) return;
+        var sc = document.createElement("script");
+        sc.id = "turnstile-script";
+        sc.src = "https://challenges.cloudflare.com/turnstile/v0/api.js" +
+            "?render=explicit&onload=illumenzaTurnstileReady";
+        sc.async = true;
+        sc.defer = true;
+        document.head.appendChild(sc);
     }
 
-    function buildTitle(cfg, values, t) {
-        var category = cfg.defaultCategory;
-        var catField = cfg.fields.find(function (f) { return f.role === "category"; });
-        if (catField) {
-            var cv = values[catField.name];
-            if (Array.isArray(cv)) cv = cv[0];
-            if (cv) category = shortCat(cv);
+    /* Returns a handle whose token() is "" until the visitor passes the check;
+       submit refuses to fire until it isn't. */
+    function mountTurnstile(container, lang) {
+        var state = { id: null };
+        function render() {
+            try {
+                state.id = window.turnstile.render(container, {
+                    sitekey: TURNSTILE_SITE_KEY,
+                    language: lang === "ja" ? "ja" : "en",
+                });
+            } catch (err) {
+                /* Bad site key, or Turnstile unreachable. Deliberately fails
+                   closed: token() keeps returning "" and submit stays blocked,
+                   because the Worker would reject the submission anyway. */
+                console.error("Turnstile failed to render:", err);
+            }
         }
-
-        var summary = "";
-        var sumField = cfg.fields.find(function (f) { return f.role === "summary"; });
-        if (sumField) {
-            var sv = values[sumField.name];
-            if (Array.isArray(sv)) sv = sv.join("、");
-            summary = String(sv || "").replace(/\s+/g, " ").trim().slice(0, 40);
-        }
-
-        var who = "";
-        var whoField = cfg.fields.find(function (f) { return f.role === "who"; });
-        if (whoField) who = String(values[whoField.name] || "").trim();
-        if (!who) who = t.anon;
-
-        var title = "[" + cfg.app + "/" + category + "]" + (summary ? " " + summary : "") + " — " + who;
-        if (title.length > 100) title = title.slice(0, 99) + "…";
-        return title;
+        if (window.turnstile) render(); else turnstilePending.push(render);
+        loadTurnstile();
+        return {
+            token: function () {
+                if (state.id == null || !window.turnstile) return "";
+                return window.turnstile.getResponse(state.id) || "";
+            },
+            /* Turnstile tokens are single-use — after a rejected submit the old
+               one is spent and the widget needs a fresh challenge. */
+            reset: function () {
+                if (state.id != null && window.turnstile) window.turnstile.reset(state.id);
+            },
+        };
     }
 
-    /* Optional per-form query-string fields (e.g. ?plan=pro) that never render
-       as inputs but get appended to the embed when present. */
-    function hiddenParamFields(cfg) {
-        if (!cfg.hiddenParams || !cfg.hiddenParams.length) return [];
+    /* --- submit ----------------------------------------------------------- */
+
+    function currentParams(cfg) {
+        var out = {};
+        if (!cfg.hiddenParams) return out;
         var params = new URLSearchParams(window.location.search);
-        var out = [];
         cfg.hiddenParams.forEach(function (p) {
-            var v = params.get(p.param || p);
-            if (v) out.push({ name: p.label || p.param || p, value: v.slice(0, 1024), inline: true });
+            var key = p.param || p;
+            var v = params.get(key);
+            if (v) out[key] = v;
         });
         return out;
     }
 
-    function buildEmbed(cfg, values) {
-        var fields = [];
-        var description = "";
-        cfg.fields.forEach(function (f) {
-            if (f.type === "file") return;
-            var v = values[f.name];
-            if (Array.isArray(v)) v = v.join("\n");
-            if (v == null || String(v).trim() === "") return;
-            v = String(v);
-            if (f.type === "textarea") {
-                description += (description ? "\n\n" : "") + "**" + f.label + "**\n" + v;
-            } else {
-                fields.push({ name: f.label, value: v.slice(0, 1024), inline: false });
-            }
-        });
-        fields = fields.concat(hiddenParamFields(cfg));
-        if (description.length > 4096) description = description.slice(0, 4093) + "…";
-        var color = typeof cfg.color === "function" ? cfg.color(values) : cfg.color;
-        if (color == null) color = 0x0066cc;
-        var embed = {
-            title: cfg.title,
-            color: color,
-            fields: fields,
-            timestamp: new Date().toISOString(),
-            footer: { text: cfg.app + " • " + cfg.lang.toUpperCase() },
-        };
-        if (description) embed.description = description;
-        return embed;
-    }
-
-    function postToDiscord(cfg, values, files) {
-        var payload = {
-            username: "Illumenza Forms",
-            thread_name: buildTitle(cfg, values, I18N[cfg.lang]),
-            embeds: [buildEmbed(cfg, values)],
-        };
-        var tags = typeof cfg.tags === "function" ? cfg.tags(values) : cfg.tags;
-        if (tags && tags.length) payload.applied_tags = tags;
-
-        var webhookUrl = typeof cfg.webhookUrl === "function" ? cfg.webhookUrl(values) : cfg.webhookUrl;
-        if (!webhookUrl) webhookUrl = DISCORD_WEBHOOK_URL;
-        if (files.length) {
-            var fd = new FormData();
-            fd.append("payload_json", JSON.stringify(payload));
-            files.forEach(function (f, i) { fd.append("files[" + i + "]", f, f.name); });
-            return fetch(webhookUrl, { method: "POST", body: fd });
-        }
-        return fetch(webhookUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
+    function postToProxy(formId, cfg, values, files, token) {
+        var fd = new FormData();
+        fd.append("formId", formId);
+        fd.append("values", JSON.stringify(values));
+        fd.append("params", JSON.stringify(currentParams(cfg)));
+        fd.append("cf-turnstile-response", token);
+        files.forEach(function (f) { fd.append("files[]", f, f.name); });
+        return fetch(FORMS_ENDPOINT, { method: "POST", body: fd });
     }
 
     /* --- field rendering ------------------------------------------------- */
@@ -278,7 +260,7 @@
                 values[f.name] = Array.prototype.map.call(
                     w.querySelectorAll("input:checked"), function (i) { return i.value; });
             } else if (f.type === "file") {
-                values[f.name] = fileState.files.length + " file(s)";
+                /* Skipped: the Worker reports the real upload count. */
             } else {
                 values[f.name] = w.querySelector("input").value.trim();
             }
@@ -348,6 +330,10 @@
 
         cfg.fields.forEach(function (f) { form.appendChild(renderField(f, t, fileState)); });
 
+        var captchaBox = el("div", "form-captcha");
+        form.appendChild(captchaBox);
+        var captcha = mountTurnstile(captchaBox, cfg.lang);
+
         var submit = el("button", "form-submit", t.submit);
         submit.type = "submit";
         form.appendChild(submit);
@@ -363,20 +349,33 @@
             var firstBad = validate(cfg, form, values, t);
             if (firstBad) { firstBad.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
 
+            /* Turnstile usually solves itself in the background, so an empty
+               token here means it simply hasn't finished yet. */
+            var token = captcha.token();
+            if (!token) {
+                banner.textContent = t.captchaPending;
+                banner.className = "form-banner error";
+                captchaBox.scrollIntoView({ behavior: "smooth", block: "center" });
+                return;
+            }
+
             submit.disabled = true;
             submit.textContent = t.submitting;
 
-            postToDiscord(cfg, values, fileState.files)
+            postToProxy(id, cfg, values, fileState.files, token)
                 .then(function (res) {
-                    if (!res.ok) throw new Error("HTTP " + res.status);
-                    showSuccess(card, t);
+                    if (res.ok) { showSuccess(card, t); return; }
+                    var err = new Error("HTTP " + res.status);
+                    err.status = res.status;
+                    throw err;
                 })
                 .catch(function (err) {
                     console.error("Form submit failed:", err);
-                    banner.textContent = t.errorBanner;
+                    banner.textContent = err.status === 429 ? t.rateLimited : t.errorBanner;
                     banner.className = "form-banner error";
                     submit.disabled = false;
                     submit.textContent = t.submit;
+                    captcha.reset();
                 });
         });
 

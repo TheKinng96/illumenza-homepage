@@ -175,6 +175,16 @@ body.form-page {
     opacity: 0; pointer-events: none;
 }
 
+/* Turnstile --------------------------------------------------------------
+   The widget renders itself into this box; it collapses to nothing while the
+   check is invisible, so no gap is reserved. */
+.form-captcha {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.form-captcha:empty { margin-top: 0; }
+
 /* Submit ----------------------------------------------------------------- */
 .form-submit {
     width: 100%;
