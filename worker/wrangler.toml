@@ -8,6 +8,11 @@ compatibility_date = "2025-09-01"
 # allowlist in src/index.js handles.
 workers_dev = true
 
+# Preview URLs would give every past version its own public hostname with the
+# same secrets bound, so a later fix to the validation in src/index.js would not
+# retire the version it replaced. There is no use for them here.
+preview_urls = false
+
 [build]
 command = "./build.sh"
 

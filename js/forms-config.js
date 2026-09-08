@@ -16,11 +16,11 @@
  */
 
 /* Cloudflare Worker that proxies submissions to Discord. See worker/README.md. */
-const FORMS_ENDPOINT = "https://illumenza-forms.YOUR-SUBDOMAIN.workers.dev/submit";
+const FORMS_ENDPOINT = "https://illumenza-forms.illumenza.workers.dev/submit";
 
 /* Turnstile *site* key — public by design, the secret half lives in the
  * Worker as TURNSTILE_SECRET. */
-const TURNSTILE_SITE_KEY = "YOUR-TURNSTILE-SITE-KEY";
+const TURNSTILE_SITE_KEY = "0x4AAAAAAEsL3w6yH-pkikLe";
 
 /* Max bytes per uploaded file (Discord non-boosted servers allow ~8MB).
  * Re-enforced server-side in worker/src/index.js — this copy is for UX. */
