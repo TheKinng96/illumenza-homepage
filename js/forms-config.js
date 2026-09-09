@@ -141,7 +141,7 @@ const ILLUMENZA_FORMS = {
         app: "Points",
         defaultCategory: "その他",
         icon: "💬",
-        title: "ご意見・ご要望 - Illumenza Points",
+        title: "ご意見・ご要望 - 会員ステージ",
         intro: "機能のご要望、不具合報告、ご質問など、どんなことでもお聞かせください。内容を確認のうえ、ご入力いただいたメールアドレスにご返信いたします（1〜2営業日以内）。\n緊急の技術的問題については illumenza.dev@gmail.com まで直接ご連絡ください。",
         /* ?plan= query param (from the points-app sidebar link) — no input,
          * just appended to the embed when present. */
@@ -157,7 +157,7 @@ const ILLUMENZA_FORMS = {
             { name: "area", type: "radio", label: "対象エリア", required: true,
               desc: "関連する機能エリアをお選びください",
               options: [
-                  "ポイント設定", "特典・交換", "友達紹介", "VIPランク",
+                  "マイル設定", "特典・交換", "友達紹介", "会員ステージ",
                   "アクティビティ・ミッション", "会員・分析", "ウィジェット・デザイン",
                   "メール・通知", "その他",
               ] },

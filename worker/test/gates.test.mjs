@@ -6,6 +6,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import worker from "../src/index.js";
+import { ILLUMENZA_FORMS } from "../src/forms-config.generated.js";
 
 const SUPPORT = "https://discord.test/support";
 const POINTS = "https://discord.test/points";
@@ -53,7 +54,7 @@ const VALID_POINTS = {
     formId: "points-issue",
     values: JSON.stringify({
         email: "a@b.com", shop: "Test Shop", type: "不具合報告",
-        area: "ポイント設定", title: "T", details: "D",
+        area: "マイル設定", title: "T", details: "D",
     }),
     params: "{}",
 };
@@ -122,7 +123,7 @@ test("ignores caller-supplied username, embeds and applied_tags", async () => {
     const payload = await discordPayload();
     assert.equal(payload.username, "Illumenza Forms");
     assert.equal(payload.embeds.length, 1);
-    assert.equal(payload.embeds[0].title, "ご意見・ご要望 - Illumenza Points");
+    assert.equal(payload.embeds[0].title, "ご意見・ご要望 - 会員ステージ");
     assert.deepEqual(payload.applied_tags, ["1517164358906413186"]);
 });
 
@@ -133,7 +134,7 @@ test("rejects a radio value that is not one of the form's options", async () => 
         ...VALID_POINTS,
         values: JSON.stringify({
             email: "a@b.com", shop: "S", type: "../../admin",
-            area: "ポイント設定", title: "T", details: "D",
+            area: "マイル設定", title: "T", details: "D",
         }),
     });
     assert.equal(res.status, 400);
@@ -152,7 +153,7 @@ test("rejects prototype-chain form ids", async () => {
 test("rejects a missing required field", async () => {
     const res = await submit({
         ...VALID_POINTS,
-        values: JSON.stringify({ email: "a@b.com", shop: "S", type: "不具合報告", area: "ポイント設定", title: "T" }),
+        values: JSON.stringify({ email: "a@b.com", shop: "S", type: "不具合報告", area: "マイル設定", title: "T" }),
     });
     assert.equal(res.status, 400);
 });
@@ -162,7 +163,7 @@ test("rejects a malformed email", async () => {
         ...VALID_POINTS,
         values: JSON.stringify({
             email: "not-an-email", shop: "S", type: "不具合報告",
-            area: "ポイント設定", title: "T", details: "D",
+            area: "マイル設定", title: "T", details: "D",
         }),
     });
     assert.equal(res.status, 400);
@@ -183,7 +184,7 @@ test("truncates an over-long field instead of forwarding it", async () => {
         ...VALID_POINTS,
         values: JSON.stringify({
             email: "a@b.com", shop: "S", type: "不具合報告",
-            area: "ポイント設定", title: "T", details: "x".repeat(9000),
+            area: "マイル設定", title: "T", details: "x".repeat(9000),
         }),
     });
     const payload = await discordPayload();
@@ -227,7 +228,7 @@ test("reports the real upload count, not a caller-supplied one", async () => {
     await submit({
         ...VALID_POINTS,
         values: JSON.stringify({
-            email: "a@b.com", shop: "S", type: "不具合報告", area: "ポイント設定",
+            email: "a@b.com", shop: "S", type: "不具合報告", area: "マイル設定",
             title: "T", details: "D", screenshot: "9999 file(s)",
         }),
     }, { files: [img] });
@@ -257,6 +258,43 @@ test("rejects an unknown path", async () => {
     const res = await worker.fetch(
         new Request("https://forms.test/", { method: "POST", headers: { Origin: ORIGIN } }), ENV);
     assert.equal(res.status, 404);
+});
+
+/* --- 対象エリア routing keys -------------------------------------------- */
+
+/* The `area` radio's options in js/forms-config.js double as the lookup keys
+ * for POINTS_AREA_TAGS in src/routing.js. Rename one side without the other
+ * and it fails silently, in two different ways: the validator rejects the
+ * submission (index.js:198), or the tag lookup misses and the thread posts
+ * untagged (routing.js). Neither logs an error and neither is visible to the
+ * person who submitted, so assert every offered option still routes.
+ *
+ * `type` must be a non-bugish value here — 不具合報告 and 質問・その他
+ * short-circuit to the support forum's fixed tag and never read the area map.
+ *
+ * The reverse direction (a POINTS_AREA_TAGS key the form no longer offers) is
+ * dead config rather than a break, so it is deliberately not asserted. */
+test("every 対象エリア option maps to a forum tag", async () => {
+    const areas = ILLUMENZA_FORMS["points-issue"]
+        .fields.find((f) => f.name === "area").options;
+    assert.ok(areas.length, "the area field should offer options");
+
+    for (const area of areas) {
+        sent = null;
+        const res = await submit({
+            formId: "points-issue",
+            values: JSON.stringify({
+                email: "a@b.com", shop: "S", type: "機能要望",
+                area, title: "T", details: "D",
+            }),
+            params: "{}",
+        });
+        assert.equal(res.status, 204,
+            `"${area}" is offered by the form but the validator rejected it`);
+        const payload = await discordPayload();
+        assert.ok(payload.applied_tags && payload.applied_tags.length,
+            `"${area}" is offered by the form but has no POINTS_AREA_TAGS entry`);
+    }
 });
 
 /* --- rate limit --------------------------------------------------------- */

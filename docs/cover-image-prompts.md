@@ -89,7 +89,7 @@ articles carry real screenshots inside them. Keep the visuals abstract.
 | --- | --- |
 | `colorme-points-5-decisions` | Five smooth discs arranged in a shallow arc on a clean surface, each a slightly different tint of blue, the fifth still hovering just above its place — a set of decisions being made in order before anything starts. |
 
-### ポイントの貯め方
+### マイルの貯め方
 
 | Slug | Subject |
 | --- | --- |
@@ -97,7 +97,7 @@ articles carry real screenshots inside them. Keep the visuals abstract.
 | `points-mission-audience` | A wide funnel narrowing to a small cluster of simple rounded figures, while the remaining figures drift past outside the funnel's mouth. |
 | `points-mission-completion-mode` | A path forking in two: one branch runs straight to a coin, the other passes through a small gate stamped with a check mark before reaching it. |
 
-### ポイントの使い方
+### マイルの使い方
 
 | Slug | Subject |
 | --- | --- |
@@ -110,7 +110,7 @@ articles carry real screenshots inside them. Keep the visuals abstract.
 | `points-custom-reward-ideas` | A small hand-wrapped parcel raised on a low pedestal and lit, beside a flat stack of identical, unremarkable discount tickets. |
 | `points-custom-reward-flow` | A coin suspended inside a translucent frozen block, with an arrow leading from it to a speech bubble and on to a check mark. |
 
-### 会員ランク
+### 会員ステージ
 
 | Slug | Subject |
 | --- | --- |

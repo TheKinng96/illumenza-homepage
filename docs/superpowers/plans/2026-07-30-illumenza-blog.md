@@ -186,7 +186,7 @@ Create `_config.yml`:
 # matter are copied through untouched, so existing pages are unaffected.
 
 title: "Illumenza ブログ"
-description: "カラーミーショップ運営者のための、ポイント・ロイヤルティ施策とECマーケティングの実践ガイド。"
+description: "カラーミーショップ運営者のための、マイル・ロイヤルティ施策とECマーケティングの実践ガイド。"
 url: "https://illumenza.dev"
 lang: ja
 timezone: Asia/Tokyo
@@ -403,7 +403,7 @@ Create `_layouts/default.html`:
       <div class="flex items-center gap-3 sm:gap-5 text-sm">
         <a href="/blog/" class="font-medium text-gray-700 hover:text-brand-blue transition-colors">ブログ</a>
         <a href="https://points.illumenza.dev" class="px-3 sm:px-4 py-1.5 sm:py-2 font-medium bg-brand-light text-brand-blue rounded-lg hover:bg-brand-blue hover:text-white transition-colors">
-          Illumenza Points
+          会員ステージ
         </a>
       </div>
     </div>
@@ -473,12 +473,12 @@ layout: default
 
   <!-- Mandatory CTA. Lives in the layout so every post has it. -->
   <aside class="mt-12 sm:mt-16 p-6 sm:p-8 bg-brand-light rounded-xl text-center">
-    <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3">ポイント制度をノーコードで始めませんか</h2>
+    <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3">マイル制度をノーコードで始めませんか</h2>
     <p class="text-sm sm:text-base text-gray-700 mb-6">
-      Illumenza Points は、カラーミーショップ向けのロイヤルティアプリです。ポイント付与・会員ランク・友達紹介を、専門知識なしで設定できます。
+      会員ステージは、カラーミーショップ向けのロイヤルティアプリです。ショップマイルの付与・会員ステージ・友達紹介を、専門知識なしで設定できます。
     </p>
     <a href="https://points.illumenza.dev" class="inline-block px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base bg-brand-blue text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-      Illumenza Points を見る
+      会員ステージを見る
     </a>
   </aside>
 
@@ -536,7 +536,7 @@ echo "== first post renders =="
 POST=_site/blog/colorme-points-5-decisions/index.html
 check_file "$POST"
 check_contains "$POST" "<h1"
-check_contains "$POST" "ポイント制度"
+check_contains "$POST" "マイル制度"
 check_contains "$POST" '<time datetime="2026-07-30'
 check_contains "$POST" 'rel="canonical" href="https://illumenza.dev/blog/colorme-points-5-decisions/"'
 check_contains "$POST" 'property="og:type" content="article"'
@@ -566,18 +566,18 @@ Create `_posts/2026-07-30-colorme-points-5-decisions.md`:
 
 ```markdown
 ---
-title: "カラーミーショップでポイント制度を始める前に決めておく5つのこと"
+title: "カラーミーショップでマイル制度を始める前に決めておく5つのこと"
 date: 2026-07-30 09:00:00 +0900
-tags: [ポイント制度, ロイヤルティ, カラーミーショップ]
-description: "ポイント制度は「還元率を決めて終わり」ではありません。カラーミーショップで運用を始める前に決めておきたい5つの論点を、計算例つきで整理します。"
+tags: [マイル制度, ロイヤルティ, カラーミーショップ]
+description: "マイル制度は「還元率を決めて終わり」ではありません。カラーミーショップで運用を始める前に決めておきたい5つの論点を、計算例つきで整理します。"
 ogImage: /images/points.webp
 ---
 
-ポイント制度は、リピート購入を増やす施策のなかでも導入しやすいものです。一方で「とりあえず1%還元で始めた」あと、次のような迷いが出てくることがよくあります。
+マイル制度は、リピート購入を増やす施策のなかでも導入しやすいものです。一方で「とりあえず1%還元で始めた」あと、次のような迷いが出てくることがよくあります。
 
-- 送料やクーポン利用分にもポイントを付けるべきか
+- 送料やクーポン利用分にもマイルを付けるべきか
 - 有効期限は設けるべきか、設けるとして何か月か
-- ポイントの原価は、どの費目で見るべきか
+- マイルの原価は、どの費目で見るべきか
 
 これらは、あとから変更すると既存のお客様に不利益変更として受け取られやすい部分です。走り出す前に決めておくほど、運用は楽になります。この記事では、最低限決めておきたい5つの論点を順番に整理します。
 
@@ -591,53 +591,53 @@ ogImage: /images/points.webp
 | --- | --- |
 | 売上 | 10,000円 |
 | 粗利（30%） | 3,000円 |
-| 付与ポイント（1%） | 100円 |
-| ポイント考慮後の粗利 | 2,900円 |
+| 付与マイル（1%） | 100円 |
+| マイル考慮後の粗利 | 2,900円 |
 
 粗利に対する負担は 100 ÷ 3,000 ≒ **3.3%** です。売上比では1%でも、粗利比では3倍以上の重さになります。還元率を検討するときは、必ず粗利率と並べて見てください。
 
-なお、付与したポイントの全額がすぐ使われるわけではありません。未使用のまま失効する分（失効率）があるため、実際のコストは付与額より小さくなります。ただし失効率は運用実績が出るまで読めないので、**最初は失効を見込まずに** 成り立つ還元率から始めるのが安全です。
+なお、付与したマイルの全額がすぐ使われるわけではありません。未使用のまま失効する分（失効率）があるため、実際のコストは付与額より小さくなります。ただし失効率は運用実績が出るまで読めないので、**最初は失効を見込まずに** 成り立つ還元率から始めるのが安全です。
 
-## 2. 何に対してポイントを付けるか
+## 2. 何に対してマイルを付けるか
 
 「購入金額の1%」と決めても、次の境界は自動的には決まりません。
 
-- **送料** — 送料にポイントを付けると、送料無料ラインの直前でカゴ落ちしたお客様に、送料分の還元がつくことになります。送料を除外する運用が一般的です。
+- **送料** — 送料にマイルを付けると、送料無料ラインの直前でカゴ落ちしたお客様に、送料分の還元がつくことになります。送料を除外する運用が一般的です。
 - **手数料** — 代引き手数料なども同様に除外を検討します。
 - **クーポン利用後の金額か、利用前か** — 3,000円の商品に500円クーポンを使った場合、2,500円に対して付与するのが原則です。クーポンと重ねて満額付与すると、実質的な二重値引きになります。
-- **ポイント支払い分** — ポイントで支払った金額に再びポイントを付けると、還元が循環します。除外してください。
+- **ショップポイント支払い分** — マイルから交換したショップポイントで支払った金額に、さらにマイルを付けると還元が循環します。除外してください。
 - **税込か税抜か** — どちらでも構いませんが、**表示と一致させる**ことが重要です。税込表示のショップで税抜計算にすると、お客様の暗算と合わなくなります。
 
-決めた内容は、ポイント規約ページに1行ずつ書き出しておきます。問い合わせが来たときに参照できる形になっていることが大切です。
+決めた内容は、マイル制度の規約ページに1行ずつ書き出しておきます。問い合わせが来たときに参照できる形になっていることが大切です。
 
 ## 3. 有効期限をどう設計するか
 
 有効期限には2つの型があります。
 
-**固定期限型** — 付与日から12か月など、付与ごとに期限が切れる方式。管理はシンプルですが、お客様は自分のポイントがいつ切れるのか把握しづらくなります。
+**固定期限型** — 付与日から12か月など、付与ごとに期限が切れる方式。管理はシンプルですが、お客様は自分のマイルがいつ切れるのか把握しづらくなります。
 
-**最終利用日から延長する型** — 購入やポイント利用があるたびに、保有ポイント全体の期限が延びる方式。アクティブなお客様のポイントは実質的に失効しないため、優良顧客を不利にしません。リピート施策としてはこちらが向いています。
+**最終利用日から延長する型** — 購入やマイル利用があるたびに、保有マイル全体の期限が延びる方式。アクティブなお客様のマイルは実質的に失効しないため、優良顧客を不利にしません。リピート施策としてはこちらが向いています。
 
 期限なしは、会計上の負債が無期限に積み上がることを意味します。小規模ショップでも、期限は設けておくことをおすすめします。目安としては12か月前後が扱いやすい長さです。
 
 ## 4. 失効前に知らせるかどうか
 
-期限を設けるなら、失効前の通知をセットで考えます。通知がないまま失効すると、「気づいたら消えていた」という体験になり、ポイント制度そのものへの信頼が落ちます。
+期限を設けるなら、失効前の通知をセットで考えます。通知がないまま失効すると、「気づいたら消えていた」という体験になり、マイル制度そのものへの信頼が落ちます。
 
 決めることは2つです。
 
 1. **何日前に知らせるか** — 30日前、7日前など。2段階にすると、1回目を見落としたお客様も拾えます。
-2. **何ポイント以上を対象にするか** — 数ポイントの失効通知は、かえって煩わしく受け取られます。「送料無料になる」「1品買える」といった、使う動機になる金額から通知すると自然です。
+2. **何マイル以上を対象にするか** — 数マイルの失効通知は、かえって煩わしく受け取られます。「送料無料になる」「1品買える」といった、使う動機になる金額から通知すると自然です。
 
-## 5. 誰がポイントを増やせるのか
+## 5. 誰がマイルを増やせるのか
 
-購入以外にもポイントを付ける経路を用意するかどうかは、初期に決めておきたい論点です。代表的なものは次のとおりです。
+購入以外にもマイルを付ける経路を用意するかどうかは、初期に決めておきたい論点です。代表的なものは次のとおりです。
 
 - **会員登録時** — 初回購入のハードルを下げます。
 - **誕生日** — 年1回、来店理由をつくれます。
 - **レビュー投稿** — 商品ページの情報が増えます。
 - **友達紹介** — 紹介した側と、された側の両方に付与する形が一般的です。
-- **会員ランク** — 累計購入額に応じて還元率を上げ、上位顧客を維持します。
+- **会員ステージ** — 累計購入額に応じて還元率を上げ、上位顧客を維持します。
 
 すべてを最初から始める必要はありません。ただし「あとで足す」前提で設計しておくと、還元率の合計が想定を超えないよう調整しやすくなります。**購入時の還元率 + 追加付与の合計**が、1で確認した粗利負担の範囲に収まるかを確認してください。
 
@@ -646,7 +646,7 @@ ogImage: /images/points.webp
 始める前に決めておきたいのは、次の5点です。
 
 1. 還元率を、売上比ではなく粗利比で確認したか
-2. 送料・手数料・クーポン・ポイント払い・税の扱いを書き出したか
+2. 送料・手数料・クーポン・ショップポイント払い・税の扱いを書き出したか
 3. 有効期限の型（固定か、最終利用日から延長か）を選んだか
 4. 失効前通知のタイミングと対象額を決めたか
 5. 購入以外の付与経路を、還元率の合計として把握しているか
@@ -732,14 +732,14 @@ Create `blog/index.html`:
 ---
 layout: default
 title: "ブログ"
-description: "カラーミーショップ運営者のための、ポイント・ロイヤルティ施策とECマーケティングの実践ガイド。"
+description: "カラーミーショップ運営者のための、マイル・ロイヤルティ施策とECマーケティングの実践ガイド。"
 ---
 <div class="container mx-auto max-w-3xl" data-paginator="{{ paginator.total_pages }}">
 
   <header class="mb-10 sm:mb-14">
     <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">ブログ</h1>
     <p class="text-base sm:text-lg text-gray-600">
-      カラーミーショップでポイント制度やロイヤルティ施策を運用するための、実践的な記事をお届けします。
+      カラーミーショップでマイル制度やロイヤルティ施策を運用するための、実践的な記事をお届けします。
     </p>
     <p class="mt-4 text-sm">
       <a href="/blog/tags/" class="text-brand-blue hover:underline">タグ一覧</a>
@@ -851,7 +851,7 @@ check_contains "$FEED" "<link>https://illumenza.dev/blog/colorme-points-5-decisi
 check_contains "$FEED" "<pubDate>"
 check_contains "$FEED" "<description>"
 check_contains "$FEED" "<guid isPermaLink=\"true\">https://illumenza.dev/blog/colorme-points-5-decisions/</guid>"
-check_contains "$FEED" "<category>ポイント制度</category>"
+check_contains "$FEED" "<category>マイル制度</category>"
 # No leaked front matter, no UTM (mails app appends those).
 check_absent "$FEED" "layout:"
 check_absent "$FEED" "utm_"
@@ -1141,7 +1141,7 @@ Add to `script/check-build.sh`, replacing `# ---- Blog checks below are added by
 echo "== tag index =="
 TAGS=_site/blog/tags/index.html
 check_file "$TAGS"
-check_contains "$TAGS" "ポイント制度"
+check_contains "$TAGS" "マイル制度"
 check_contains "$TAGS" "ロイヤルティ"
 check_contains "$TAGS" "カラーミーショップ"
 check_contains "$TAGS" "colorme-points-5-decisions"
@@ -1169,7 +1169,7 @@ Create `blog/tags/index.html`:
 ---
 layout: default
 title: "タグ一覧"
-description: "Illumenza ブログの記事をタグ別にまとめています。ポイント制度、ロイヤルティ施策、ECマーケティングなど、関心のあるテーマから記事を探せます。"
+description: "Illumenza ブログの記事をタグ別にまとめています。マイル制度、ロイヤルティ施策、ECマーケティングなど、関心のあるテーマから記事を探せます。"
 ---
 <div class="container mx-auto max-w-3xl">
 
@@ -1228,7 +1228,7 @@ Expected: `ALL CHECKS PASSED`.
 
 - [ ] **Step 5: Verify the anchors actually resolve**
 
-Jekyll's default `slugify` mode keeps Unicode letters, so `ポイント制度` should survive as-is. Verify rather than assume — a collapsed slug produces a dangling `#` anchor that silently does nothing:
+Jekyll's default `slugify` mode keeps Unicode letters, so `マイル制度` should survive as-is. Verify rather than assume — a collapsed slug produces a dangling `#` anchor that silently does nothing:
 
 ```bash
 bundle exec jekyll build
@@ -1442,7 +1442,7 @@ Use `/blog-post <topic>` in Claude Code to do all of this in one shot.
 ---
 title: "記事タイトル（30〜45文字を目安に）"
 date: 2026-07-30 09:00:00 +0900
-tags: [ポイント制度, ロイヤルティ]
+tags: [マイル制度, ロイヤルティ]
 description: "検索結果とメール配信に出る要約。70〜110文字。記事の結論を含める。"
 ogImage: /images/points.webp
 ---
@@ -1531,35 +1531,35 @@ Every topic must be answerable without referencing a real customer.
 
 ## Points app how-to (ogImage: /images/points.webp)
 
-- ミッション機能で「レビュー投稿」にポイントを付ける設定手順
-- 会員ランクの区切り方 — 累計購入額のしきい値をどう決めるか
+- ミッション機能で「レビュー投稿」にマイルを付ける設定手順
+- 会員ステージの区切り方 — 累計購入額のしきい値をどう決めるか
 - 友達紹介の付与額を、紹介した側と された側でどう配分するか
-- 誕生日ポイントの付与タイミングと、有効期限の合わせ方
-- ポイント交換（redemption）の単位設計 — 1ポイント1円以外の選択肢
-- ポイント失効通知のタイミング設定（30日前・7日前の2段構え）
-- ポイント制度の規約ページに書くべき項目チェックリスト
+- 誕生日ミッションの付与タイミングと、有効期限の合わせ方
+- マイル交換（redemption）の単位設計 — 1マイル1円以外の選択肢
+- マイル失効通知のタイミング設定（30日前・7日前の2段構え）
+- マイル制度の規約ページに書くべき項目チェックリスト
 
 ## Loyalty / points education
 
-- リピート率とポイント還元率の関係を、粗利から逆算する
-- ポイント制度とクーポンの使い分け — 新規獲得か、再訪促進か
-- 「ポイント原資」を会計上どう扱うか（引当の考え方の入口）
+- リピート率とマイル付与率の関係を、粗利から逆算する
+- マイル制度とクーポンの使い分け — 新規獲得か、再訪促進か
+- 「マイル原資」を会計上どう扱うか（引当の考え方の入口）
 - 有効期限あり／なしのメリットとデメリット
-- ポイント制度をやめる／変更するときの告知の作法
+- マイル制度をやめる／変更するときの告知の作法
 
 ## EC marketing (ColorMe ecosystem)
 
 - カラーミーショップで会員登録率を上げる導線の作り方
-- メールマガジンとポイント制度を組み合わせる基本
+- メールマガジンとマイル制度を組み合わせる基本
 - 商品レビューを集めるための無理のない依頼タイミング
 - 送料無料ラインの決め方 — 平均注文額から考える
 - カゴ落ち対策の基本 — 小規模ショップができる範囲
 
 ## Seasonal (write 3–4 weeks ahead of the event)
 
-- 年末年始セールのポイント施策設計
-- 母の日・父の日ギフト需要とポイント倍率キャンペーン
-- 夏のセール期間中のポイント原資管理
+- 年末年始セールのマイル施策設計
+- 母の日・父の日ギフト需要とマイル倍率キャンペーン
+- 夏のセール期間中のマイル原資管理
 - ブラックフライデー／サイバーマンデーを小規模ショップがどう扱うか
 - 新年度（4月）の新規顧客をリピーターに変える初動
 ```
