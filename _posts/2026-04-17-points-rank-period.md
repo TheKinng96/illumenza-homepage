@@ -16,7 +16,7 @@ screen: /vip
 
 ## 3つの集計期間
 
-会員ステージ -顧客育成- では、アクティビティマイルの集計期間を3つから選びます。
+会員ステージでは、アクティビティマイルの集計期間を3つから選びます。
 
 <figure>
   <img src="/images/blog/points-rank-period/settings.webp"

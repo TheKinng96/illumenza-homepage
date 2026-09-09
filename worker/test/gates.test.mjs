@@ -123,7 +123,7 @@ test("ignores caller-supplied username, embeds and applied_tags", async () => {
     const payload = await discordPayload();
     assert.equal(payload.username, "Illumenza Forms");
     assert.equal(payload.embeds.length, 1);
-    assert.equal(payload.embeds[0].title, "ご意見・ご要望 - 会員ステージ -顧客育成-");
+    assert.equal(payload.embeds[0].title, "ご意見・ご要望 - 会員ステージ");
     assert.deepEqual(payload.applied_tags, ["1517164358906413186"]);
 });
 

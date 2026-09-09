@@ -403,7 +403,7 @@ Create `_layouts/default.html`:
       <div class="flex items-center gap-3 sm:gap-5 text-sm">
         <a href="/blog/" class="font-medium text-gray-700 hover:text-brand-blue transition-colors">ブログ</a>
         <a href="https://points.illumenza.dev" class="px-3 sm:px-4 py-1.5 sm:py-2 font-medium bg-brand-light text-brand-blue rounded-lg hover:bg-brand-blue hover:text-white transition-colors">
-          会員ステージ -顧客育成-
+          会員ステージ
         </a>
       </div>
     </div>
@@ -475,10 +475,10 @@ layout: default
   <aside class="mt-12 sm:mt-16 p-6 sm:p-8 bg-brand-light rounded-xl text-center">
     <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3">マイル制度をノーコードで始めませんか</h2>
     <p class="text-sm sm:text-base text-gray-700 mb-6">
-      会員ステージ -顧客育成- は、カラーミーショップ向けのロイヤルティアプリです。ショップマイルの付与・会員ステージ・友達紹介を、専門知識なしで設定できます。
+      会員ステージは、カラーミーショップ向けのロイヤルティアプリです。ショップマイルの付与・会員ステージ・友達紹介を、専門知識なしで設定できます。
     </p>
     <a href="https://points.illumenza.dev" class="inline-block px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base bg-brand-blue text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-      会員ステージ -顧客育成- を見る
+      会員ステージを見る
     </a>
   </aside>
 

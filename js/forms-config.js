@@ -141,7 +141,7 @@ const ILLUMENZA_FORMS = {
         app: "Points",
         defaultCategory: "その他",
         icon: "💬",
-        title: "ご意見・ご要望 - 会員ステージ -顧客育成-",
+        title: "ご意見・ご要望 - 会員ステージ",
         intro: "機能のご要望、不具合報告、ご質問など、どんなことでもお聞かせください。内容を確認のうえ、ご入力いただいたメールアドレスにご返信いたします（1〜2営業日以内）。\n緊急の技術的問題については illumenza.dev@gmail.com まで直接ご連絡ください。",
         /* ?plan= query param (from the points-app sidebar link) — no input,
          * just appended to the embed when present. */
