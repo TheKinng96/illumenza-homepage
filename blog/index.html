@@ -74,12 +74,12 @@ description: "カラーミーショップ運営者のための、マイル・ロ
         {%- endfor -%}
       </nav>
 
-      <div id="blog-filter-controls" hidden class="flex flex-wrap items-center gap-2">
+      <div id="blog-filter-controls" hidden class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
 
-        <div class="relative" data-filter="app">
-          <div class="inline-flex items-stretch overflow-hidden rounded-lg border border-[#B8DAFF] bg-white" data-shell>
+        <div class="relative w-full sm:w-auto" data-filter="app">
+          <div class="flex w-full items-stretch overflow-hidden rounded-lg border sm:inline-flex sm:w-auto border-[#B8DAFF] bg-white" data-shell>
             <button type="button" data-trigger aria-haspopup="listbox" aria-expanded="false" aria-controls="blog-panel-app"
-                    class="min-h-[44px] inline-flex items-center gap-2 px-3 py-2.5 text-sm text-gray-700">
+                    class="min-h-[44px] flex flex-1 items-center justify-between gap-2 px-3 py-2.5 text-sm sm:flex-none sm:justify-start text-gray-700">
               <span data-label>すべてのアプリ</span>
               <svg data-chevron width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
@@ -109,10 +109,10 @@ description: "カラーミーショップ運営者のための、マイル・ロ
           </div>
         </div>
 
-        <div class="relative" data-filter="section">
-          <div class="inline-flex items-stretch overflow-hidden rounded-lg border border-[#B8DAFF] bg-white" data-shell>
+        <div class="relative w-full sm:w-auto" data-filter="section">
+          <div class="flex w-full items-stretch overflow-hidden rounded-lg border sm:inline-flex sm:w-auto border-[#B8DAFF] bg-white" data-shell>
             <button type="button" data-trigger aria-haspopup="listbox" aria-expanded="false" aria-controls="blog-panel-section"
-                    class="min-h-[44px] inline-flex items-center gap-2 px-3 py-2.5 text-sm text-gray-700">
+                    class="min-h-[44px] flex flex-1 items-center justify-between gap-2 px-3 py-2.5 text-sm sm:flex-none sm:justify-start text-gray-700">
               <span data-label>すべてのテーマ</span>
               <svg data-chevron width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>

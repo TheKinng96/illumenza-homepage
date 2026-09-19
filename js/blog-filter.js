@@ -101,6 +101,14 @@
 
   /* ---- popovers ---- */
 
+  // paint() rewrites each control's className to flip its selected state, so
+  // the structural classes live here rather than only in the markup —
+  // otherwise the first paint drops the responsive rules. blog/index.html
+  // renders the same strings; change one, change the other.
+  var SHELL_BASE = 'flex w-full items-stretch overflow-hidden rounded-lg border sm:inline-flex sm:w-auto ';
+  var TRIGGER_BASE = 'min-h-[44px] flex flex-1 items-center justify-between gap-2 px-3 py-2.5 text-sm sm:flex-none sm:justify-start ';
+  var CLEAR_BASE = 'min-h-[44px] inline-flex min-w-[36px] items-center justify-center px-2 ';
+
   // One controller per filter. Both are single-select listboxes: an option sets
   // the value and closes. A section option carries its app too — section keys
   // are shared (`appearance` is both 会員ステージ's and クーポン's), so choosing one
@@ -267,11 +275,11 @@
     // Set filters invert to solid blue: on a brand-light band a tint has
     // nothing to push against.
     var on = !!value;
-    this.shell.className = 'inline-flex items-stretch overflow-hidden rounded-lg border ' +
+    this.shell.className = SHELL_BASE +
       (on ? 'border-brand-blue bg-brand-blue' : 'border-[#B8DAFF] bg-white');
-    this.trigger.className = 'min-h-[44px] inline-flex items-center gap-2 px-3 py-2.5 text-sm ' +
+    this.trigger.className = TRIGGER_BASE +
       (on ? 'font-bold text-white' : 'text-gray-700');
-    this.clear.className = 'min-h-[44px] inline-flex min-w-[36px] items-center justify-center px-2 ' +
+    this.clear.className = CLEAR_BASE +
       (on ? 'text-white' : 'text-gray-700');
     this.clear.hidden = !on;
     this.divider.hidden = !on;
