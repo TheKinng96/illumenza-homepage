@@ -9,43 +9,43 @@
   "articles": [
     {
       "file": "2026-04-10-colorme-points-5-decisions.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "v3 validated by hand"
     },
     {
       "file": "2026-04-14-points-mission-types-basics.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "11 lines changed"
     },
     {
       "file": "2026-04-15-points-redemption-design.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "1 lines changed"
     },
     {
       "file": "2026-04-17-points-rank-period.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "6 lines changed"
     },
     {
       "file": "2026-04-21-points-referral-timing.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "1 lines changed"
     },
     {
       "file": "2026-04-23-points-product-exchange.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "4 lines changed"
     },
     {
       "file": "2026-04-24-points-product-exchange-pricing.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "3 lines changed"
     },
     {
       "file": "2026-04-29-points-custom-reward-flow.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "1 lines changed"
     },
     {
       "file": "2026-05-01-points-custom-reward-ideas.md",
@@ -154,8 +154,8 @@
     },
     {
       "file": "2026-06-10-points-member-detail.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "v3 validated by hand"
     },
     {
       "file": "2026-06-11-points-earning-rate.md",
@@ -249,8 +249,8 @@
     },
     {
       "file": "2026-07-07-points-nudge-types.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "v3 validated by hand"
     },
     {
       "file": "2026-07-08-coupon-reset-period.md",
