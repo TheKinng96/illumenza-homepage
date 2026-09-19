@@ -1,0 +1,18 @@
+# The three apps articles are written about. Keyed by the `app:` value in a
+# post's front matter.
+#
+# ORDER MATTERS, same as sections.yml: Liquid cannot sort a hash by one of its
+# values, so this file's order is the order the filter band renders them in.
+#
+# `url` is the no-JS route into that app's articles. It must be a page that
+# exists — blog-filter.js intercepts the click, but a reader with JavaScript
+# off follows it for real.
+points:
+  label: 会員ステージ
+  url: /blog/points/
+coupon:
+  label: クーポン
+  url: /blog/coupon/
+reviews:
+  label: レビュー
+  url: /blog/reviews/
