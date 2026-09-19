@@ -95,7 +95,7 @@ echo "== first post renders =="
 POST=_site/blog/colorme-points-5-decisions/index.html
 check_file "$POST"
 check_contains "$POST" "<h1"
-check_contains "$POST" "マイル制度"
+check_contains "$POST" "ショップマイル"
 # Derived from the source rather than pinned: publication dates were spread
 # across a range once already, and a hardcoded date turns that into a gate
 # failure instead of what it is — a content edit.
@@ -172,10 +172,58 @@ check_contains "$LIST" 'id="blog-search"'
 check_contains "$LIST" 'id="blog-results"'
 check_contains "$LIST" 'id="blog-static"'
 check_contains "$LIST" '/js/blog-filter.js'
-# App chips must stay real links. They are the whole no-JS story: without the
-# href a reader with JavaScript off loses every route into an app's articles.
+# The fallback app links must stay real links. They are the whole no-JS story:
+# without the href a reader with JavaScript off loses every route into an app's
+# articles, because the popover triggers that replace them need JavaScript.
+# `hidden` must beat Tailwind's display utilities. Without this rule an element
+# carrying both `hidden` and `flex` stays displayed, because [hidden] is only a
+# user-agent rule. That shipped once: the no-JS fallback links kept their space
+# in the flex row and squeezed the search box from 391px to 41px.
+check_contains _layouts/default.html '[hidden] { display: none !important; }'
+check_contains "$LIST" 'id="blog-filter-fallback"'
 check_contains "$LIST" 'href="/blog/points/" data-app="points"'
 check_contains "$LIST" 'href="/blog/coupon/" data-app="coupon"'
+check_contains "$LIST" 'href="/blog/reviews/" data-app="reviews"'
+# Both popovers must ship their options server-side, so opening one never waits
+# on articles.json, and must be listboxes rather than divs with click handlers.
+check_contains "$LIST" 'id="blog-panel-app"'
+check_contains "$LIST" 'id="blog-panel-section"'
+LISTBOX_OPTS=$(grep -c 'role="option"' "$LIST" || true)
+# 1 + 3 apps, then 1 + every app/section pair that has posts (currently 18).
+if [ "$LISTBOX_OPTS" -ge 22 ]; then
+  pass "$LIST ships $LISTBOX_OPTS listbox options"
+else
+  fail "$LIST ships $LISTBOX_OPTS listbox options, expected at least 22"
+fi
+# Every section option carries its app: section keys are shared across apps, so
+# a bare section is ambiguous and the option has to set both.
+BARE_SECTION=$(grep -o 'data-section="[a-z-]\+"[^>]*' "$LIST" | grep -cv 'data-app=' || true)
+if [ "$BARE_SECTION" = "0" ]; then
+  pass "every section option names its app"
+else
+  fail "$BARE_SECTION section options have no data-app"
+fi
+# The band is the filter's own register; it breaks out of the reading column.
+check_contains "$LIST" 'bg-brand-light'
+# The 19-pill chip bar is gone.
+check_absent "$LIST" 'id="blog-section-chips"'
+# Cards carry one section chip, not three tag pills.
+check_absent "$LIST" '/blog/tags/#'
+# Every app/section pair in use must have a built page, because that is where
+# the card chip points. Without this a new pair ships a chip that 404s for any
+# reader with JavaScript off.
+MISSING_PAIRS=0
+for f in _posts/*.md; do
+  a=$(awk '/^app:/{print $2; exit}' "$f")
+  sec=$(awk '/^section:/{print $2; exit}' "$f")
+  [ -n "$a" ] && [ -n "$sec" ] || continue
+  if [ ! -f "_site/blog/$a/$sec/index.html" ]; then
+    fail "no page for $a/$sec (chip would 404)"; MISSING_PAIRS=$((MISSING_PAIRS+1))
+  fi
+done
+if [ "$MISSING_PAIRS" = "0" ]; then
+  pass "every app/section pair has a built page"
+fi
 
 echo "== 記事ガイド cards =="
 # Guide entries used to be a bare text link with the summary sitting outside
@@ -276,7 +324,7 @@ for field in pubDate description guid; do
     fail "$FEED has $FEED_ITEMS item(s) but only $n <$field>"
   fi
 done
-check_contains "$FEED" "<category>マイル制度</category>"
+check_contains "$FEED" "<category>ショップマイル</category>"
 # No leaked front matter, no UTM (mails app appends those).
 check_absent "$FEED" "layout:"
 check_absent "$FEED" "utm_"
@@ -412,13 +460,13 @@ done
 echo "== tag index =="
 TAGS=_site/blog/tags/index.html
 check_file "$TAGS"
-check_contains "$TAGS" "マイル制度"
+check_contains "$TAGS" "ショップマイル"
 check_contains "$TAGS" "ロイヤルティ"
 check_contains "$TAGS" "カラーミーショップ"
 check_contains "$TAGS" "colorme-points-5-decisions"
 check_contains "$TAGS" 'rel="canonical" href="https://illumenza.dev/blog/tags/"'
 # Anchors referenced from post/list pages must exist on this page.
-check_contains "$TAGS" 'id="マイル制度"'
+check_contains "$TAGS" 'id="ショップマイル"'
 check_contains "$TAGS" 'id="ロイヤルティ"'
 check_contains "$TAGS" 'id="カラーミーショップ"'
 DUPES=$(grep -oE '<section id="[^"]*"' "$TAGS" | sort | uniq -d)
@@ -471,8 +519,15 @@ check_contains "$LIST" 'min-h-screen flex flex-col'
 check_contains "$LIST" '<main class="flex-1'
 # Whole card clickable: the title link's ::after stretches over the card.
 check_contains "$LIST" "after:absolute after:inset-0"
-# Tag links must stay above that overlay, or they become unclickable.
-check_contains "$LIST" 'relative z-10 flex flex-wrap gap-2'
+# The section chip must stay above that overlay, or it becomes unclickable —
+# the stretched ::after covers the whole card including the chip's own box.
+check_contains "$LIST" '<p class="relative z-10">'
+CHIP_N=$(grep -c 'class="relative z-10"' "$LIST" || true)
+if [ "$CHIP_N" -ge 8 ]; then
+  pass "$LIST has $CHIP_N section chips above the card overlay"
+else
+  fail "$LIST has $CHIP_N section chips, expected one per card"
+fi
 # Reading time is derived from body length.
 check_contains "$LIST" '分で読めます'
 check_contains "$POST" '分で読めます'
