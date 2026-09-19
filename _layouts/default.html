@@ -47,6 +47,21 @@
     }
   </script>
 
+  <style>
+    /*
+      The `hidden` attribute must beat Tailwind's display utilities.
+
+      `[hidden] { display: none }` comes from the user-agent stylesheet, so any
+      author rule wins over it — an element with both `hidden` and `flex` stays
+      `display: flex` and keeps its space. That shipped once: /blog/'s no-JS
+      fallback links were `hidden flex`, so they stayed in the flex row and
+      squeezed the search box from 391px to 41px, and a reader with JavaScript
+      off was shown the dead search box and popover triggers that `hidden` was
+      supposed to keep from them.
+    */
+    [hidden] { display: none !important; }
+  </style>
+
   {% if page.layout == 'post' %}
   <script type="application/ld+json">
   {

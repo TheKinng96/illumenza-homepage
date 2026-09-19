@@ -175,6 +175,11 @@ check_contains "$LIST" '/js/blog-filter.js'
 # The fallback app links must stay real links. They are the whole no-JS story:
 # without the href a reader with JavaScript off loses every route into an app's
 # articles, because the popover triggers that replace them need JavaScript.
+# `hidden` must beat Tailwind's display utilities. Without this rule an element
+# carrying both `hidden` and `flex` stays displayed, because [hidden] is only a
+# user-agent rule. That shipped once: the no-JS fallback links kept their space
+# in the flex row and squeezed the search box from 391px to 41px.
+check_contains _layouts/default.html '[hidden] { display: none !important; }'
 check_contains "$LIST" 'id="blog-filter-fallback"'
 check_contains "$LIST" 'href="/blog/points/" data-app="points"'
 check_contains "$LIST" 'href="/blog/coupon/" data-app="coupon"'
