@@ -159,10 +159,18 @@ description: "カラーミーショップ運営者のための、マイル・ロ
         </div>
       </div>
 
-      <p id="blog-status" hidden role="status" aria-live="polite" class="pl-1 text-[13px] text-gray-700"></p>
     </div>
 
-    <p id="blog-escalate" hidden class="container mx-auto max-w-3xl mt-2.5 text-[13px] text-gray-700"></p>
+    {%- comment -%}
+      Second row of the band: the count, and what loosening the filter would
+      buy. Kept off the controls row so the controls keep a fixed rhythm — the
+      count changes width with every keystroke, and inline it dragged the
+      right-hand edge of the row around as you typed.
+    {%- endcomment -%}
+    <div id="blog-meta" hidden class="container mx-auto max-w-3xl mt-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[13px] text-gray-700">
+      <p id="blog-status" role="status" aria-live="polite" class="m-0"></p>
+      <p id="blog-escalate" hidden class="m-0 text-gray-600"></p>
+    </div>
   </section>
 
   <!-- Backdrop for the mobile bottom sheet; desktop keeps the popover. -->

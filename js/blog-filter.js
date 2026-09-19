@@ -28,6 +28,7 @@
   var staticList = document.getElementById('blog-static');
   var status = document.getElementById('blog-status');
   var escalate = document.getElementById('blog-escalate');
+  var meta = document.getElementById('blog-meta');
   var fallback = document.getElementById('blog-filter-fallback');
   var controls = document.getElementById('blog-filter-controls');
   var backdrop = document.getElementById('blog-sheet-backdrop');
@@ -60,7 +61,7 @@
         posts = null;
         loading = null;
         status.textContent = '記事の読み込みに失敗しました。ページを再読み込みしてください。';
-        status.hidden = false;
+        showMeta(true);
         throw new Error('load failed');
       });
     return loading;
@@ -422,7 +423,14 @@
       if (b > n) steps.push((steps.length ? 'アプリも外すと ' : 'アプリを外すと ') + b + ' 件');
     }
     escalate.hidden = !(n > 0 && steps.length);
-    escalate.textContent = steps.length ? steps.join('、') : '';
+    escalate.textContent = steps.length ? '— ' + steps.join('、') : '';
+  }
+
+  // The count and the escalation share the band's second row; that row only
+  // exists when there is something to say.
+  function showMeta(on) {
+    status.hidden = !on;
+    if (meta) meta.hidden = !on;
   }
 
   function render() {
@@ -435,21 +443,21 @@
       results.hidden = true;
       results.innerHTML = '';
       staticList.hidden = false;
-      status.hidden = true;
+      showMeta(false);
       if (escalate) escalate.hidden = true;
       return;
     }
 
     if (!posts) {
       status.textContent = '読み込み中…';
-      status.hidden = false;
+      showMeta(true);
       return;
     }
 
     var list = found();
     staticList.hidden = true;
     results.hidden = false;
-    status.hidden = false;
+    showMeta(true);
     status.innerHTML = '<strong class="font-bold">' + list.length + ' 件</strong> 該当';
     paintEscalate(list.length);
     results.innerHTML = list.length ? list.map(card).join('') : emptyState();
