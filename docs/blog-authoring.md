@@ -23,7 +23,7 @@ Use `/blog-post <topic>` in Claude Code to do all of this in one shot.
 ---
 title: "記事タイトル（30〜45文字を目安に）"
 date: 2026-07-30 09:00:00 +0900
-tags: [マイル制度, ロイヤルティ]
+tags: [ショップマイル, ロイヤルティ]
 description: "検索結果とメール配信に出る要約。70〜110文字。記事の結論を含める。"
 ogImage: /images/points.webp
 ---
