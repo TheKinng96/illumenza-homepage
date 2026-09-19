@@ -26,6 +26,16 @@ def split_front_matter(text, label, errors):
     return m.group(1), text[m.end():]
 
 
+IMG = re.compile(r"<img\b[^>]*>", re.S)
+ALT = re.compile(r'\s*alt="[^"]*"', re.S)
+
+
+def img_shapes(body):
+    """Every <img> tag with its alt text removed. Catches attribute injection
+    (loading=, decoding=, ...) that a src-only comparison walks straight past."""
+    return Counter(re.sub(r"\s+", " ", ALT.sub("", t)).strip() for t in IMG.findall(body))
+
+
 def counts(body):
     return {
         "figure open": body.count("<figure"),
@@ -73,6 +83,11 @@ def main():
     for u in sorted(set(o_u) | set(c_u)):
         if o_u[u] != c_u[u]:
             errors.append(f"url {u!r} appears {o_u[u]}x -> {c_u[u]}x")
+
+    o_i, c_i = img_shapes(o_body), img_shapes(c_body)
+    for t in sorted(set(o_i) | set(c_i)):
+        if o_i[t] != c_i[t]:
+            errors.append(f"img tag attributes changed: {t[:90]}")
 
     for term in CANON:
         o_n, c_n = o_body.count(term), c_body.count(term)
