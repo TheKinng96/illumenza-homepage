@@ -1,0 +1,366 @@
+{
+  "phase0": [
+    "2026-04-10-colorme-points-5-decisions.md",
+    "2026-06-10-points-member-detail.md",
+    "2026-07-07-points-nudge-types.md"
+  ],
+  "style_card": null,
+  "chat_batch_size": 10,
+  "articles": [
+    {
+      "file": "2026-04-10-colorme-points-5-decisions.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-04-14-points-mission-types-basics.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-04-15-points-redemption-design.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-04-17-points-rank-period.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-04-21-points-referral-timing.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-04-23-points-product-exchange.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-04-24-points-product-exchange-pricing.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-04-29-points-custom-reward-flow.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-01-points-custom-reward-ideas.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-05-points-rank-based-rate.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-06-points-shop-point-rate.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-08-points-coupon-types.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-12-points-coupon-issuance.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-14-points-mission-completion-mode.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-15-points-mission-audience.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-19-points-custom-mission.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-20-coupon-campaign-templates.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-22-points-approvals-queue.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-26-coupon-display-rules.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-27-points-activity-log.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-28-points-insights-burn-rate.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-05-29-coupon-thanks-page.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-01-points-insights-dormant.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-02-coupon-win-rate.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-03-points-insights-redemption.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-04-points-member-list-csv.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-05-coupon-form-fields.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-08-points-referral-numbers.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-09-points-dashboard-metrics.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-10-points-member-detail.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-11-points-earning-rate.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-12-coupon-consent.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-15-points-setup-cosmetics.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-16-coupon-messages.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-17-points-panel-items.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-18-points-setup-food.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-19-coupon-bars.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-22-points-setup-pet.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-23-points-panel-visitor.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-24-points-setup-fashion.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-25-coupon-themes.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-26-coupon-colors.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-29-points-setup-jewelry.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-06-30-points-setup-handmade.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-01-points-trigger-button.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-02-points-loyalty-app-for-community.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-03-coupon-spin-limits.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-06-points-community-rewards-by-industry.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-07-points-nudge-types.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-08-coupon-reset-period.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-09-points-supermarket-models.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-10-coupon-limit-messages.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-13-points-shopkeeper-memory.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-14-points-nudge-copy.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-15-points-setup-by-goal.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-16-coupon-csv-export.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-17-points-notification-emails.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-20-points-setup-furniture.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-21-points-worked-example.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-22-coupon-csv-rows.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-23-points-rank-benefits.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-24-coupon-campaign-status.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-27-points-rank-distribution.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-28-points-email-variables.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-29-coupon-duplicate.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-30-points-multiplier-stacking.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-07-31-coupon-metrics.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-08-03-points-multiplier-campaigns.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-08-04-points-expiry-settings.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-08-09-points-vs-shop-points.md",
+      "state": "pending",
+      "note": ""
+    },
+    {
+      "file": "2026-08-18-reviews-group-priority.md",
+      "state": "pending",
+      "note": ""
+    }
+  ]
+}
