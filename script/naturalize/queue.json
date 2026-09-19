@@ -229,23 +229,23 @@
     },
     {
       "file": "2026-07-01-points-trigger-button.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "2 lines changed"
     },
     {
       "file": "2026-07-02-points-loyalty-app-for-community.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "1 lines changed"
     },
     {
       "file": "2026-07-03-coupon-spin-limits.md",
-      "state": "pending",
-      "note": ""
+      "state": "unchanged",
+      "note": "0 lines changed"
     },
     {
       "file": "2026-07-06-points-community-rewards-by-industry.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "1 lines changed"
     },
     {
       "file": "2026-07-07-points-nudge-types.md",
@@ -254,18 +254,18 @@
     },
     {
       "file": "2026-07-08-coupon-reset-period.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "3 lines changed"
     },
     {
       "file": "2026-07-09-points-supermarket-models.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "2 lines changed"
     },
     {
       "file": "2026-07-10-coupon-limit-messages.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "3 lines changed"
     },
     {
       "file": "2026-07-13-points-shopkeeper-memory.md",
