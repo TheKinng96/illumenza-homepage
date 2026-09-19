@@ -54,5 +54,5 @@ if res.returncode != 0:
 before = post.read_text(encoding="utf-8")
 post.write_text(cand.read_text(encoding="utf-8"), encoding="utf-8")
 changed = sum(1 for a, b in zip(before.splitlines(), cand.read_text(encoding="utf-8").splitlines()) if a != b)
-mark("applied", f"{changed} lines changed")
+mark("applied" if changed else "unchanged", f"{changed} lines changed")
 print(f"APPLIED {name} ({changed} lines changed, {len(before)} -> {len(cand.read_text(encoding='utf-8'))} chars)")
