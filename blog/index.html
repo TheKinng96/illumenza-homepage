@@ -100,7 +100,8 @@ description: "カラーミーショップ運営者のための、マイル・ロ
               </button>
               {%- for entry in site.data.apps -%}
               {%- assign in_app = site.posts | where: "app", entry[0] -%}
-              <button type="button" role="option" aria-selected="false" data-app="{{ entry[0] }}" class="flex min-h-[44px] w-full items-center gap-2.5 py-2.5 pl-10 pr-3.5 text-left text-sm text-gray-700 hover:bg-gray-50">
+              <button type="button" role="option" aria-selected="false" data-app="{{ entry[0] }}" class="flex min-h-[44px] w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
+                <svg data-check width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 text-brand-blue"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 <span>{{ entry[1].label }}</span>
                 <span data-count class="ml-auto text-xs text-gray-600">{{ in_app.size }}</span>
               </button>
@@ -143,7 +144,8 @@ description: "カラーミーショップ運営者のための、マイル・ロ
               {%- for entry in site.data.sections -%}
               {%- assign n = app_posts | where: "section", entry[0] | size -%}
               {%- if n > 0 -%}
-              <button type="button" role="option" aria-selected="false" data-section="{{ entry[0] }}" data-app="{{ app_key }}" data-name="{{ entry[1].label }}" class="flex min-h-[44px] w-full items-center gap-2.5 py-2.5 pl-10 pr-3.5 text-left text-sm text-gray-700 hover:bg-gray-50">
+              <button type="button" role="option" aria-selected="false" data-section="{{ entry[0] }}" data-app="{{ app_key }}" data-name="{{ entry[1].label }}" class="flex min-h-[44px] w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
+                <svg data-check width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 text-brand-blue"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 <span>{{ entry[1].label }}</span>
                 <span data-count class="ml-auto text-xs text-gray-600">{{ n }}</span>
               </button>

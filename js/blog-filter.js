@@ -128,6 +128,11 @@
     this.groups = Array.prototype.slice.call(this.panel.querySelectorAll('[data-group]'));
     this.open = false;
     this.cursor = -1;
+    // Checks are painted by paint(); start them all off so the server markup
+    // does not flash every option as selected before the first paint.
+    this.panel.querySelectorAll('[data-check]').forEach(function (c) {
+      c.style.visibility = 'hidden';
+    });
     // Where the panel lives as a popover. In sheet mode it is moved to <body>
     // and must come back here, or the next desktop open anchors to nothing.
     this.home = this.panel.parentNode;
@@ -284,13 +289,30 @@
     this.clear.hidden = !on;
     this.divider.hidden = !on;
 
+    var selected = 0;
     this.options.forEach(function (o) {
-      var v = self.name === 'app' ? o.getAttribute('data-app') : o.getAttribute('data-section');
-      var sel = (v || '') === (value || '');
+      var sel;
+      if (self.name === 'app') {
+        sel = (o.getAttribute('data-app') || '') === (value || '');
+      } else {
+        // A section option is identified by its app AND its key: `appearance`
+        // appears under two apps, so matching on the key alone marked both
+        // rows selected even after narrowing to one of them. The
+        // "すべてのテーマ" row has no key and matches on its own.
+        var key = o.getAttribute('data-section') || '';
+        sel = key === (value || '') &&
+          (!key || !state.app || (o.getAttribute('data-app') || '') === state.app);
+      }
+      if (sel) selected++;
       o.setAttribute('aria-selected', sel ? 'true' : 'false');
       var check = o.querySelector('[data-check]');
       if (check) check.style.visibility = sel ? '' : 'hidden';
     });
+    // A shared theme with the app cleared genuinely covers more than one row
+    // (表示設定 is 5 under 会員ステージ and 2 under クーポン, and the filter shows
+    // all 7). Two selected rows in a single-select listbox is invalid ARIA, so
+    // say so only while it is true.
+    this.panel.setAttribute('aria-multiselectable', selected > 1 ? 'true' : 'false');
 
     // Counts are rendered against the whole site at build time. Once an app is
     // picked they are wrong — 表示設定 reads 7 across both apps but only 5 of
@@ -503,8 +525,17 @@
       if (panel.open && !posts) load().then(render).catch(function () {});
     });
 
+    // A control's × clears that control and nothing else. It used to clear the
+    // theme as well, which meant picking a theme filled both controls and then
+    // one × emptied both — the app's × silently threw away a choice made in
+    // the other control.
+    //
+    // Clearing the app while a theme stands leaves that theme filtering across
+    // every app. For a theme only one app has, the results do not change; for
+    // a shared one (表示設定, 数字を読む) it widens to both, which is a filter
+    // the reader cannot otherwise express.
     panel.clear.addEventListener('click', function () {
-      if (k === 'app') { state.app = ''; state.section = ''; } else { state.section = ''; }
+      if (k === 'app') state.app = ''; else state.section = '';
       apply();
     });
 
