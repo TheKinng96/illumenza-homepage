@@ -309,58 +309,58 @@
     },
     {
       "file": "2026-07-23-points-rank-benefits.md",
-      "state": "pending",
-      "note": ""
+      "state": "unchanged",
+      "note": "0 lines changed"
     },
     {
       "file": "2026-07-24-coupon-campaign-status.md",
-      "state": "pending",
-      "note": ""
+      "state": "unchanged",
+      "note": "0 lines changed"
     },
     {
       "file": "2026-07-27-points-rank-distribution.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "1 lines changed"
     },
     {
       "file": "2026-07-28-points-email-variables.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "4 lines changed"
     },
     {
       "file": "2026-07-29-coupon-duplicate.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "3 lines changed"
     },
     {
       "file": "2026-07-30-points-multiplier-stacking.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "3 lines changed"
     },
     {
       "file": "2026-07-31-coupon-metrics.md",
-      "state": "pending",
-      "note": ""
+      "state": "unchanged",
+      "note": "0 lines changed"
     },
     {
       "file": "2026-08-03-points-multiplier-campaigns.md",
-      "state": "pending",
-      "note": ""
+      "state": "unchanged",
+      "note": "0 lines changed"
     },
     {
       "file": "2026-08-04-points-expiry-settings.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "3 lines changed"
     },
     {
       "file": "2026-08-09-points-vs-shop-points.md",
-      "state": "pending",
-      "note": ""
+      "state": "unchanged",
+      "note": "0 lines changed"
     },
     {
       "file": "2026-08-18-reviews-group-priority.md",
-      "state": "pending",
-      "note": ""
+      "state": "applied",
+      "note": "2 lines changed"
     }
   ]
 }
