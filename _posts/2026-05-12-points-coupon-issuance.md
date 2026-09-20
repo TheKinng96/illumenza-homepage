@@ -10,7 +10,7 @@ verified: 2026-08-02
 screen: /redemption
 ---
 
-マイルの交換先のうち、**限定特典とショップポイント交換を除くすべて**は、交換した時点でクーポンとして発行されます。
+マイルの交換先のうち、**限定特典とショップポイント交換を除くすべての特典**は、交換した時点でクーポンとして発行されます。
 
 <figure>
   <img src="/images/blog/points-coupon-issuance/screen.webp"
