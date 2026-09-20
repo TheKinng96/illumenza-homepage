@@ -552,6 +552,19 @@ check_contains docs/blog-authoring.md "導入事例"
 check_contains .claude/commands/blog-post.md "導入事例"
 check_contains .claude/commands/blog-post.md "points.illumenza.dev"
 check_contains docs/blog-authoring.md "/blog/feed.xml"
+# 会員 is the term for a shop's registered customer; メンバー is not. The two
+# exceptions are labels the admin UI itself shows — the メンバーエンゲージメント
+# tab, and a screenshot caption quoting 「メンバーには非表示」 — so the check
+# allows those two posts and fails on メンバー anywhere else.
+stray_member=$(grep -l 'メンバー' _posts/*.md 2>/dev/null \
+  | grep -v '_posts/2026-06-01-points-insights-dormant.md' \
+  | grep -v '_posts/2026-04-15-points-redemption-design.md' || true)
+if [ -n "$stray_member" ]; then
+  fail "メンバー should be 会員 in: $(echo "$stray_member" | tr '\n' ' ')"
+else
+  pass "_posts use 会員, not メンバー"
+fi
+
 # docs/ and .claude/ are excluded from the build.
 for leaked in _site/docs _site/.claude; do
   if [ -e "$leaked" ]; then fail "leaked into _site: $leaked"; else pass "not in _site: $leaked"; fi
