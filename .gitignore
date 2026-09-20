@@ -7,3 +7,6 @@ _site/
 .jekyll-metadata
 vendor/
 .bundle/
+
+# Playwright MCP scratch output
+.playwright-mcp/
