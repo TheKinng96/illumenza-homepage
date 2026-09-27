@@ -54,7 +54,7 @@ screen: /panel/member
 | --- | --- |
 | `{shopName}` | ショップの名前 |
 | `{refereeReward}` | 紹介で受け取れる特典 |
-| `{referralUrl}` | その会員の紹介リンク |
+| `{referralUrl}` | その会員の紹介リンク（ショップのURLに `?illumenza-ref=` と会員の紹介コードを付けたもの） |
 
 デフォルトの文面をひとつ設定できるほか、X、LINE、メール、Threads、WhatsAppごとに個別の文面も設定できます。個別の文面を空にしておけば、デフォルトの文面が使われます。
 
