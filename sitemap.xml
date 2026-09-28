@@ -7,6 +7,7 @@ layout: null
   jekyll-sitemap is not used: it emits /path/index.html for the existing
   static HTML pages instead of the clean directory URLs already indexed.
   When adding a new static page, add it to the list below.
+  Legal pages (/privacy/, /tokushoho/) are noindex and deliberately absent.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -26,7 +27,7 @@ layout: null
   {%- for post in site.posts %}
   <url>
     <loc>{{ post.url | absolute_url }}</loc>
-    <lastmod>{{ post.date | date: '%Y-%m-%d' }}</lastmod>
+    <lastmod>{{ post.verified | default: post.date | date: '%Y-%m-%d' }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -124,17 +125,5 @@ layout: null
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>{{ '/privacy/' | absolute_url }}</loc>
-    <lastmod>2026-06-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>{{ '/tokushoho/' | absolute_url }}</loc>
-    <lastmod>2026-06-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 </urlset>

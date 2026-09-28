@@ -71,11 +71,21 @@
     "description": {{ meta_desc | strip_newlines | jsonify }},
     "image": {{ og_image | jsonify }},
     "datePublished": "{{ page.date | date_to_xmlschema }}",
-    "dateModified": "{{ page.date | date_to_xmlschema }}",
+    "dateModified": "{{ page.verified | default: page.date | date_to_xmlschema }}",
     "inLanguage": "ja",
     "mainEntityOfPage": { "@type": "WebPage", "@id": {{ page.url | absolute_url | jsonify }} },
     "author": { "@type": "Organization", "name": "Illumenza", "url": "https://illumenza.dev" },
     "publisher": { "@type": "Organization", "name": "Illumenza", "url": "https://illumenza.dev" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "記事", "item": {{ '/blog/' | absolute_url | jsonify }} },
+      { "@type": "ListItem", "position": 2, "name": {{ page.title | jsonify }}, "item": {{ page.url | absolute_url | jsonify }} }
+    ]
   }
   </script>
   {% endif %}
