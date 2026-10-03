@@ -45,9 +45,11 @@ description: "カラーミーショップ運営者のための、マイル・ロ
     BOTH keys. Choosing 表示設定 under クーポン sets app AND section, which is what
     makes a shared label unambiguous.
   {%- endcomment -%}
-  {%- assign points_posts = site.posts | where: "app", "points" -%}
-  {%- assign coupon_posts = site.posts | where: "app", "coupon" -%}
-  {%- assign reviews_posts = site.posts | where: "app", "reviews" -%}
+  {%- comment -%} `hidden: true` posts are published but unlisted. jekyll-paginate already drops them from paginator.posts; every count here must agree. {%- endcomment -%}
+  {%- assign visible_posts = site.posts | where_exp: "p", "p.hidden != true" -%}
+  {%- assign points_posts = visible_posts | where: "app", "points" -%}
+  {%- assign coupon_posts = visible_posts | where: "app", "coupon" -%}
+  {%- assign reviews_posts = visible_posts | where: "app", "reviews" -%}
 
   <section aria-label="記事の絞り込み" class="-mx-5 sm:-mx-12 mb-8 bg-brand-light px-5 sm:px-12 py-4">
     <div class="container mx-auto max-w-3xl flex flex-wrap items-center gap-2">
@@ -68,7 +70,7 @@ description: "カラーミーショップ運営者のための、マイル・ロ
 
       <nav id="blog-filter-fallback" aria-label="アプリ" class="flex flex-wrap items-center gap-2">
         {%- for entry in site.data.apps -%}
-        {%- assign in_app = site.posts | where: "app", entry[0] -%}
+        {%- assign in_app = visible_posts | where: "app", entry[0] -%}
         <a href="{{ entry[1].url }}" data-app="{{ entry[0] }}"
            class="min-h-[44px] inline-flex items-center rounded-lg border border-[#B8DAFF] bg-white px-3 py-2.5 text-sm text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue">{{ entry[1].label }}<span class="ml-1.5 text-xs text-gray-600">{{ in_app.size }}</span></a>
         {%- endfor -%}
@@ -96,10 +98,10 @@ description: "カラーミーショップ運営者のための、マイル・ロ
               <button type="button" role="option" aria-selected="true" data-app="" class="flex min-h-[44px] w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-sm text-gray-900 hover:bg-gray-50">
                 <svg data-check width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-brand-blue"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 <span class="font-medium">すべてのアプリ</span>
-                <span data-count class="ml-auto text-xs text-gray-600">{{ site.posts.size }}</span>
+                <span data-count class="ml-auto text-xs text-gray-600">{{ visible_posts.size }}</span>
               </button>
               {%- for entry in site.data.apps -%}
-              {%- assign in_app = site.posts | where: "app", entry[0] -%}
+              {%- assign in_app = visible_posts | where: "app", entry[0] -%}
               <button type="button" role="option" aria-selected="false" data-app="{{ entry[0] }}" class="flex min-h-[44px] w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
                 <svg data-check width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 text-brand-blue"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 <span>{{ entry[1].label }}</span>
@@ -135,11 +137,11 @@ description: "カラーミーショップ運営者のための、マイル・ロ
               <button type="button" role="option" aria-selected="true" data-section="" data-app="" class="flex min-h-[44px] w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-sm text-gray-900 hover:bg-gray-50">
                 <svg data-check width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-brand-blue"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 <span class="font-medium">すべてのテーマ</span>
-                <span data-count class="ml-auto text-xs text-gray-600">{{ site.posts.size }}</span>
+                <span data-count class="ml-auto text-xs text-gray-600">{{ visible_posts.size }}</span>
               </button>
               {%- for app_entry in site.data.apps -%}
               {%- assign app_key = app_entry[0] -%}
-              {%- assign app_posts = site.posts | where: "app", app_key -%}
+              {%- assign app_posts = visible_posts | where: "app", app_key -%}
               <p data-group="{{ app_key }}" class="border-y border-gray-100 bg-gray-50 px-3.5 pb-1 pt-2 text-[11px] font-bold tracking-wider text-gray-600">{{ app_entry[1].label }}</p>
               {%- for entry in site.data.sections -%}
               {%- assign n = app_posts | where: "section", entry[0] | size -%}

@@ -19,21 +19,26 @@ description: "Illumenza の記事をタグ別にまとめています。ショ�
 
   <ul class="flex flex-wrap gap-2 mb-12">
     {% for tag in tag_names %}
+    {%- comment -%} `hidden: true` posts are unlisted; a tag left with none is skipped. {%- endcomment -%}
+    {%- assign tag_posts = tag[1] | where_exp: "p", "p.hidden != true" -%}
+    {%- if tag_posts.size == 0 -%}{%- continue -%}{%- endif %}
     <li>
       <a href="#{{ tag[0] | slugify }}" class="inline-block px-3 py-1.5 text-sm bg-brand-light text-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-colors">
-        {{ tag[0] | escape }} <span class="text-xs opacity-70">({{ tag[1].size }})</span>
+        {{ tag[0] | escape }} <span class="text-xs opacity-70">({{ tag_posts.size }})</span>
       </a>
     </li>
     {% endfor %}
   </ul>
 
   {% for tag in tag_names %}
+  {%- assign tag_posts = tag[1] | where_exp: "p", "p.hidden != true" -%}
+  {%- if tag_posts.size == 0 -%}{%- continue -%}{%- endif %}
   <section id="{{ tag[0] | slugify }}" class="mb-12 scroll-mt-24">
     <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-5 pb-2 border-b border-gray-200">
-      {{ tag[0] | escape }} <span class="text-sm font-normal text-gray-500">{{ tag[1].size }}件</span>
+      {{ tag[0] | escape }} <span class="text-sm font-normal text-gray-500">{{ tag_posts.size }}件</span>
     </h2>
     <ul class="space-y-4">
-      {% for post in tag[1] %}
+      {% for post in tag_posts %}
       <li>
         <p class="text-xs text-gray-500 mb-1">
           <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y年%-m月%-d日' }}</time>

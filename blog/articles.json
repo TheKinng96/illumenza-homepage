@@ -12,8 +12,9 @@ layout: null
   Named articles.json rather than index.json so it cannot collide with the
   paginated /blog/index.html output.
 {%- endcomment -%}
+{%- assign visible_posts = site.posts | where_exp: "p", "p.hidden != true" -%}
 [
-{%- for post in site.posts -%}
+{%- for post in visible_posts -%}
 {%- assign body_chars = post.content | strip_html | strip_newlines | size -%}
 {%- assign read_minutes = body_chars | divided_by: 500 | plus: 1 -%}
 {%- assign card_image = post.thumbnail | default: post.heroImage | default: '' -%}
