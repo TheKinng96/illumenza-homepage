@@ -10,7 +10,7 @@
   markup.
 {%- endcomment -%}
 {%- assign meta = site.data.sections[include.section] -%}
-{%- assign in_section = site.posts | where: "section", include.section -%}
+{%- assign in_section = site.posts | where: "section", include.section | where_exp: "p", "p.hidden != true" -%}
 {%- if include.app -%}
   {%- assign in_section = in_section | where: "app", include.app -%}
 {%- endif -%}

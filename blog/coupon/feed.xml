@@ -15,7 +15,7 @@ layout: null
     <description>カラーミーショップ向けクーポン抽選アプリ Illumenza Coupon の記事。</description>
     <language>ja</language>
     <atom:link href="{{ '/blog/coupon/feed.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
-    {%- assign app_posts = site.posts | where: "app", "coupon" %}
+    {%- assign app_posts = site.posts | where: "app", "coupon" | where_exp: "p", "p.hidden != true" %}
     {%- if app_posts.first %}
     <lastBuildDate>{{ app_posts.first.date | date_to_rfc822 }}</lastBuildDate>
     {%- endif %}

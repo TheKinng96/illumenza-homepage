@@ -34,6 +34,16 @@ check_no_file() {
 echo "== building =="
 bundle exec jekyll build --trace
 
+# Posts with `hidden: true` are published (reachable by URL) but unlisted:
+# kept out of every listing, feed, the sitemap and other posts' navigation.
+# Every count and "newest post" below is taken over the listed posts only.
+HIDDEN_POSTS=$(grep -l '^hidden: true' _posts/*.md 2>/dev/null || true)
+listed_posts() {
+  for f in _posts/*.md; do
+    grep -q '^hidden: true' "$f" || echo "$f"
+  done
+}
+
 echo "== existing pages pass through unchanged =="
 # index.html is deliberately excluded: it carries front matter so it can list
 # recent posts, and is checked separately below. Every other pre-existing page
@@ -155,9 +165,9 @@ echo "== /blog/ filter and search =="
 ARTICLES=_site/blog/articles.json
 check_file "$ARTICLES"
 ARTICLE_N=$(grep -o '"url":"/blog/' "$ARTICLES" | wc -l | tr -d ' ')
-POST_N=$(find _posts -name '*.md' | wc -l | tr -d ' ')
+POST_N=$(listed_posts | wc -l | tr -d ' ')
 if [ "$ARTICLE_N" = "$POST_N" ]; then
-  pass "articles.json holds all $POST_N posts"
+  pass "articles.json holds all $POST_N listed posts"
 else
   fail "articles.json holds $ARTICLE_N entries but _posts/ has $POST_N"
 fi
@@ -312,7 +322,7 @@ check_contains "$FEED" 'rel="self"'
 # 50 items, so pinning the *oldest* post broke the moment the 51st was
 # published. Derive from the newest instead, which is always in the feed, and
 # assert the per-item fields by count.
-NEWEST_SLUG=$(ls -1 _posts/*.md | sort | tail -1 | sed 's#_posts/[0-9-]\{11\}##;s#\.md$##')
+NEWEST_SLUG=$(listed_posts | sort | tail -1 | sed 's#_posts/[0-9-]\{11\}##;s#\.md$##')
 check_contains "$FEED" "<link>https://illumenza.dev/blog/${NEWEST_SLUG}/</link>"
 check_contains "$FEED" "<guid isPermaLink=\"true\">https://illumenza.dev/blog/${NEWEST_SLUG}/</guid>"
 FEED_ITEMS=$(grep -c "<item>" "$FEED" || true)
@@ -538,6 +548,42 @@ check_contains "$POST" 'prose-img:rounded-lg'
 check_absent blog/index.html 'post.ogImage'
 
 # ---- Blog checks below are added by later tasks ----
+
+echo "== hidden (unlisted) posts =="
+# A `hidden: true` post must be built and reachable by its URL, carry noindex,
+# and appear in no listing: not the homepage, /blog/ pages, feeds, the search
+# index, the sitemap, tag/section pages, nor any listed post's page. Hidden
+# posts may link each other, so only listed posts' pages are scanned.
+if [ -z "$HIDDEN_POSTS" ]; then
+  pass "no hidden posts in this build"
+else
+  LISTED_PAGES=$(for f in $(listed_posts); do
+    printf '_site/blog/%s/index.html\n' "$(basename "$f" .md | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//')"
+  done)
+  LISTINGS=$(ls _site/index.html _site/blog/index.html _site/blog/page*/index.html \
+    _site/blog/feed.xml _site/blog/*/feed.xml _site/blog/articles.json _site/sitemap.xml \
+    _site/blog/tags/index.html _site/blog/*/index.html _site/blog/*/*/index.html 2>/dev/null \
+    | grep -vxF -f <(printf '%s\n' $LISTED_PAGES) || true)
+  for src in $HIDDEN_POSTS; do
+    slug=$(basename "$src" .md | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//')
+    page="_site/blog/$slug/index.html"
+    check_file "$page"
+    check_contains "$page" '<meta name="robots" content="noindex">'
+    leaks=$(grep -lF -- "/blog/$slug/" $LISTINGS $LISTED_PAGES 2>/dev/null | grep -vxF "$page" \
+      | while read -r hit; do
+          # another hidden post may link it
+          hs=$(echo "$hit" | sed -E 's#_site/blog/([a-z0-9-]+)/index.html#\1#')
+          printf '%s\n' $HIDDEN_POSTS | grep -q -- "-$hs.md$" || echo "$hit"
+        done || true)
+    if [ -z "$leaks" ]; then
+      pass "hidden post $slug is unlisted everywhere"
+    else
+      fail "hidden post $slug leaks into: $(echo "$leaks" | tr '\n' ' ')"
+    fi
+  done
+fi
+# Listed posts must not carry noindex.
+check_absent "$POST" 'content="noindex"'
 
 echo "== authoring pipeline docs =="
 check_file docs/blog-authoring.md

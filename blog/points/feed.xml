@@ -15,7 +15,7 @@ layout: null
     <description>カラーミーショップ向けロイヤルティアプリ「会員ステージ」の記事。</description>
     <language>ja</language>
     <atom:link href="{{ '/blog/points/feed.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
-    {%- assign app_posts = site.posts | where: "app", "points" %}
+    {%- assign app_posts = site.posts | where: "app", "points" | where_exp: "p", "p.hidden != true" %}
     {%- if app_posts.first %}
     <lastBuildDate>{{ app_posts.first.date | date_to_rfc822 }}</lastBuildDate>
     {%- endif %}

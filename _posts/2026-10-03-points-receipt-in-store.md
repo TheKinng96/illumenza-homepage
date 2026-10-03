@@ -8,6 +8,7 @@ app: points
 section: missions
 verified: 2026-10-03
 screen: /points/receipt
+hidden: true
 ---
 
 実店舗とオンラインショップの両方を運営しているショップ向けに、**レシート登録**というミッションを追加しました。店頭で受け取ったレシートをお客様が撮影して申請すると、そのお買い物にもマイルが付きます。

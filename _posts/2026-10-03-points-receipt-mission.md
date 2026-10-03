@@ -8,6 +8,7 @@ app: points
 section: missions
 verified: 2026-10-03
 screen: /points/receipt
+hidden: true
 ---
 
 **レシート登録**は、実店舗でのお買い物にマイルを付けるためのミッションです。

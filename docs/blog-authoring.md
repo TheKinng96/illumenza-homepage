@@ -44,6 +44,30 @@ ogImage: /images/points.webp
 | `verified` | yes | `YYYY-MM-DD` — when the article was last checked against the live admin. Shown to the reader as 確認日. |
 | `screen` | when applicable | The admin path the article documents, e.g. `/redemption/coupon`. Lets `script/stale-check.sh --screen <path>` find every article a release may have invalidated. |
 | `section` | yes | Which part of the app. Must be a key in `_data/sections.yml`: `getting-started`, `missions`, `redemption`, `ranks`, `referral`. Drives prev/next and, later, filtering. |
+| `hidden` | no | `true` publishes the post **unlisted**. See "Unlisted posts" below. |
+
+### Unlisted posts (`hidden: true`)
+
+Use this when a post must exist at its URL before it may be announced — for
+example a how-to for a feature that is still behind a flag, which the admin app
+already links to.
+
+With `hidden: true` the post is built at `/blog/<slug>/` like any other, but:
+
+- it is left out of every listing: the homepage cards, `/blog/` and its pages
+  (jekyll-paginate skips `hidden` posts itself), `/blog/tags/`, the
+  `/blog/<app>/` and `/blog/<app>/<section>/` pages, `articles.json` (search),
+  all three `feed.xml` files (so the Mails app never mails it), and
+  `sitemap.xml`;
+- no other post's prev/next navigation links to it;
+- its page carries `<meta name="robots" content="noindex">`.
+
+To launch it, delete the `hidden: true` line, and bump the filename date,
+`date` and `verified` if it should appear as new. `make check` asserts that every
+hidden post is built, has noindex, and appears in none of the places above.
+
+Links written into other posts' bodies are not filtered — do not link a hidden
+post from a listed one until it launches. Hidden posts may link each other.
 
 `layout` is set automatically by `_config.yml`'s `defaults:` block (scope:
 `type: posts` → `layout: post`). Do not set it per post.

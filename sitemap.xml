@@ -9,6 +9,8 @@ layout: null
   When adding a new static page, add it to the list below.
   Legal pages (/privacy/, /tokushoho/) are noindex and deliberately absent.
 -->
+{%- comment -%} `hidden: true` posts are unlisted and noindex — keep them out of the sitemap. {%- endcomment -%}
+{%- assign visible_posts = site.posts | where_exp: "p", "p.hidden != true" %}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>{{ '/' | absolute_url }}</loc>
@@ -18,13 +20,13 @@ layout: null
   </url>
   <url>
     <loc>{{ '/blog/' | absolute_url }}</loc>
-    {%- if site.posts.first %}
-    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- if visible_posts.first %}
+    <lastmod>{{ visible_posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-  {%- for post in site.posts %}
+  {%- for post in visible_posts %}
   <url>
     <loc>{{ post.url | absolute_url }}</loc>
     <lastmod>{{ post.verified | default: post.date | date: '%Y-%m-%d' }}</lastmod>
@@ -35,8 +37,8 @@ layout: null
   {%- if site.tags.size > 0 %}
   <url>
     <loc>{{ '/blog/tags/' | absolute_url }}</loc>
-    {%- if site.posts.first %}
-    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- if visible_posts.first %}
+    <lastmod>{{ visible_posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -49,38 +51,38 @@ layout: null
   {%- endcomment -%}
   <url>
     <loc>{{ '/blog/points/' | absolute_url }}</loc>
-    {%- if site.posts.first %}
-    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- if visible_posts.first %}
+    <lastmod>{{ visible_posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>{{ '/blog/coupon/' | absolute_url }}</loc>
-    {%- if site.posts.first %}
-    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- if visible_posts.first %}
+    <lastmod>{{ visible_posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>{{ '/blog/reviews/' | absolute_url }}</loc>
-    {%- if site.posts.first %}
-    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- if visible_posts.first %}
+    <lastmod>{{ visible_posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   {%- assign blog_apps = "points,coupon,reviews" | split: "," %}
   {%- for app in blog_apps %}
-  {%- assign app_posts = site.posts | where: "app", app %}
+  {%- assign app_posts = visible_posts | where: "app", app %}
   {%- for entry in site.data.sections %}
   {%- assign has_posts = app_posts | where: "section", entry[0] | size %}
   {%- if has_posts > 0 %}
   <url>
     <loc>{{ '/blog/' | append: app | append: '/' | append: entry[0] | append: '/' | absolute_url }}</loc>
-    {%- if site.posts.first %}
-    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- if visible_posts.first %}
+    <lastmod>{{ visible_posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -90,8 +92,8 @@ layout: null
   {%- endfor %}
   <url>
     <loc>{{ '/blog/points-guide/' | absolute_url }}</loc>
-    {%- if site.posts.first %}
-    <lastmod>{{ site.posts.first.date | date: '%Y-%m-%d' }}</lastmod>
+    {%- if visible_posts.first %}
+    <lastmod>{{ visible_posts.first.date | date: '%Y-%m-%d' }}</lastmod>
     {%- endif %}
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
