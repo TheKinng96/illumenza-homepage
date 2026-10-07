@@ -14,6 +14,18 @@ screen: /redemption/custom
 
 イベントへの招待や非売品のノベルティなど、クーポンでは渡せない特典を扱うための仕組みです。他の交換先とは交換の流れが大きく異なります。導入する前に、どのように対応するのかを確認しておきましょう。
 
+お客様の申請から、マイルの保留、ショップの承認、その先の受け渡しまでの流れは、動画（約1分）でも見られます。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/L384wHYskVA"
+          title="限定特典のしくみ（約1分）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：限定特典のしくみ（約1分）。<a href="https://youtu.be/L384wHYskVA" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 ## 4つの段階
 
 <figure>
