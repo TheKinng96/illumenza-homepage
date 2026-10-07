@@ -17,6 +17,18 @@ hidden: true
 
 レジ（POS）との連携は必要ありません。この記事では、お客様の流れから、管理画面で決める設定、料金までを順に説明します。
 
+全体の流れは、動画（約1分40秒）でも見られます。お客様の操作、申請の自動チェック、ショップの作業、設定できる項目をまとめています。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/UElyq4Vd8DI"
+          title="レシート登録のしくみ（約1分40秒）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：レシート登録のしくみ（約1分40秒）。<a href="https://youtu.be/UElyq4Vd8DI" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 ## お客様の流れ
 
 お客様の操作は次のとおりです。レシート登録を使うには、会員登録が必要です。

@@ -15,6 +15,18 @@ hidden: true
 
 店頭で受け取ったレシートをお客様が撮影して申請すると、そのお買い物にもマイルが付きます。
 
+お客様の流れからショップの作業、設定までを、動画（約1分40秒）にまとめました。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/UElyq4Vd8DI"
+          title="レシート登録のしくみ（約1分40秒）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：レシート登録のしくみ（約1分40秒）。<a href="https://youtu.be/UElyq4Vd8DI" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 ## なぜ必要か
 
 これまで本アプリでマイルを付けられるのは、カラーミーショップで受けた注文だけでした。
