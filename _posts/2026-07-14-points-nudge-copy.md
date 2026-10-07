@@ -12,6 +12,18 @@ screen: /nudges/[type]
 
 通知パネルを決めたら、次は文面を設定します。初期値のままでも使えますが、ショップらしい言葉に変えるだけで、お客さまへの印象も変わります。
 
+お客さまに届くお知らせの全体像と、プレビューを見ながら見出しやボタンを変える流れは、動画（約1分10秒）でも見られます。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/hyYb5BGmSto"
+          title="お客様に自動で届くお知らせ（約1分10秒）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：お客様に自動で届くお知らせ（約1分10秒）。<a href="https://youtu.be/hyYb5BGmSto" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 ## 変数が使えます
 
 <figure>

@@ -14,6 +14,18 @@ screen: /nudges
 
 通知は全部で5種類あります。それぞれ表示される条件が異なります。
 
+通知パネルを含め、お客様へのお知らせが届く3つの方法（通知パネル・パネルのお知らせ・メール）は、動画（約1分10秒）でも確認できます。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/hyYb5BGmSto"
+          title="お客様に自動で届くお知らせ（約1分10秒）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：お客様に自動で届くお知らせ（約1分10秒）。<a href="https://youtu.be/hyYb5BGmSto" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 ## 5種類と、その条件
 
 <figure>
