@@ -14,6 +14,18 @@ section: getting-started
 
 ここでは、4つの目的ごとに、何をどの順番で設定するかを整理します。
 
+その前提となる、インストールからショップへの公開までの基本の流れは、動画（約1分30秒）で確認できます。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/xyTiSfi6e4s"
+          title="はじめての設定（約1分30秒）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：はじめての設定（約1分30秒）。<a href="https://youtu.be/xyTiSfi6e4s" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 ## 目的①：初回のお客様に2回目を買ってもらう
 
 もっとも多い目的で、効果も出やすいところです。初回購入から2回目の購入までの間に、お客様が離れてしまいやすいからです。

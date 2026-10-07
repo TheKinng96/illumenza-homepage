@@ -14,6 +14,18 @@ screen: /points/custom_repeatable/[id]
 
 「アンケートに回答する」「イベントに参加する」といったミッションは、カスタムミッションで作られています。**ミッション名、付与するマイル、達成条件などを、自分で設定できます。**
 
+お客様の申請から、ショップの承認、設定できる項目までの流れは、動画（約1分）でも見られます。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/P3iITXdfvCE"
+          title="カスタムミッションのしくみ（約1分）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：カスタムミッションのしくみ（約1分）。<a href="https://youtu.be/P3iITXdfvCE" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 <figure>
   <img src="/images/blog/points-custom-mission/form.webp"
        alt="カスタムミッションの編集画面。左にミッション名、説明（任意）、付与マイル500、実行回数「何度でも」、対象顧客「すべての顧客」、達成方法としてタップで達成と承認が必要の2択、提出物を要求するのチェックボックス。右に会員パネルのプレビューが表示され、カスタムミッション500マイル、申請後に承認されるとマイルが付与される旨、繰り返し達成できる旨、申請するボタンが並んでいる。">

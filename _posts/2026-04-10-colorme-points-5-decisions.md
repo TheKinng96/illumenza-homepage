@@ -116,3 +116,15 @@ verified: 2026-07-30
 この5点が決まっていれば、その後は設定作業に進めます。
 
 逆に、ルールを決めないまま始めると、途中での変更がそのままお客様への不利益変更になり、告知の手間も増えてしまいます。
+
+決めたあとの設定作業、インストールからショップへの公開までの流れは、動画（約1分30秒）にまとめています。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/xyTiSfi6e4s"
+          title="はじめての設定（約1分30秒）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：はじめての設定（約1分30秒）。<a href="https://youtu.be/xyTiSfi6e4s" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>

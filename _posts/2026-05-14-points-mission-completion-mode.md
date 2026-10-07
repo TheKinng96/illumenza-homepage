@@ -14,6 +14,18 @@ screen: /points/[type]/[id]
 
 フォローしたかどうかを機械的に判定する方法はありません。そこで、ミッションの設定では**達成方法**を選べるようになっています。
 
+2つの達成方法で、お客様とショップの操作がどう変わるかは、カスタムミッションの動画（約1分）でも確認できます。
+
+<figure>
+  <iframe class="w-full aspect-video rounded-lg border border-gray-200"
+          src="https://www.youtube-nocookie.com/embed/P3iITXdfvCE"
+          title="カスタムミッションのしくみ（約1分）"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy" allowfullscreen></iframe>
+  <figcaption>動画：カスタムミッションのしくみ（約1分）。<a href="https://youtu.be/P3iITXdfvCE" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+</figure>
+
 ## 2つの達成方法
 
 <figure>

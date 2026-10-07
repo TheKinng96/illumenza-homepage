@@ -21,12 +21,12 @@ hidden: true
 
 <figure>
   <iframe class="w-full aspect-video rounded-lg border border-gray-200"
-          src="https://www.youtube-nocookie.com/embed/UElyq4Vd8DI"
+          src="https://www.youtube-nocookie.com/embed/pBE3KI5dk9o"
           title="レシート登録のしくみ（約1分40秒）"
           allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin"
           loading="lazy" allowfullscreen></iframe>
-  <figcaption>動画：レシート登録のしくみ（約1分40秒）。<a href="https://youtu.be/UElyq4Vd8DI" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
+  <figcaption>動画：レシート登録のしくみ（約1分40秒）。<a href="https://youtu.be/pBE3KI5dk9o" target="_blank" rel="noopener">YouTubeで見る</a></figcaption>
 </figure>
 
 ## お客様の流れ
